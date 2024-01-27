@@ -23,6 +23,7 @@ namespace study_scheduler
         {
             InitializeComponent();
             change_today_information();
+            sort_button();
         }
 
         private DateTime cur_date;
@@ -63,7 +64,7 @@ namespace study_scheduler
         {
             DateTime today = DateTime.Today;
 
-            cur_date = today;
+            cur_date = new DateTime(today.Year, today.Month, 1); ;
 
             cur_label_change();
 
@@ -86,12 +87,17 @@ namespace study_scheduler
             var element = document.QuerySelector(querySelector);
             /// 天気の文字列を種痘
             /// 
-            if (element == null)
+            if (element == null) return;
+
+
+            if (element.TextContent.Contains("雨"))
             {
-                return;
+                Image img = Image.FromFile(@"Resources\rainy.png");
+
+                weather_pic_box.Image = img;
             }
 
-            if (element.TextContent.Contains("晴"))
+           else if (element.TextContent.Contains("晴"))
             {
                 Image img = Image.FromFile(@"Resources\sunny.png");
 
@@ -105,12 +111,7 @@ namespace study_scheduler
                 weather_pic_box.Image = img;
 
             }
-            else if (element.TextContent.Contains("雨"))
-            {
-                Image img = Image.FromFile(@"Resources\rainy.png");
-
-                weather_pic_box.Image = img;
-            }
+          
             else if (element.TextContent.Contains("雪"))
             {
                 Image img = Image.FromFile(@"Resources\snow.png");
@@ -129,10 +130,7 @@ namespace study_scheduler
             element = document.QuerySelector(querySelector);
             /// 天気の文字列を種痘
             /// 
-            if (element == null)
-            {
-                return;
-            }
+            if (element == null)return;
 
 
             temp_max_label.Text = element.TextContent + "℃";
@@ -143,10 +141,7 @@ namespace study_scheduler
             // クエリセレクタでデータの取得
             element = document.QuerySelector(querySelector);
 
-            if (element == null)
-            {
-                return;
-            }
+            if (element == null) return;
 
             temp_min_label.Text = element.TextContent + "℃";
         }
@@ -160,8 +155,6 @@ namespace study_scheduler
             date = DateTime.Now;
 
             now_time_label.Text = date.ToString("hh:mm:ss");
-
-          
         }
 
 
@@ -194,6 +187,9 @@ namespace study_scheduler
             cur_date=cur_date.AddMonths(-1);
             
             cur_label_change();
+
+            sort_button();
+
         }
 
 
@@ -204,6 +200,29 @@ namespace study_scheduler
 
             cur_label_change();
 
+            sort_button();
+        }
+
+        private void sort_button()/*** 年月データを配列に代入 ***/
+        {
+            for (int i=1;i<38;i++)
+            {
+                Control[] button = this.Controls.Find("button" + i.ToString(), true);
+                if (button.Length > 0)
+                {
+                    ((Button)button[0]).Visible = false;
+                }
+            }
+
+            for (int i= 0; i < DateTime.DaysInMonth(cur_date.Year, cur_date.Month);i++)
+            {
+                Control[] button = this.Controls.Find("button"+ ((int)cur_date.DayOfWeek+1 + i).ToString(), true);
+                if (button.Length > 0)
+                {
+                    ((Button)button[0]).Visible = true;
+                    ((Button)button[0]).Text=(1 + i).ToString();
+                }
+            }
         }
     }
 }
