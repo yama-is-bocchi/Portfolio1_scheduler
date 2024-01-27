@@ -61,12 +61,11 @@ namespace study_scheduler.Properties {
         }
         
         /// <summary>
-        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        ///    に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap _3237 {
+        internal static string _1 {
             get {
-                object obj = ResourceManager.GetObject("3237", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("1", resourceCulture);
             }
         }
     }
