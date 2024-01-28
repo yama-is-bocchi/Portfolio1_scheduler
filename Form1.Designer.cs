@@ -47,7 +47,7 @@
             previous_btn = new Button();
             weather_pic_box = new PictureBox();
             change_second_timer = new System.Windows.Forms.Timer(components);
-            form_panel = new Panel();
+            main_panel = new Panel();
             label13 = new Label();
             label12 = new Label();
             label11 = new Label();
@@ -94,7 +94,7 @@
             button7 = new Button();
             cur_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)weather_pic_box).BeginInit();
-            form_panel.SuspendLayout();
+            main_panel.SuspendLayout();
             SuspendLayout();
             // 
             // cur_panel
@@ -317,58 +317,58 @@
             change_second_timer.Interval = 1000;
             change_second_timer.Tick += change_second_timer_Tick;
             // 
-            // form_panel
+            // main_panel
             // 
-            form_panel.BackColor = Color.Transparent;
-            form_panel.Controls.Add(label13);
-            form_panel.Controls.Add(label12);
-            form_panel.Controls.Add(label11);
-            form_panel.Controls.Add(label10);
-            form_panel.Controls.Add(label9);
-            form_panel.Controls.Add(label8);
-            form_panel.Controls.Add(label7);
-            form_panel.Controls.Add(button36);
-            form_panel.Controls.Add(button37);
-            form_panel.Controls.Add(button29);
-            form_panel.Controls.Add(button30);
-            form_panel.Controls.Add(button31);
-            form_panel.Controls.Add(button32);
-            form_panel.Controls.Add(button33);
-            form_panel.Controls.Add(button34);
-            form_panel.Controls.Add(button35);
-            form_panel.Controls.Add(button22);
-            form_panel.Controls.Add(button23);
-            form_panel.Controls.Add(button24);
-            form_panel.Controls.Add(button25);
-            form_panel.Controls.Add(button26);
-            form_panel.Controls.Add(button27);
-            form_panel.Controls.Add(button28);
-            form_panel.Controls.Add(button15);
-            form_panel.Controls.Add(button16);
-            form_panel.Controls.Add(button17);
-            form_panel.Controls.Add(button18);
-            form_panel.Controls.Add(button19);
-            form_panel.Controls.Add(button20);
-            form_panel.Controls.Add(button21);
-            form_panel.Controls.Add(button8);
-            form_panel.Controls.Add(button9);
-            form_panel.Controls.Add(button10);
-            form_panel.Controls.Add(button11);
-            form_panel.Controls.Add(button12);
-            form_panel.Controls.Add(button13);
-            form_panel.Controls.Add(button14);
-            form_panel.Controls.Add(button1);
-            form_panel.Controls.Add(button2);
-            form_panel.Controls.Add(button3);
-            form_panel.Controls.Add(button4);
-            form_panel.Controls.Add(button5);
-            form_panel.Controls.Add(button6);
-            form_panel.Controls.Add(button7);
-            form_panel.Dock = DockStyle.Fill;
-            form_panel.Location = new Point(0, 0);
-            form_panel.Name = "form_panel";
-            form_panel.Size = new Size(1904, 1041);
-            form_panel.TabIndex = 15;
+            main_panel.BackColor = Color.Transparent;
+            main_panel.Controls.Add(label13);
+            main_panel.Controls.Add(label12);
+            main_panel.Controls.Add(label11);
+            main_panel.Controls.Add(label10);
+            main_panel.Controls.Add(label9);
+            main_panel.Controls.Add(label8);
+            main_panel.Controls.Add(label7);
+            main_panel.Controls.Add(button36);
+            main_panel.Controls.Add(button37);
+            main_panel.Controls.Add(button29);
+            main_panel.Controls.Add(button30);
+            main_panel.Controls.Add(button31);
+            main_panel.Controls.Add(button32);
+            main_panel.Controls.Add(button33);
+            main_panel.Controls.Add(button34);
+            main_panel.Controls.Add(button35);
+            main_panel.Controls.Add(button22);
+            main_panel.Controls.Add(button23);
+            main_panel.Controls.Add(button24);
+            main_panel.Controls.Add(button25);
+            main_panel.Controls.Add(button26);
+            main_panel.Controls.Add(button27);
+            main_panel.Controls.Add(button28);
+            main_panel.Controls.Add(button15);
+            main_panel.Controls.Add(button16);
+            main_panel.Controls.Add(button17);
+            main_panel.Controls.Add(button18);
+            main_panel.Controls.Add(button19);
+            main_panel.Controls.Add(button20);
+            main_panel.Controls.Add(button21);
+            main_panel.Controls.Add(button8);
+            main_panel.Controls.Add(button9);
+            main_panel.Controls.Add(button10);
+            main_panel.Controls.Add(button11);
+            main_panel.Controls.Add(button12);
+            main_panel.Controls.Add(button13);
+            main_panel.Controls.Add(button14);
+            main_panel.Controls.Add(button1);
+            main_panel.Controls.Add(button2);
+            main_panel.Controls.Add(button3);
+            main_panel.Controls.Add(button4);
+            main_panel.Controls.Add(button5);
+            main_panel.Controls.Add(button6);
+            main_panel.Controls.Add(button7);
+            main_panel.Dock = DockStyle.Fill;
+            main_panel.Location = new Point(0, 0);
+            main_panel.Name = "main_panel";
+            main_panel.Size = new Size(1904, 1041);
+            main_panel.TabIndex = 15;
             // 
             // label13
             // 
@@ -466,6 +466,7 @@
             button36.TextAlign = ContentAlignment.TopLeft;
             button36.UseVisualStyleBackColor = true;
             button36.Visible = false;
+            button36.Click += button36_Click;
             // 
             // button37
             // 
@@ -479,6 +480,7 @@
             button37.TextAlign = ContentAlignment.TopLeft;
             button37.UseVisualStyleBackColor = true;
             button37.Visible = false;
+            button37.Click += button37_Click;
             // 
             // button29
             // 
@@ -492,6 +494,7 @@
             button29.TextAlign = ContentAlignment.TopLeft;
             button29.UseVisualStyleBackColor = true;
             button29.Visible = false;
+            button29.Click += button29_Click;
             // 
             // button30
             // 
@@ -505,6 +508,7 @@
             button30.TextAlign = ContentAlignment.TopLeft;
             button30.UseVisualStyleBackColor = true;
             button30.Visible = false;
+            button30.Click += button30_Click;
             // 
             // button31
             // 
@@ -518,6 +522,7 @@
             button31.TextAlign = ContentAlignment.TopLeft;
             button31.UseVisualStyleBackColor = true;
             button31.Visible = false;
+            button31.Click += button31_Click;
             // 
             // button32
             // 
@@ -531,6 +536,7 @@
             button32.TextAlign = ContentAlignment.TopLeft;
             button32.UseVisualStyleBackColor = true;
             button32.Visible = false;
+            button32.Click += button32_Click;
             // 
             // button33
             // 
@@ -544,6 +550,7 @@
             button33.TextAlign = ContentAlignment.TopLeft;
             button33.UseVisualStyleBackColor = true;
             button33.Visible = false;
+            button33.Click += button33_Click;
             // 
             // button34
             // 
@@ -557,6 +564,7 @@
             button34.TextAlign = ContentAlignment.TopLeft;
             button34.UseVisualStyleBackColor = true;
             button34.Visible = false;
+            button34.Click += button34_Click;
             // 
             // button35
             // 
@@ -570,6 +578,7 @@
             button35.TextAlign = ContentAlignment.TopLeft;
             button35.UseVisualStyleBackColor = true;
             button35.Visible = false;
+            button35.Click += button35_Click;
             // 
             // button22
             // 
@@ -583,6 +592,7 @@
             button22.TextAlign = ContentAlignment.TopLeft;
             button22.UseVisualStyleBackColor = true;
             button22.Visible = false;
+            button22.Click += button22_Click;
             // 
             // button23
             // 
@@ -596,6 +606,7 @@
             button23.TextAlign = ContentAlignment.TopLeft;
             button23.UseVisualStyleBackColor = true;
             button23.Visible = false;
+            button23.Click += button23_Click;
             // 
             // button24
             // 
@@ -609,6 +620,7 @@
             button24.TextAlign = ContentAlignment.TopLeft;
             button24.UseVisualStyleBackColor = true;
             button24.Visible = false;
+            button24.Click += button24_Click;
             // 
             // button25
             // 
@@ -622,6 +634,7 @@
             button25.TextAlign = ContentAlignment.TopLeft;
             button25.UseVisualStyleBackColor = true;
             button25.Visible = false;
+            button25.Click += button25_Click;
             // 
             // button26
             // 
@@ -635,6 +648,7 @@
             button26.TextAlign = ContentAlignment.TopLeft;
             button26.UseVisualStyleBackColor = true;
             button26.Visible = false;
+            button26.Click += button26_Click;
             // 
             // button27
             // 
@@ -648,6 +662,7 @@
             button27.TextAlign = ContentAlignment.TopLeft;
             button27.UseVisualStyleBackColor = true;
             button27.Visible = false;
+            button27.Click += button27_Click;
             // 
             // button28
             // 
@@ -660,6 +675,7 @@
             button28.Text = "1";
             button28.TextAlign = ContentAlignment.TopLeft;
             button28.UseVisualStyleBackColor = true;
+            button28.Click += button28_Click;
             // 
             // button15
             // 
@@ -673,6 +689,7 @@
             button15.TextAlign = ContentAlignment.TopLeft;
             button15.UseVisualStyleBackColor = true;
             button15.Visible = false;
+            button15.Click += button15_Click;
             // 
             // button16
             // 
@@ -686,6 +703,7 @@
             button16.TextAlign = ContentAlignment.TopLeft;
             button16.UseVisualStyleBackColor = true;
             button16.Visible = false;
+            button16.Click += button16_Click;
             // 
             // button17
             // 
@@ -699,6 +717,7 @@
             button17.TextAlign = ContentAlignment.TopLeft;
             button17.UseVisualStyleBackColor = true;
             button17.Visible = false;
+            button17.Click += button17_Click;
             // 
             // button18
             // 
@@ -712,6 +731,7 @@
             button18.TextAlign = ContentAlignment.TopLeft;
             button18.UseVisualStyleBackColor = true;
             button18.Visible = false;
+            button18.Click += button18_Click;
             // 
             // button19
             // 
@@ -725,6 +745,7 @@
             button19.TextAlign = ContentAlignment.TopLeft;
             button19.UseVisualStyleBackColor = true;
             button19.Visible = false;
+            button19.Click += button19_Click;
             // 
             // button20
             // 
@@ -738,6 +759,7 @@
             button20.TextAlign = ContentAlignment.TopLeft;
             button20.UseVisualStyleBackColor = true;
             button20.Visible = false;
+            button20.Click += button20_Click;
             // 
             // button21
             // 
@@ -750,6 +772,7 @@
             button21.Text = "1";
             button21.TextAlign = ContentAlignment.TopLeft;
             button21.UseVisualStyleBackColor = true;
+            button21.Click += button21_Click;
             // 
             // button8
             // 
@@ -763,6 +786,7 @@
             button8.TextAlign = ContentAlignment.TopLeft;
             button8.UseVisualStyleBackColor = true;
             button8.Visible = false;
+            button8.Click += button8_Click;
             // 
             // button9
             // 
@@ -776,6 +800,7 @@
             button9.TextAlign = ContentAlignment.TopLeft;
             button9.UseVisualStyleBackColor = true;
             button9.Visible = false;
+            button9.Click += button9_Click;
             // 
             // button10
             // 
@@ -789,6 +814,7 @@
             button10.TextAlign = ContentAlignment.TopLeft;
             button10.UseVisualStyleBackColor = true;
             button10.Visible = false;
+            button10.Click += button10_Click;
             // 
             // button11
             // 
@@ -802,6 +828,7 @@
             button11.TextAlign = ContentAlignment.TopLeft;
             button11.UseVisualStyleBackColor = true;
             button11.Visible = false;
+            button11.Click += button11_Click;
             // 
             // button12
             // 
@@ -815,6 +842,7 @@
             button12.TextAlign = ContentAlignment.TopLeft;
             button12.UseVisualStyleBackColor = true;
             button12.Visible = false;
+            button12.Click += button12_Click;
             // 
             // button13
             // 
@@ -828,6 +856,7 @@
             button13.TextAlign = ContentAlignment.TopLeft;
             button13.UseVisualStyleBackColor = true;
             button13.Visible = false;
+            button13.Click += button13_Click;
             // 
             // button14
             // 
@@ -840,6 +869,7 @@
             button14.Text = "1";
             button14.TextAlign = ContentAlignment.TopLeft;
             button14.UseVisualStyleBackColor = true;
+            button14.Click += button14_Click;
             // 
             // button1
             // 
@@ -853,6 +883,7 @@
             button1.TextAlign = ContentAlignment.TopLeft;
             button1.UseVisualStyleBackColor = true;
             button1.Visible = false;
+            button1.Click += button1_Click;
             // 
             // button2
             // 
@@ -866,6 +897,7 @@
             button2.TextAlign = ContentAlignment.TopLeft;
             button2.UseVisualStyleBackColor = true;
             button2.Visible = false;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
@@ -879,6 +911,7 @@
             button3.TextAlign = ContentAlignment.TopLeft;
             button3.UseVisualStyleBackColor = true;
             button3.Visible = false;
+            button3.Click += button3_Click;
             // 
             // button4
             // 
@@ -892,6 +925,7 @@
             button4.TextAlign = ContentAlignment.TopLeft;
             button4.UseVisualStyleBackColor = true;
             button4.Visible = false;
+            button4.Click += button4_Click;
             // 
             // button5
             // 
@@ -905,6 +939,7 @@
             button5.TextAlign = ContentAlignment.TopLeft;
             button5.UseVisualStyleBackColor = true;
             button5.Visible = false;
+            button5.Click += button5_Click;
             // 
             // button6
             // 
@@ -918,6 +953,7 @@
             button6.TextAlign = ContentAlignment.TopLeft;
             button6.UseVisualStyleBackColor = true;
             button6.Visible = false;
+            button6.Click += button6_Click;
             // 
             // button7
             // 
@@ -930,6 +966,7 @@
             button7.Text = "1";
             button7.TextAlign = ContentAlignment.TopLeft;
             button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
             // 
             // Form1
             // 
@@ -937,15 +974,15 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1904, 1041);
             Controls.Add(cur_panel);
-            Controls.Add(form_panel);
+            Controls.Add(main_panel);
             Name = "Form1";
             Text = "Form1";
             WindowState = FormWindowState.Maximized;
             cur_panel.ResumeLayout(false);
             cur_panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)weather_pic_box).EndInit();
-            form_panel.ResumeLayout(false);
-            form_panel.PerformLayout();
+            main_panel.ResumeLayout(false);
+            main_panel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -969,7 +1006,7 @@
         private Label cur_month_str_label;
         private Label cur_month_num_label;
         private System.Windows.Forms.Timer change_second_timer;
-        private Panel form_panel;
+        private Panel main_panel;
         private Button button3;
         private Button button4;
         private Button button5;

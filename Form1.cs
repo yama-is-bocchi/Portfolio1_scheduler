@@ -13,6 +13,9 @@ using System.Resources;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 using AngleSharp;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Xml.Serialization;
+using Microsoft.VisualBasic;
+using AngleSharp.Common;
 
 
 namespace study_scheduler
@@ -24,42 +27,13 @@ namespace study_scheduler
             InitializeComponent();
             change_today_information();
             sort_button();
+            
         }
 
         private DateTime cur_date;
+        private Form? activeForm;//起動させる子フォーム
 
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-            // ブロック（{}）を抜けたら自動的に Dispose するC#構文
-            using (
-                // グラデーションブラシ作成
-                var gb = new LinearGradientBrush(
-                // グラデーション範囲（表示クリッピング領域）
-                e.Graphics.VisibleClipBounds,
-                // グラデーション開始色（紺色）
-                Color.SpringGreen,
-
-                // グラデーション終了色（赤紫）
-                Color.Cyan,
-                // グラデーション方向（縦）
-                LinearGradientMode.Horizontal))
-            {
-                // 四角形の内部を塗りつぶす（表示クリッピング領域）
-                e.Graphics.FillRectangle(gb, e.Graphics.VisibleClipBounds);
-            }
-            // using構文を使用したため Dispose を書く必要はない
-            //リソースを解放する
-            //gb.Dispose();
-        }
-
-        private void panel1_Resize(object sender, EventArgs e)
-        {
-            // パネルの表面全体を無効化してパネルを再描画する
-            cur_panel.Invalidate();
-        }
-
-
+        //今日の情報(年,月日,名古屋の気温,天気)を更新
         private void change_today_information()
         {
             DateTime today = DateTime.Today;
@@ -97,7 +71,7 @@ namespace study_scheduler
                 weather_pic_box.Image = img;
             }
 
-           else if (element.TextContent.Contains("晴"))
+            else if (element.TextContent.Contains("晴"))
             {
                 Image img = Image.FromFile(@"Resources\sunny.png");
 
@@ -111,7 +85,7 @@ namespace study_scheduler
                 weather_pic_box.Image = img;
 
             }
-          
+
             else if (element.TextContent.Contains("雪"))
             {
                 Image img = Image.FromFile(@"Resources\snow.png");
@@ -130,7 +104,7 @@ namespace study_scheduler
             element = document.QuerySelector(querySelector);
             /// 天気の文字列を種痘
             /// 
-            if (element == null)return;
+            if (element == null) return;
 
 
             temp_max_label.Text = element.TextContent + "℃";
@@ -171,7 +145,7 @@ namespace study_scheduler
             change_second_timer.Start();
 
         }
-
+        //閲覧中の月の情報を変更
         private void cur_label_change()
         {
             cur_month_num_label.Text = cur_date.Month.ToString();
@@ -184,8 +158,8 @@ namespace study_scheduler
         //先月に移動
         private void previous_btn_MouseClick(object sender, MouseEventArgs e)
         {
-            cur_date=cur_date.AddMonths(-1);
-            
+            cur_date = cur_date.AddMonths(-1);
+
             cur_label_change();
 
             sort_button();
@@ -205,7 +179,7 @@ namespace study_scheduler
 
         private void sort_button()/*** 年月データを配列に代入 ***/
         {
-            for (int i=1;i<38;i++)
+            for (int i = 1; i < 38; i++)
             {
                 Control[] button = this.Controls.Find("button" + i.ToString(), true);
                 if (button.Length > 0)
@@ -214,15 +188,298 @@ namespace study_scheduler
                 }
             }
 
-            for (int i= 0; i < DateTime.DaysInMonth(cur_date.Year, cur_date.Month);i++)
+            for (int i = 0; i < DateTime.DaysInMonth(cur_date.Year, cur_date.Month); i++)
             {
-                Control[] button = this.Controls.Find("button"+ ((int)cur_date.DayOfWeek+1 + i).ToString(), true);
+                Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + 1 + i).ToString(), true);
                 if (button.Length > 0)
                 {
                     ((Button)button[0]).Visible = true;
-                    ((Button)button[0]).Text=(1 + i).ToString();
+                    ((Button)button[0]).Text = (1 + i).ToString();
                 }
             }
         }
+
+        private void open_childform(Form childForm)
+        {
+            cur_panel.Visible = false;
+            cur_panel.Enabled = false;
+            change_second_timer.Stop();
+            
+            activeForm?.Close();
+            activeForm = childForm;
+            childForm.TopLevel = false;
+            childForm.FormBorderStyle = FormBorderStyle.None;
+            childForm.Dock = DockStyle.Fill;
+            main_panel.Controls.Add(childForm);
+            main_panel.Tag = childForm;
+
+            childForm.Closed += new EventHandler(SubFormClosed);
+            
+            childForm.BringToFront();
+            childForm.Show();
+        }
+
+        private void SubFormClosed(object? sender, EventArgs e)
+        {
+            cur_panel.Visible=true;
+            cur_panel.Enabled=true;
+            DateTime today = DateTime.Today;
+            change_per_second_information(ref today);
+            change_second_timer.Start();
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day=cur_date.Year+"-"+cur_date.Month.ToString("00")+"-"+((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button25_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button26_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button27_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button28_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button29_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button30_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button31_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button32_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button33_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button34_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button35_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button36_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+
+        private void button37_Click(object sender, EventArgs e)
+        {
+            cur_form_information.cur_button_day = cur_date.Year + "-" + cur_date.Month.ToString("00") + "-" + ((Button)sender).Text.PadLeft(2, '0');
+            open_childform(new childforms.Daysform());
+        }
+        //cur_panelの背景をグラデーションに変更
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            // ブロック（{}）を抜けたら自動的に Dispose するC#構文
+            using (
+                // グラデーションブラシ作成
+                var gb = new LinearGradientBrush(
+                // グラデーション範囲（表示クリッピング領域）
+                e.Graphics.VisibleClipBounds,
+                // グラデーション開始色（紺色）
+                Color.SpringGreen,
+
+                // グラデーション終了色（赤紫）
+                Color.Cyan,
+                // グラデーション方向（縦）
+                LinearGradientMode.Horizontal))
+            {
+                // 四角形の内部を塗りつぶす（表示クリッピング領域）
+                e.Graphics.FillRectangle(gb, e.Graphics.VisibleClipBounds);
+            }
+            // using構文を使用したため Dispose を書く必要はない
+            //リソースを解放する
+            //gb.Dispose();
+        }
+        //cur_panelの背景を変更
+        private void panel1_Resize(object sender, EventArgs e)
+        {
+            // パネルの表面全体を無効化してパネルを再描画する
+            cur_panel.Invalidate();
+        }
+
     }
 }

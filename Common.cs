@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace study_scheduler
 {
-        public  class month_string_class
-        {
-            public static List<string> month_list = new List<string>() 
+    public  class month_string_class
+    {
+       public static List<string> month_list = new List<string>() 
             {
                 "January",
                 "February",
@@ -26,5 +26,12 @@ namespace study_scheduler
             };
         public static ReadOnlyCollection<string> readOnlymonth =
            new ReadOnlyCollection<string>(month_list);
+     }
+
+    public static class cur_form_information
+    {
+        public static string? cur_button_day;
+        public static bool activeform;
     }
+
 }
