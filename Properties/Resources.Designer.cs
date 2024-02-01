@@ -68,5 +68,25 @@ namespace study_scheduler.Properties {
                 return ResourceManager.GetString("1", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap _9392 {
+            get {
+                object obj = ResourceManager.GetObject("9392", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap _9392___コピー {
+            get {
+                object obj = ResourceManager.GetObject("9392 - コピー", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

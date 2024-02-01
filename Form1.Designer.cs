@@ -139,11 +139,11 @@
             // 
             cur_month_str_label.AutoSize = true;
             cur_month_str_label.BackColor = Color.SpringGreen;
-            cur_month_str_label.Font = new Font("MV Boli", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cur_month_str_label.Font = new Font("Segoe Script", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cur_month_str_label.ForeColor = SystemColors.ActiveCaptionText;
-            cur_month_str_label.Location = new Point(25, 43);
+            cur_month_str_label.Location = new Point(25, 46);
             cur_month_str_label.Name = "cur_month_str_label";
-            cur_month_str_label.Size = new Size(115, 41);
+            cur_month_str_label.Size = new Size(99, 38);
             cur_month_str_label.TabIndex = 13;
             cur_month_str_label.Text = "month";
             // 
@@ -175,11 +175,11 @@
             // 
             temp_min_label.AutoSize = true;
             temp_min_label.BackColor = Color.Cyan;
-            temp_min_label.Font = new Font("Arial", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            temp_min_label.Font = new Font("MV Boli", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             temp_min_label.ForeColor = SystemColors.ActiveCaptionText;
-            temp_min_label.Location = new Point(1577, 120);
+            temp_min_label.Location = new Point(1577, 118);
             temp_min_label.Name = "temp_min_label";
-            temp_min_label.Size = new Size(47, 33);
+            temp_min_label.Size = new Size(57, 39);
             temp_min_label.TabIndex = 10;
             temp_min_label.Text = "00";
             // 
@@ -211,11 +211,11 @@
             // 
             temp_max_label.AutoSize = true;
             temp_max_label.BackColor = Color.Cyan;
-            temp_max_label.Font = new Font("Arial", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            temp_max_label.Font = new Font("MV Boli", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             temp_max_label.ForeColor = SystemColors.ActiveCaptionText;
-            temp_max_label.Location = new Point(1475, 120);
+            temp_max_label.Location = new Point(1475, 118);
             temp_max_label.Name = "temp_max_label";
-            temp_max_label.Size = new Size(47, 33);
+            temp_max_label.Size = new Size(57, 39);
             temp_max_label.TabIndex = 7;
             temp_max_label.Text = "00";
             // 
@@ -223,11 +223,11 @@
             // 
             now_time_label.AutoSize = true;
             now_time_label.BackColor = Color.Cyan;
-            now_time_label.Font = new Font("Arial", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            now_time_label.Font = new Font("MV Boli", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             now_time_label.ForeColor = SystemColors.ActiveCaptionText;
             now_time_label.Location = new Point(1475, 64);
             now_time_label.Name = "now_time_label";
-            now_time_label.Size = new Size(71, 33);
+            now_time_label.Size = new Size(78, 39);
             now_time_label.TabIndex = 6;
             now_time_label.Text = "time";
             // 
@@ -235,11 +235,11 @@
             // 
             today_date_label.AutoSize = true;
             today_date_label.BackColor = Color.Cyan;
-            today_date_label.Font = new Font("Arial", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            today_date_label.Font = new Font("MV Boli", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             today_date_label.ForeColor = SystemColors.ActiveCaptionText;
             today_date_label.Location = new Point(1475, 9);
             today_date_label.Name = "today_date_label";
-            today_date_label.Size = new Size(71, 33);
+            today_date_label.Size = new Size(76, 39);
             today_date_label.TabIndex = 5;
             today_date_label.Text = "date";
             // 
@@ -319,7 +319,7 @@
             // 
             // main_panel
             // 
-            main_panel.BackColor = Color.Transparent;
+            main_panel.BackColor = Color.White;
             main_panel.Controls.Add(label13);
             main_panel.Controls.Add(label12);
             main_panel.Controls.Add(label11);
@@ -466,7 +466,7 @@
             button36.TextAlign = ContentAlignment.TopLeft;
             button36.UseVisualStyleBackColor = true;
             button36.Visible = false;
-            button36.Click += button36_Click;
+            button36.MouseClick += select_day_btn;
             // 
             // button37
             // 
@@ -480,7 +480,7 @@
             button37.TextAlign = ContentAlignment.TopLeft;
             button37.UseVisualStyleBackColor = true;
             button37.Visible = false;
-            button37.Click += button37_Click;
+            button37.MouseClick += select_day_btn;
             // 
             // button29
             // 
@@ -494,7 +494,7 @@
             button29.TextAlign = ContentAlignment.TopLeft;
             button29.UseVisualStyleBackColor = true;
             button29.Visible = false;
-            button29.Click += button29_Click;
+            button29.MouseClick += select_day_btn;
             // 
             // button30
             // 
@@ -508,7 +508,7 @@
             button30.TextAlign = ContentAlignment.TopLeft;
             button30.UseVisualStyleBackColor = true;
             button30.Visible = false;
-            button30.Click += button30_Click;
+            button30.MouseClick += select_day_btn;
             // 
             // button31
             // 
@@ -522,7 +522,7 @@
             button31.TextAlign = ContentAlignment.TopLeft;
             button31.UseVisualStyleBackColor = true;
             button31.Visible = false;
-            button31.Click += button31_Click;
+            button31.MouseClick += select_day_btn;
             // 
             // button32
             // 
@@ -536,7 +536,7 @@
             button32.TextAlign = ContentAlignment.TopLeft;
             button32.UseVisualStyleBackColor = true;
             button32.Visible = false;
-            button32.Click += button32_Click;
+            button32.MouseClick += select_day_btn;
             // 
             // button33
             // 
@@ -550,7 +550,7 @@
             button33.TextAlign = ContentAlignment.TopLeft;
             button33.UseVisualStyleBackColor = true;
             button33.Visible = false;
-            button33.Click += button33_Click;
+            button33.MouseClick += select_day_btn;
             // 
             // button34
             // 
@@ -564,7 +564,7 @@
             button34.TextAlign = ContentAlignment.TopLeft;
             button34.UseVisualStyleBackColor = true;
             button34.Visible = false;
-            button34.Click += button34_Click;
+            button34.MouseClick += select_day_btn;
             // 
             // button35
             // 
@@ -578,7 +578,7 @@
             button35.TextAlign = ContentAlignment.TopLeft;
             button35.UseVisualStyleBackColor = true;
             button35.Visible = false;
-            button35.Click += button35_Click;
+            button35.MouseClick += select_day_btn;
             // 
             // button22
             // 
@@ -592,7 +592,7 @@
             button22.TextAlign = ContentAlignment.TopLeft;
             button22.UseVisualStyleBackColor = true;
             button22.Visible = false;
-            button22.Click += button22_Click;
+            button22.MouseClick += select_day_btn;
             // 
             // button23
             // 
@@ -606,7 +606,7 @@
             button23.TextAlign = ContentAlignment.TopLeft;
             button23.UseVisualStyleBackColor = true;
             button23.Visible = false;
-            button23.Click += button23_Click;
+            button23.MouseClick += select_day_btn;
             // 
             // button24
             // 
@@ -620,7 +620,7 @@
             button24.TextAlign = ContentAlignment.TopLeft;
             button24.UseVisualStyleBackColor = true;
             button24.Visible = false;
-            button24.Click += button24_Click;
+            button24.MouseClick += select_day_btn;
             // 
             // button25
             // 
@@ -634,7 +634,7 @@
             button25.TextAlign = ContentAlignment.TopLeft;
             button25.UseVisualStyleBackColor = true;
             button25.Visible = false;
-            button25.Click += button25_Click;
+            button25.MouseClick += select_day_btn;
             // 
             // button26
             // 
@@ -648,7 +648,7 @@
             button26.TextAlign = ContentAlignment.TopLeft;
             button26.UseVisualStyleBackColor = true;
             button26.Visible = false;
-            button26.Click += button26_Click;
+            button26.MouseClick += select_day_btn;
             // 
             // button27
             // 
@@ -662,7 +662,7 @@
             button27.TextAlign = ContentAlignment.TopLeft;
             button27.UseVisualStyleBackColor = true;
             button27.Visible = false;
-            button27.Click += button27_Click;
+            button27.MouseClick += select_day_btn;
             // 
             // button28
             // 
@@ -675,7 +675,7 @@
             button28.Text = "1";
             button28.TextAlign = ContentAlignment.TopLeft;
             button28.UseVisualStyleBackColor = true;
-            button28.Click += button28_Click;
+            button28.MouseClick += select_day_btn;
             // 
             // button15
             // 
@@ -689,7 +689,7 @@
             button15.TextAlign = ContentAlignment.TopLeft;
             button15.UseVisualStyleBackColor = true;
             button15.Visible = false;
-            button15.Click += button15_Click;
+            button15.MouseClick += select_day_btn;
             // 
             // button16
             // 
@@ -703,7 +703,7 @@
             button16.TextAlign = ContentAlignment.TopLeft;
             button16.UseVisualStyleBackColor = true;
             button16.Visible = false;
-            button16.Click += button16_Click;
+            button16.MouseClick += select_day_btn;
             // 
             // button17
             // 
@@ -717,7 +717,7 @@
             button17.TextAlign = ContentAlignment.TopLeft;
             button17.UseVisualStyleBackColor = true;
             button17.Visible = false;
-            button17.Click += button17_Click;
+            button17.MouseClick += select_day_btn;
             // 
             // button18
             // 
@@ -731,7 +731,7 @@
             button18.TextAlign = ContentAlignment.TopLeft;
             button18.UseVisualStyleBackColor = true;
             button18.Visible = false;
-            button18.Click += button18_Click;
+            button18.MouseClick += select_day_btn;
             // 
             // button19
             // 
@@ -745,7 +745,7 @@
             button19.TextAlign = ContentAlignment.TopLeft;
             button19.UseVisualStyleBackColor = true;
             button19.Visible = false;
-            button19.Click += button19_Click;
+            button19.MouseClick += select_day_btn;
             // 
             // button20
             // 
@@ -759,7 +759,7 @@
             button20.TextAlign = ContentAlignment.TopLeft;
             button20.UseVisualStyleBackColor = true;
             button20.Visible = false;
-            button20.Click += button20_Click;
+            button20.MouseClick += select_day_btn;
             // 
             // button21
             // 
@@ -772,7 +772,7 @@
             button21.Text = "1";
             button21.TextAlign = ContentAlignment.TopLeft;
             button21.UseVisualStyleBackColor = true;
-            button21.Click += button21_Click;
+            button21.MouseClick += select_day_btn;
             // 
             // button8
             // 
@@ -786,7 +786,7 @@
             button8.TextAlign = ContentAlignment.TopLeft;
             button8.UseVisualStyleBackColor = true;
             button8.Visible = false;
-            button8.Click += button8_Click;
+            button8.MouseClick += select_day_btn;
             // 
             // button9
             // 
@@ -800,7 +800,7 @@
             button9.TextAlign = ContentAlignment.TopLeft;
             button9.UseVisualStyleBackColor = true;
             button9.Visible = false;
-            button9.Click += button9_Click;
+            button9.MouseClick += select_day_btn;
             // 
             // button10
             // 
@@ -814,7 +814,7 @@
             button10.TextAlign = ContentAlignment.TopLeft;
             button10.UseVisualStyleBackColor = true;
             button10.Visible = false;
-            button10.Click += button10_Click;
+            button10.MouseClick += select_day_btn;
             // 
             // button11
             // 
@@ -828,7 +828,7 @@
             button11.TextAlign = ContentAlignment.TopLeft;
             button11.UseVisualStyleBackColor = true;
             button11.Visible = false;
-            button11.Click += button11_Click;
+            button11.MouseClick += select_day_btn;
             // 
             // button12
             // 
@@ -842,7 +842,7 @@
             button12.TextAlign = ContentAlignment.TopLeft;
             button12.UseVisualStyleBackColor = true;
             button12.Visible = false;
-            button12.Click += button12_Click;
+            button12.MouseClick += select_day_btn;
             // 
             // button13
             // 
@@ -856,7 +856,7 @@
             button13.TextAlign = ContentAlignment.TopLeft;
             button13.UseVisualStyleBackColor = true;
             button13.Visible = false;
-            button13.Click += button13_Click;
+            button13.MouseClick += select_day_btn;
             // 
             // button14
             // 
@@ -869,7 +869,7 @@
             button14.Text = "1";
             button14.TextAlign = ContentAlignment.TopLeft;
             button14.UseVisualStyleBackColor = true;
-            button14.Click += button14_Click;
+            button14.MouseClick += select_day_btn;
             // 
             // button1
             // 
@@ -883,7 +883,7 @@
             button1.TextAlign = ContentAlignment.TopLeft;
             button1.UseVisualStyleBackColor = true;
             button1.Visible = false;
-            button1.Click += button1_Click;
+            button1.MouseClick += select_day_btn;
             // 
             // button2
             // 
@@ -897,7 +897,7 @@
             button2.TextAlign = ContentAlignment.TopLeft;
             button2.UseVisualStyleBackColor = true;
             button2.Visible = false;
-            button2.Click += button2_Click;
+            button2.MouseClick += select_day_btn;
             // 
             // button3
             // 
@@ -911,7 +911,7 @@
             button3.TextAlign = ContentAlignment.TopLeft;
             button3.UseVisualStyleBackColor = true;
             button3.Visible = false;
-            button3.Click += button3_Click;
+            button3.MouseClick += select_day_btn;
             // 
             // button4
             // 
@@ -925,7 +925,7 @@
             button4.TextAlign = ContentAlignment.TopLeft;
             button4.UseVisualStyleBackColor = true;
             button4.Visible = false;
-            button4.Click += button4_Click;
+            button4.MouseClick += select_day_btn;
             // 
             // button5
             // 
@@ -939,7 +939,7 @@
             button5.TextAlign = ContentAlignment.TopLeft;
             button5.UseVisualStyleBackColor = true;
             button5.Visible = false;
-            button5.Click += button5_Click;
+            button5.MouseClick += select_day_btn;
             // 
             // button6
             // 
@@ -953,7 +953,7 @@
             button6.TextAlign = ContentAlignment.TopLeft;
             button6.UseVisualStyleBackColor = true;
             button6.Visible = false;
-            button6.Click += button6_Click;
+            button6.MouseClick += select_day_btn;
             // 
             // button7
             // 
@@ -966,7 +966,7 @@
             button7.Text = "1";
             button7.TextAlign = ContentAlignment.TopLeft;
             button7.UseVisualStyleBackColor = true;
-            button7.Click += button7_Click;
+            button7.MouseClick += select_day_btn;
             // 
             // Form1
             // 
@@ -976,7 +976,7 @@
             Controls.Add(cur_panel);
             Controls.Add(main_panel);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Scheduler";
             WindowState = FormWindowState.Maximized;
             cur_panel.ResumeLayout(false);
             cur_panel.PerformLayout();

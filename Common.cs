@@ -30,8 +30,15 @@ namespace study_scheduler
 
     public static class cur_form_information
     {
-        public static string? cur_button_day;
-        public static bool activeform;
+        public static DateTime cur_date_button;
+        public static string? select_register_label_num;
+    }
+
+
+    public static class edittime_information
+    {
+        public static DateTime select_st_time;
+        public static DateTime select_end_time;
     }
 
 }
