@@ -31,14 +31,16 @@ namespace study_scheduler
     public static class cur_form_information
     {
         public static DateTime cur_date_button;
-        public static string? select_register_label_num;
     }
 
 
     public static class edittime_information
     {
-        public static DateTime select_st_time;
-        public static DateTime select_end_time;
+        public static TimeOnly select_st_time;
+        public static TimeOnly select_end_time;
+        public static bool select_st_flag;
+        public static bool select_correction_flag;
     }
-
 }
+
+

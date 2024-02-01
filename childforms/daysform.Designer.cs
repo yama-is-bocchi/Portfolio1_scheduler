@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Daysform));
             schedule_panel = new Panel();
+            label3 = new Label();
             all_remove_btn = new Button();
             memo_remove_btn = new Button();
             back_btn = new Button();
@@ -92,7 +93,6 @@
             panel28 = new Panel();
             panel2 = new Panel();
             panel1 = new Panel();
-            label3 = new Label();
             schedule_panel.SuspendLayout();
             SuspendLayout();
             // 
@@ -168,8 +168,19 @@
             schedule_panel.Size = new Size(1904, 1041);
             schedule_panel.TabIndex = 0;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("MV Boli", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Location = new Point(3, 180);
+            label3.Name = "label3";
+            label3.Size = new Size(257, 34);
+            label3.TabIndex = 58;
+            label3.Text = "If you want register for the plan,\r\nyou should  double click  the label below.";
+            // 
             // all_remove_btn
             // 
+            all_remove_btn.Cursor = Cursors.Hand;
             all_remove_btn.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             all_remove_btn.Image = (Image)resources.GetObject("all_remove_btn.Image");
             all_remove_btn.ImageAlign = ContentAlignment.MiddleRight;
@@ -184,6 +195,7 @@
             // 
             // memo_remove_btn
             // 
+            memo_remove_btn.Cursor = Cursors.Hand;
             memo_remove_btn.Image = (Image)resources.GetObject("memo_remove_btn.Image");
             memo_remove_btn.Location = new Point(320, 0);
             memo_remove_btn.Name = "memo_remove_btn";
@@ -194,6 +206,7 @@
             // 
             // back_btn
             // 
+            back_btn.Cursor = Cursors.Hand;
             back_btn.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             back_btn.Location = new Point(19, 9);
             back_btn.Name = "back_btn";
@@ -215,12 +228,13 @@
             // 
             // textBox1
             // 
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
+            textBox1.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox1.Location = new Point(262, 34);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(1615, 355);
             textBox1.TabIndex = 53;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // total_time
             // 
@@ -255,10 +269,12 @@
             // label_btn24
             // 
             label_btn24.AutoSize = true;
+            label_btn24.BorderStyle = BorderStyle.Fixed3D;
+            label_btn24.Cursor = Cursors.Hand;
             label_btn24.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn24.Location = new Point(1834, 907);
             label_btn24.Name = "label_btn24";
-            label_btn24.Size = new Size(43, 35);
+            label_btn24.Size = new Size(45, 37);
             label_btn24.TabIndex = 49;
             label_btn24.Text = "24";
             label_btn24.MouseDoubleClick += register_schedule_label_click;
@@ -266,10 +282,13 @@
             // label_btn23
             // 
             label_btn23.AutoSize = true;
+            label_btn23.BackColor = Color.White;
+            label_btn23.BorderStyle = BorderStyle.Fixed3D;
+            label_btn23.Cursor = Cursors.Hand;
             label_btn23.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn23.Location = new Point(1684, 907);
             label_btn23.Name = "label_btn23";
-            label_btn23.Size = new Size(43, 35);
+            label_btn23.Size = new Size(45, 37);
             label_btn23.TabIndex = 48;
             label_btn23.Text = "23";
             label_btn23.MouseDoubleClick += register_schedule_label_click;
@@ -277,10 +296,12 @@
             // label_btn22
             // 
             label_btn22.AutoSize = true;
+            label_btn22.BorderStyle = BorderStyle.Fixed3D;
+            label_btn22.Cursor = Cursors.Hand;
             label_btn22.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn22.Location = new Point(1535, 907);
             label_btn22.Name = "label_btn22";
-            label_btn22.Size = new Size(43, 35);
+            label_btn22.Size = new Size(45, 37);
             label_btn22.TabIndex = 48;
             label_btn22.Text = "22";
             label_btn22.MouseDoubleClick += register_schedule_label_click;
@@ -288,10 +309,12 @@
             // label_btn21
             // 
             label_btn21.AutoSize = true;
+            label_btn21.BorderStyle = BorderStyle.Fixed3D;
+            label_btn21.Cursor = Cursors.Hand;
             label_btn21.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn21.Location = new Point(1386, 907);
             label_btn21.Name = "label_btn21";
-            label_btn21.Size = new Size(43, 35);
+            label_btn21.Size = new Size(45, 37);
             label_btn21.TabIndex = 47;
             label_btn21.Text = "21";
             label_btn21.MouseDoubleClick += register_schedule_label_click;
@@ -299,10 +322,12 @@
             // label_btn20
             // 
             label_btn20.AutoSize = true;
+            label_btn20.BorderStyle = BorderStyle.Fixed3D;
+            label_btn20.Cursor = Cursors.Hand;
             label_btn20.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn20.Location = new Point(1234, 907);
             label_btn20.Name = "label_btn20";
-            label_btn20.Size = new Size(43, 35);
+            label_btn20.Size = new Size(45, 37);
             label_btn20.TabIndex = 46;
             label_btn20.Text = "20";
             label_btn20.MouseDoubleClick += register_schedule_label_click;
@@ -310,10 +335,12 @@
             // label_btn19
             // 
             label_btn19.AutoSize = true;
+            label_btn19.BorderStyle = BorderStyle.Fixed3D;
+            label_btn19.Cursor = Cursors.Hand;
             label_btn19.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn19.Location = new Point(1085, 907);
             label_btn19.Name = "label_btn19";
-            label_btn19.Size = new Size(43, 35);
+            label_btn19.Size = new Size(45, 37);
             label_btn19.TabIndex = 45;
             label_btn19.Text = "19";
             label_btn19.MouseDoubleClick += register_schedule_label_click;
@@ -321,10 +348,12 @@
             // label_btn18
             // 
             label_btn18.AutoSize = true;
+            label_btn18.BorderStyle = BorderStyle.Fixed3D;
+            label_btn18.Cursor = Cursors.Hand;
             label_btn18.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn18.Location = new Point(933, 907);
             label_btn18.Name = "label_btn18";
-            label_btn18.Size = new Size(43, 35);
+            label_btn18.Size = new Size(45, 37);
             label_btn18.TabIndex = 44;
             label_btn18.Text = "18";
             label_btn18.MouseDoubleClick += register_schedule_label_click;
@@ -332,10 +361,12 @@
             // label_btn17
             // 
             label_btn17.AutoSize = true;
+            label_btn17.BorderStyle = BorderStyle.Fixed3D;
+            label_btn17.Cursor = Cursors.Hand;
             label_btn17.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn17.Location = new Point(786, 907);
             label_btn17.Name = "label_btn17";
-            label_btn17.Size = new Size(43, 35);
+            label_btn17.Size = new Size(45, 37);
             label_btn17.TabIndex = 43;
             label_btn17.Text = "17";
             label_btn17.MouseDoubleClick += register_schedule_label_click;
@@ -343,10 +374,12 @@
             // label_btn16
             // 
             label_btn16.AutoSize = true;
+            label_btn16.BorderStyle = BorderStyle.Fixed3D;
+            label_btn16.Cursor = Cursors.Hand;
             label_btn16.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn16.Location = new Point(635, 907);
             label_btn16.Name = "label_btn16";
-            label_btn16.Size = new Size(43, 35);
+            label_btn16.Size = new Size(45, 37);
             label_btn16.TabIndex = 42;
             label_btn16.Text = "16";
             label_btn16.MouseDoubleClick += register_schedule_label_click;
@@ -354,10 +387,12 @@
             // label_btn15
             // 
             label_btn15.AutoSize = true;
+            label_btn15.BorderStyle = BorderStyle.Fixed3D;
+            label_btn15.Cursor = Cursors.Hand;
             label_btn15.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn15.Location = new Point(485, 907);
             label_btn15.Name = "label_btn15";
-            label_btn15.Size = new Size(43, 35);
+            label_btn15.Size = new Size(45, 37);
             label_btn15.TabIndex = 41;
             label_btn15.Text = "15";
             label_btn15.MouseDoubleClick += register_schedule_label_click;
@@ -365,10 +400,12 @@
             // label_btn14
             // 
             label_btn14.AutoSize = true;
+            label_btn14.BorderStyle = BorderStyle.Fixed3D;
+            label_btn14.Cursor = Cursors.Hand;
             label_btn14.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn14.Location = new Point(335, 907);
             label_btn14.Name = "label_btn14";
-            label_btn14.Size = new Size(43, 35);
+            label_btn14.Size = new Size(45, 37);
             label_btn14.TabIndex = 40;
             label_btn14.Text = "14";
             label_btn14.MouseDoubleClick += register_schedule_label_click;
@@ -376,10 +413,12 @@
             // label_btn13
             // 
             label_btn13.AutoSize = true;
+            label_btn13.BorderStyle = BorderStyle.Fixed3D;
+            label_btn13.Cursor = Cursors.Hand;
             label_btn13.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn13.Location = new Point(187, 907);
             label_btn13.Name = "label_btn13";
-            label_btn13.Size = new Size(43, 35);
+            label_btn13.Size = new Size(45, 37);
             label_btn13.TabIndex = 39;
             label_btn13.Text = "13";
             label_btn13.MouseDoubleClick += register_schedule_label_click;
@@ -387,10 +426,12 @@
             // label_btn12_2
             // 
             label_btn12_2.AutoSize = true;
+            label_btn12_2.BorderStyle = BorderStyle.Fixed3D;
+            label_btn12_2.Cursor = Cursors.Hand;
             label_btn12_2.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn12_2.Location = new Point(32, 907);
             label_btn12_2.Name = "label_btn12_2";
-            label_btn12_2.Size = new Size(43, 35);
+            label_btn12_2.Size = new Size(45, 37);
             label_btn12_2.TabIndex = 38;
             label_btn12_2.Text = "12";
             label_btn12_2.MouseDoubleClick += register_schedule_label_click;
@@ -398,10 +439,12 @@
             // label_btn12_1
             // 
             label_btn12_1.AutoSize = true;
+            label_btn12_1.BorderStyle = BorderStyle.Fixed3D;
+            label_btn12_1.Cursor = Cursors.Hand;
             label_btn12_1.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn12_1.Location = new Point(1834, 605);
             label_btn12_1.Name = "label_btn12_1";
-            label_btn12_1.Size = new Size(43, 35);
+            label_btn12_1.Size = new Size(45, 37);
             label_btn12_1.TabIndex = 37;
             label_btn12_1.Text = "12";
             label_btn12_1.MouseDoubleClick += register_schedule_label_click;
@@ -409,10 +452,12 @@
             // label_btn11
             // 
             label_btn11.AutoSize = true;
+            label_btn11.BorderStyle = BorderStyle.Fixed3D;
+            label_btn11.Cursor = Cursors.Hand;
             label_btn11.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn11.Location = new Point(1684, 605);
             label_btn11.Name = "label_btn11";
-            label_btn11.Size = new Size(43, 35);
+            label_btn11.Size = new Size(45, 37);
             label_btn11.TabIndex = 36;
             label_btn11.Text = "11";
             label_btn11.MouseDoubleClick += register_schedule_label_click;
@@ -420,10 +465,12 @@
             // label_btn10
             // 
             label_btn10.AutoSize = true;
+            label_btn10.BorderStyle = BorderStyle.Fixed3D;
+            label_btn10.Cursor = Cursors.Hand;
             label_btn10.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn10.Location = new Point(1535, 605);
             label_btn10.Name = "label_btn10";
-            label_btn10.Size = new Size(43, 35);
+            label_btn10.Size = new Size(45, 37);
             label_btn10.TabIndex = 35;
             label_btn10.Text = "10";
             label_btn10.MouseDoubleClick += register_schedule_label_click;
@@ -431,10 +478,12 @@
             // label_btn9
             // 
             label_btn9.AutoSize = true;
+            label_btn9.BorderStyle = BorderStyle.Fixed3D;
+            label_btn9.Cursor = Cursors.Hand;
             label_btn9.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn9.Location = new Point(1386, 605);
             label_btn9.Name = "label_btn9";
-            label_btn9.Size = new Size(29, 35);
+            label_btn9.Size = new Size(31, 37);
             label_btn9.TabIndex = 34;
             label_btn9.Text = "9";
             label_btn9.MouseDoubleClick += register_schedule_label_click;
@@ -442,10 +491,12 @@
             // label_btn8
             // 
             label_btn8.AutoSize = true;
+            label_btn8.BorderStyle = BorderStyle.Fixed3D;
+            label_btn8.Cursor = Cursors.Hand;
             label_btn8.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn8.Location = new Point(1234, 605);
             label_btn8.Name = "label_btn8";
-            label_btn8.Size = new Size(29, 35);
+            label_btn8.Size = new Size(31, 37);
             label_btn8.TabIndex = 33;
             label_btn8.Text = "8";
             label_btn8.MouseDoubleClick += register_schedule_label_click;
@@ -453,10 +504,12 @@
             // label_btn7
             // 
             label_btn7.AutoSize = true;
+            label_btn7.BorderStyle = BorderStyle.Fixed3D;
+            label_btn7.Cursor = Cursors.Hand;
             label_btn7.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn7.Location = new Point(1085, 605);
             label_btn7.Name = "label_btn7";
-            label_btn7.Size = new Size(29, 35);
+            label_btn7.Size = new Size(31, 37);
             label_btn7.TabIndex = 32;
             label_btn7.Text = "7";
             label_btn7.MouseDoubleClick += register_schedule_label_click;
@@ -464,10 +517,12 @@
             // label_btn6
             // 
             label_btn6.AutoSize = true;
+            label_btn6.BorderStyle = BorderStyle.Fixed3D;
+            label_btn6.Cursor = Cursors.Hand;
             label_btn6.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn6.Location = new Point(933, 605);
             label_btn6.Name = "label_btn6";
-            label_btn6.Size = new Size(29, 35);
+            label_btn6.Size = new Size(31, 37);
             label_btn6.TabIndex = 31;
             label_btn6.Text = "6";
             label_btn6.MouseDoubleClick += register_schedule_label_click;
@@ -475,10 +530,12 @@
             // label_btn5
             // 
             label_btn5.AutoSize = true;
+            label_btn5.BorderStyle = BorderStyle.Fixed3D;
+            label_btn5.Cursor = Cursors.Hand;
             label_btn5.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn5.Location = new Point(786, 605);
             label_btn5.Name = "label_btn5";
-            label_btn5.Size = new Size(29, 35);
+            label_btn5.Size = new Size(31, 37);
             label_btn5.TabIndex = 30;
             label_btn5.Text = "5";
             label_btn5.MouseDoubleClick += register_schedule_label_click;
@@ -486,10 +543,12 @@
             // label_btn4
             // 
             label_btn4.AutoSize = true;
+            label_btn4.BorderStyle = BorderStyle.Fixed3D;
+            label_btn4.Cursor = Cursors.Hand;
             label_btn4.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn4.Location = new Point(635, 605);
             label_btn4.Name = "label_btn4";
-            label_btn4.Size = new Size(29, 35);
+            label_btn4.Size = new Size(31, 37);
             label_btn4.TabIndex = 30;
             label_btn4.Text = "4";
             label_btn4.MouseDoubleClick += register_schedule_label_click;
@@ -497,10 +556,12 @@
             // label_btn3
             // 
             label_btn3.AutoSize = true;
+            label_btn3.BorderStyle = BorderStyle.Fixed3D;
+            label_btn3.Cursor = Cursors.Hand;
             label_btn3.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn3.Location = new Point(485, 605);
             label_btn3.Name = "label_btn3";
-            label_btn3.Size = new Size(29, 35);
+            label_btn3.Size = new Size(31, 37);
             label_btn3.TabIndex = 29;
             label_btn3.Text = "3";
             label_btn3.MouseDoubleClick += register_schedule_label_click;
@@ -508,10 +569,12 @@
             // label_btn2
             // 
             label_btn2.AutoSize = true;
+            label_btn2.BorderStyle = BorderStyle.Fixed3D;
+            label_btn2.Cursor = Cursors.Hand;
             label_btn2.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn2.Location = new Point(335, 605);
             label_btn2.Name = "label_btn2";
-            label_btn2.Size = new Size(29, 35);
+            label_btn2.Size = new Size(31, 37);
             label_btn2.TabIndex = 28;
             label_btn2.Text = "2";
             label_btn2.MouseDoubleClick += register_schedule_label_click;
@@ -519,10 +582,12 @@
             // label_btn1
             // 
             label_btn1.AutoSize = true;
+            label_btn1.BorderStyle = BorderStyle.Fixed3D;
+            label_btn1.Cursor = Cursors.Hand;
             label_btn1.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn1.Location = new Point(187, 605);
             label_btn1.Name = "label_btn1";
-            label_btn1.Size = new Size(29, 35);
+            label_btn1.Size = new Size(31, 37);
             label_btn1.TabIndex = 27;
             label_btn1.Text = "1";
             label_btn1.MouseDoubleClick += register_schedule_label_click;
@@ -530,10 +595,12 @@
             // label_btn0
             // 
             label_btn0.AutoSize = true;
+            label_btn0.BorderStyle = BorderStyle.Fixed3D;
+            label_btn0.Cursor = Cursors.Hand;
             label_btn0.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
             label_btn0.Location = new Point(32, 605);
             label_btn0.Name = "label_btn0";
-            label_btn0.Size = new Size(29, 35);
+            label_btn0.Size = new Size(31, 37);
             label_btn0.TabIndex = 26;
             label_btn0.Text = "0";
             label_btn0.MouseDoubleClick += register_schedule_label_click;
@@ -761,16 +828,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1800, 5);
             panel1.TabIndex = 0;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("MV Boli", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(3, 180);
-            label3.Name = "label3";
-            label3.Size = new Size(257, 34);
-            label3.TabIndex = 58;
-            label3.Text = "If you want register for the plan,\r\nyou should  double click  the label below.";
             // 
             // Daysform
             // 

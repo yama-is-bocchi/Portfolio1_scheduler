@@ -99,6 +99,7 @@
             // 
             // cur_panel
             // 
+            cur_panel.BorderStyle = BorderStyle.FixedSingle;
             cur_panel.Controls.Add(cur_month_num_label);
             cur_panel.Controls.Add(cur_month_str_label);
             cur_panel.Controls.Add(cur_year_label);
@@ -281,6 +282,7 @@
             // 
             // next_btn
             // 
+            next_btn.Cursor = Cursors.Hand;
             next_btn.FlatStyle = FlatStyle.Flat;
             next_btn.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             next_btn.Location = new Point(1831, 87);
@@ -293,6 +295,7 @@
             // 
             // previous_btn
             // 
+            previous_btn.Cursor = Cursors.Hand;
             previous_btn.FlatStyle = FlatStyle.Flat;
             previous_btn.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             previous_btn.Location = new Point(12, 87);
@@ -456,6 +459,7 @@
             // 
             // button36
             // 
+            button36.Cursor = Cursors.Hand;
             button36.FlatStyle = FlatStyle.Flat;
             button36.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button36.Location = new Point(85, 875);
@@ -470,6 +474,7 @@
             // 
             // button37
             // 
+            button37.Cursor = Cursors.Hand;
             button37.FlatStyle = FlatStyle.Flat;
             button37.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button37.Location = new Point(339, 875);
@@ -484,6 +489,7 @@
             // 
             // button29
             // 
+            button29.Cursor = Cursors.Hand;
             button29.FlatStyle = FlatStyle.Flat;
             button29.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button29.Location = new Point(85, 740);
@@ -498,6 +504,7 @@
             // 
             // button30
             // 
+            button30.Cursor = Cursors.Hand;
             button30.FlatStyle = FlatStyle.Flat;
             button30.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button30.Location = new Point(339, 740);
@@ -512,6 +519,7 @@
             // 
             // button31
             // 
+            button31.Cursor = Cursors.Hand;
             button31.FlatStyle = FlatStyle.Flat;
             button31.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button31.Location = new Point(590, 740);
@@ -526,6 +534,7 @@
             // 
             // button32
             // 
+            button32.Cursor = Cursors.Hand;
             button32.FlatStyle = FlatStyle.Flat;
             button32.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button32.Location = new Point(840, 740);
@@ -540,6 +549,7 @@
             // 
             // button33
             // 
+            button33.Cursor = Cursors.Hand;
             button33.FlatStyle = FlatStyle.Flat;
             button33.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button33.Location = new Point(1089, 740);
@@ -554,6 +564,7 @@
             // 
             // button34
             // 
+            button34.Cursor = Cursors.Hand;
             button34.FlatStyle = FlatStyle.Flat;
             button34.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button34.Location = new Point(1339, 740);
@@ -568,6 +579,7 @@
             // 
             // button35
             // 
+            button35.Cursor = Cursors.Hand;
             button35.FlatStyle = FlatStyle.Flat;
             button35.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button35.Location = new Point(1592, 740);
@@ -582,6 +594,7 @@
             // 
             // button22
             // 
+            button22.Cursor = Cursors.Hand;
             button22.FlatStyle = FlatStyle.Flat;
             button22.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button22.Location = new Point(85, 607);
@@ -596,6 +609,7 @@
             // 
             // button23
             // 
+            button23.Cursor = Cursors.Hand;
             button23.FlatStyle = FlatStyle.Flat;
             button23.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button23.Location = new Point(339, 607);
@@ -610,6 +624,7 @@
             // 
             // button24
             // 
+            button24.Cursor = Cursors.Hand;
             button24.FlatStyle = FlatStyle.Flat;
             button24.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button24.Location = new Point(590, 607);
@@ -624,6 +639,7 @@
             // 
             // button25
             // 
+            button25.Cursor = Cursors.Hand;
             button25.FlatStyle = FlatStyle.Flat;
             button25.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button25.Location = new Point(840, 607);
@@ -638,6 +654,7 @@
             // 
             // button26
             // 
+            button26.Cursor = Cursors.Hand;
             button26.FlatStyle = FlatStyle.Flat;
             button26.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button26.Location = new Point(1089, 607);
@@ -652,6 +669,7 @@
             // 
             // button27
             // 
+            button27.Cursor = Cursors.Hand;
             button27.FlatStyle = FlatStyle.Flat;
             button27.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button27.Location = new Point(1339, 607);
@@ -666,6 +684,7 @@
             // 
             // button28
             // 
+            button28.Cursor = Cursors.Hand;
             button28.FlatStyle = FlatStyle.Flat;
             button28.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button28.Location = new Point(1592, 607);
@@ -679,6 +698,7 @@
             // 
             // button15
             // 
+            button15.Cursor = Cursors.Hand;
             button15.FlatStyle = FlatStyle.Flat;
             button15.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button15.Location = new Point(85, 471);
@@ -693,6 +713,7 @@
             // 
             // button16
             // 
+            button16.Cursor = Cursors.Hand;
             button16.FlatStyle = FlatStyle.Flat;
             button16.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button16.Location = new Point(339, 471);
@@ -707,6 +728,7 @@
             // 
             // button17
             // 
+            button17.Cursor = Cursors.Hand;
             button17.FlatStyle = FlatStyle.Flat;
             button17.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button17.Location = new Point(590, 471);
@@ -721,6 +743,7 @@
             // 
             // button18
             // 
+            button18.Cursor = Cursors.Hand;
             button18.FlatStyle = FlatStyle.Flat;
             button18.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button18.Location = new Point(840, 471);
@@ -735,6 +758,7 @@
             // 
             // button19
             // 
+            button19.Cursor = Cursors.Hand;
             button19.FlatStyle = FlatStyle.Flat;
             button19.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button19.Location = new Point(1089, 471);
@@ -749,6 +773,7 @@
             // 
             // button20
             // 
+            button20.Cursor = Cursors.Hand;
             button20.FlatStyle = FlatStyle.Flat;
             button20.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button20.Location = new Point(1339, 471);
@@ -763,6 +788,7 @@
             // 
             // button21
             // 
+            button21.Cursor = Cursors.Hand;
             button21.FlatStyle = FlatStyle.Flat;
             button21.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button21.Location = new Point(1592, 471);
@@ -776,6 +802,7 @@
             // 
             // button8
             // 
+            button8.Cursor = Cursors.Hand;
             button8.FlatStyle = FlatStyle.Flat;
             button8.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button8.Location = new Point(85, 338);
@@ -790,6 +817,7 @@
             // 
             // button9
             // 
+            button9.Cursor = Cursors.Hand;
             button9.FlatStyle = FlatStyle.Flat;
             button9.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button9.Location = new Point(339, 338);
@@ -804,6 +832,7 @@
             // 
             // button10
             // 
+            button10.Cursor = Cursors.Hand;
             button10.FlatStyle = FlatStyle.Flat;
             button10.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button10.Location = new Point(590, 338);
@@ -818,6 +847,7 @@
             // 
             // button11
             // 
+            button11.Cursor = Cursors.Hand;
             button11.FlatStyle = FlatStyle.Flat;
             button11.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button11.Location = new Point(840, 338);
@@ -832,6 +862,7 @@
             // 
             // button12
             // 
+            button12.Cursor = Cursors.Hand;
             button12.FlatStyle = FlatStyle.Flat;
             button12.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button12.Location = new Point(1089, 338);
@@ -846,6 +877,7 @@
             // 
             // button13
             // 
+            button13.Cursor = Cursors.Hand;
             button13.FlatStyle = FlatStyle.Flat;
             button13.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button13.Location = new Point(1339, 338);
@@ -860,6 +892,7 @@
             // 
             // button14
             // 
+            button14.Cursor = Cursors.Hand;
             button14.FlatStyle = FlatStyle.Flat;
             button14.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button14.Location = new Point(1592, 338);
@@ -873,6 +906,7 @@
             // 
             // button1
             // 
+            button1.Cursor = Cursors.Hand;
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button1.Location = new Point(85, 205);
@@ -887,6 +921,7 @@
             // 
             // button2
             // 
+            button2.Cursor = Cursors.Hand;
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button2.Location = new Point(339, 205);
@@ -901,6 +936,7 @@
             // 
             // button3
             // 
+            button3.Cursor = Cursors.Hand;
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button3.Location = new Point(590, 205);
@@ -915,6 +951,7 @@
             // 
             // button4
             // 
+            button4.Cursor = Cursors.Hand;
             button4.FlatStyle = FlatStyle.Flat;
             button4.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button4.Location = new Point(840, 205);
@@ -929,6 +966,7 @@
             // 
             // button5
             // 
+            button5.Cursor = Cursors.Hand;
             button5.FlatStyle = FlatStyle.Flat;
             button5.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button5.Location = new Point(1089, 205);
@@ -943,6 +981,7 @@
             // 
             // button6
             // 
+            button6.Cursor = Cursors.Hand;
             button6.FlatStyle = FlatStyle.Flat;
             button6.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button6.Location = new Point(1339, 205);
@@ -957,6 +996,7 @@
             // 
             // button7
             // 
+            button7.Cursor = Cursors.Hand;
             button7.FlatStyle = FlatStyle.Flat;
             button7.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             button7.Location = new Point(1592, 205);

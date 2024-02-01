@@ -20,10 +20,12 @@ namespace study_scheduler.childforms
 
         private Color select_color;
 
+
         private void init_time_label()
         {
-            st_time_label.Text = cur_form_information.select_register_label_num + ":00";
-            end_time_label.Text = cur_form_information.select_register_label_num + ":00";
+                st_time_label.Text = edittime_information.select_st_time.ToString("hh:mm");
+                end_time_label.Text = edittime_information.select_end_time.ToString("hh:mm");
+   
         }
 
         //戻りボタン
@@ -36,9 +38,13 @@ namespace study_scheduler.childforms
         //時間変更
         private void change_time(object sender, MouseEventArgs e)
         {
-            if (((Label)sender).Text == "start_label" || ((Label)sender).Text == "start_label")
+            if (((Label)sender).Text == "start_label" || ((Label)sender).Text == "start_time_label")
             {
-
+                edittime_information.select_st_flag = true;
+            }
+            else if (((Label)sender).Text == "end_label" || ((Label)sender).Text == "end_time_label")
+            {
+                edittime_information.select_st_flag = false;
             }
             Form edit_form = new childforms.Edit_time();
             edit_form.TopLevel = false;
