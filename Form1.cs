@@ -16,6 +16,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Xml.Serialization;
 using Microsoft.VisualBasic;
 using AngleSharp.Common;
+using Microsoft.Data.SqlClient;
 
 
 namespace study_scheduler
@@ -31,6 +32,41 @@ namespace study_scheduler
         }
 
         private DateTime cur_date;
+
+
+        //データベースを読み取りボタンの配色を変更させる
+        private void read_db()
+        {
+            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+            // 実行するSELECT文
+            var sql = "SELECT * FROM Main_Table";
+
+            // 接続のためのオブジェクトを生成
+            // 実行後にオブジェクトのCloseが必要なため基本的にusing文で囲う
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                // SqlCommand：DBにSQL文を送信するためのオブジェクトを生成
+                // SqlDataReader：読み取ったデータを格納するためのオブジェクトを生成
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    // 1行ごとに読み取る
+                    while (reader.Read())
+                    {
+                        // 列名を指定して、読み取ったデータをコンソール上に表示（行ごとに改行して表示）
+                        Console.WriteLine($"" +
+                            $"{reader["Name"]}\t\t" +
+                            $"{reader["Age"]}\t\t" +
+                            $"{reader["Birthday"]}");
+                    }
+                }
+            }
+
+        }
+
 
         //今日の情報(年,月日,名古屋の気温,天気)を更新
         private void change_today_information()
