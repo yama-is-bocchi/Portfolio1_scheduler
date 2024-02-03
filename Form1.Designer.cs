@@ -30,6 +30,8 @@
         {
             components = new System.ComponentModel.Container();
             cur_panel = new Panel();
+            label14 = new Label();
+            total_time_label = new Label();
             cur_month_num_label = new Label();
             cur_month_str_label = new Label();
             cur_year_label = new Label();
@@ -100,6 +102,8 @@
             // cur_panel
             // 
             cur_panel.BorderStyle = BorderStyle.FixedSingle;
+            cur_panel.Controls.Add(label14);
+            cur_panel.Controls.Add(total_time_label);
             cur_panel.Controls.Add(cur_month_num_label);
             cur_panel.Controls.Add(cur_month_str_label);
             cur_panel.Controls.Add(cur_year_label);
@@ -123,6 +127,30 @@
             cur_panel.TabIndex = 0;
             cur_panel.Paint += panel1_Paint;
             cur_panel.Resize += panel1_Resize;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.BackColor = Color.Cyan;
+            label14.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label14.ForeColor = SystemColors.ActiveCaptionText;
+            label14.Location = new Point(1045, 9);
+            label14.Name = "label14";
+            label14.Size = new Size(138, 28);
+            label14.TabIndex = 16;
+            label14.Text = "Total study=";
+            // 
+            // total_time_label
+            // 
+            total_time_label.AutoSize = true;
+            total_time_label.BackColor = Color.Cyan;
+            total_time_label.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            total_time_label.ForeColor = SystemColors.ActiveCaptionText;
+            total_time_label.Location = new Point(1183, 9);
+            total_time_label.Name = "total_time_label";
+            total_time_label.Size = new Size(185, 28);
+            total_time_label.TabIndex = 15;
+            total_time_label.Text = "100000000000";
             // 
             // cur_month_num_label
             // 
@@ -1091,5 +1119,7 @@
         private Label label9;
         private Label label8;
         private Label label7;
+        private Label label14;
+        private Label total_time_label;
     }
 }

@@ -38,7 +38,6 @@ namespace study_scheduler
     {
         public static TimeOnly select_st_time;
         public static TimeOnly select_end_time;
-        public static bool select_st_flag;
         public static bool select_correction_flag;
     }
 }

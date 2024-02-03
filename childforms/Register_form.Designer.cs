@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             register_panel = new Panel();
+            ok_btn = new Button();
             end_time_label = new Label();
             end_label = new Label();
             label4 = new Label();
@@ -56,17 +58,29 @@
             orange_panel = new Panel();
             red_panel = new Panel();
             black_panel = new Panel();
-            label2 = new Label();
+            color_label = new Label();
             textBox1 = new TextBox();
-            label1 = new Label();
+            text_box_label = new Label();
             study_checkbox = new CheckBox();
+            radio_panel = new Panel();
+            which = new Label();
+            button1 = new Button();
+            minut_label = new Label();
+            hour_label = new Label();
+            minut_track = new TrackBar();
+            hour_track = new TrackBar();
+            highlight_timer = new System.Windows.Forms.Timer(components);
             register_panel.SuspendLayout();
+            radio_panel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)minut_track).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)hour_track).BeginInit();
             SuspendLayout();
             // 
             // register_panel
             // 
             register_panel.BackColor = Color.Gainsboro;
             register_panel.BorderStyle = BorderStyle.Fixed3D;
+            register_panel.Controls.Add(ok_btn);
             register_panel.Controls.Add(end_time_label);
             register_panel.Controls.Add(end_label);
             register_panel.Controls.Add(label4);
@@ -94,14 +108,26 @@
             register_panel.Controls.Add(orange_panel);
             register_panel.Controls.Add(red_panel);
             register_panel.Controls.Add(black_panel);
-            register_panel.Controls.Add(label2);
+            register_panel.Controls.Add(color_label);
             register_panel.Controls.Add(textBox1);
-            register_panel.Controls.Add(label1);
+            register_panel.Controls.Add(text_box_label);
             register_panel.Controls.Add(study_checkbox);
             register_panel.Location = new Point(584, 55);
             register_panel.Name = "register_panel";
             register_panel.Size = new Size(743, 801);
             register_panel.TabIndex = 0;
+            // 
+            // ok_btn
+            // 
+            ok_btn.Cursor = Cursors.Hand;
+            ok_btn.Font = new Font("MV Boli", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ok_btn.Location = new Point(271, 657);
+            ok_btn.Name = "ok_btn";
+            ok_btn.Size = new Size(188, 65);
+            ok_btn.TabIndex = 24;
+            ok_btn.Text = "OK";
+            ok_btn.UseVisualStyleBackColor = true;
+            ok_btn.MouseClick += ok_btn_MouseClick;
             // 
             // end_time_label
             // 
@@ -223,7 +249,7 @@
             // 
             // cur_color_panel
             // 
-            cur_color_panel.BackColor = Color.Transparent;
+            cur_color_panel.BackColor = Color.Gainsboro;
             cur_color_panel.BorderStyle = BorderStyle.FixedSingle;
             cur_color_panel.Location = new Point(172, 250);
             cur_color_panel.Name = "cur_color_panel";
@@ -406,15 +432,15 @@
             black_panel.TabIndex = 5;
             black_panel.MouseClick += select_color_click;
             // 
-            // label2
+            // color_label
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(32, 250);
-            label2.Name = "label2";
-            label2.Size = new Size(115, 25);
-            label2.TabIndex = 4;
-            label2.Text = "Select color";
+            color_label.AutoSize = true;
+            color_label.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            color_label.Location = new Point(32, 250);
+            color_label.Name = "color_label";
+            color_label.Size = new Size(115, 25);
+            color_label.TabIndex = 4;
+            color_label.Text = "Select color";
             // 
             // textBox1
             // 
@@ -424,16 +450,17 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(241, 51);
             textBox1.TabIndex = 3;
+            textBox1.MouseClick += _MouseClick;
             // 
-            // label1
+            // text_box_label
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(32, 75);
-            label1.Name = "label1";
-            label1.Size = new Size(182, 50);
-            label1.TabIndex = 2;
-            label1.Text = "Title\r\n(※maxlength is 8)";
+            text_box_label.AutoSize = true;
+            text_box_label.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            text_box_label.Location = new Point(32, 75);
+            text_box_label.Name = "text_box_label";
+            text_box_label.Size = new Size(182, 50);
+            text_box_label.TabIndex = 2;
+            text_box_label.Text = "Title\r\n(※maxlength is 8)";
             // 
             // study_checkbox
             // 
@@ -447,6 +474,97 @@
             study_checkbox.TabIndex = 1;
             study_checkbox.Text = "Is this plan study?";
             study_checkbox.UseVisualStyleBackColor = true;
+            study_checkbox.MouseClick += _MouseClick;
+            // 
+            // radio_panel
+            // 
+            radio_panel.BackColor = Color.Gainsboro;
+            radio_panel.Controls.Add(which);
+            radio_panel.Controls.Add(button1);
+            radio_panel.Controls.Add(minut_label);
+            radio_panel.Controls.Add(hour_label);
+            radio_panel.Controls.Add(minut_track);
+            radio_panel.Controls.Add(hour_track);
+            radio_panel.Location = new Point(1377, 55);
+            radio_panel.Name = "radio_panel";
+            radio_panel.Size = new Size(515, 801);
+            radio_panel.TabIndex = 25;
+            radio_panel.Visible = false;
+            // 
+            // which
+            // 
+            which.AutoSize = true;
+            which.Font = new Font("MV Boli", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            which.Location = new Point(12, 99);
+            which.Name = "which";
+            which.Size = new Size(74, 31);
+            which.TabIndex = 25;
+            which.Text = "which";
+            // 
+            // button1
+            // 
+            button1.Cursor = Cursors.Hand;
+            button1.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button1.Location = new Point(12, 31);
+            button1.Name = "button1";
+            button1.Size = new Size(84, 40);
+            button1.TabIndex = 11;
+            button1.Text = "OK";
+            button1.UseVisualStyleBackColor = true;
+            button1.MouseClick += radio_ok_btn;
+            // 
+            // minut_label
+            // 
+            minut_label.AutoSize = true;
+            minut_label.Font = new Font("MV Boli", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            minut_label.Location = new Point(335, 336);
+            minut_label.Name = "minut_label";
+            minut_label.Size = new Size(95, 63);
+            minut_label.TabIndex = 9;
+            minut_label.Text = "00";
+            // 
+            // hour_label
+            // 
+            hour_label.AutoSize = true;
+            hour_label.Font = new Font("MV Boli", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            hour_label.Location = new Point(89, 336);
+            hour_label.Name = "hour_label";
+            hour_label.Size = new Size(95, 63);
+            hour_label.TabIndex = 8;
+            hour_label.Text = "00";
+            // 
+            // minut_track
+            // 
+            minut_track.BackColor = Color.Silver;
+            minut_track.Cursor = Cursors.Hand;
+            minut_track.Location = new Point(458, 31);
+            minut_track.Maximum = 59;
+            minut_track.Name = "minut_track";
+            minut_track.Orientation = Orientation.Vertical;
+            minut_track.RightToLeft = RightToLeft.Yes;
+            minut_track.Size = new Size(45, 738);
+            minut_track.TabIndex = 7;
+            minut_track.Value = 59;
+            minut_track.ValueChanged += minut_track_Scroll;
+            // 
+            // hour_track
+            // 
+            hour_track.BackColor = Color.Silver;
+            hour_track.Cursor = Cursors.Hand;
+            hour_track.Location = new Point(213, 31);
+            hour_track.Maximum = 23;
+            hour_track.Name = "hour_track";
+            hour_track.Orientation = Orientation.Vertical;
+            hour_track.RightToLeft = RightToLeft.Yes;
+            hour_track.Size = new Size(45, 738);
+            hour_track.TabIndex = 6;
+            hour_track.Value = 23;
+            hour_track.ValueChanged += hour_track_Scroll;
+            // 
+            // highlight_timer
+            // 
+            highlight_timer.Interval = 200;
+            highlight_timer.Tick += highlight_timer_Tick;
             // 
             // Register_form
             // 
@@ -454,11 +572,16 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(radio_panel);
             Controls.Add(register_panel);
             Name = "Register_form";
             Text = "Register_form";
             register_panel.ResumeLayout(false);
             register_panel.PerformLayout();
+            radio_panel.ResumeLayout(false);
+            radio_panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)minut_track).EndInit();
+            ((System.ComponentModel.ISupportInitialize)hour_track).EndInit();
             ResumeLayout(false);
         }
 
@@ -466,11 +589,11 @@
 
         private Panel register_panel;
         private CheckBox study_checkbox;
-        private Label label1;
+        private Label text_box_label;
         private TextBox textBox1;
         private Panel red_panel;
         private Panel black_panel;
-        private Label label2;
+        private Label color_label;
         private Panel gold_panel;
         private Panel orange_panel;
         private Panel oliverdrab_panel;
@@ -496,5 +619,14 @@
         private Label end_time_label;
         private Label end_label;
         private Label label4;
+        private Button ok_btn;
+        private Panel radio_panel;
+        private Button button1;
+        private Label minut_label;
+        private Label hour_label;
+        private TrackBar minut_track;
+        private TrackBar hour_track;
+        private Label which;
+        private System.Windows.Forms.Timer highlight_timer;
     }
 }

@@ -17,6 +17,8 @@ using System.Xml.Serialization;
 using Microsoft.VisualBasic;
 using AngleSharp.Common;
 using Microsoft.Data.SqlClient;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 
 namespace study_scheduler
@@ -28,7 +30,7 @@ namespace study_scheduler
             InitializeComponent();
             change_today_information();
             sort_button();
-
+            read_db();
         }
 
         private DateTime cur_date;
@@ -39,7 +41,6 @@ namespace study_scheduler
         {
             var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
             // 実行するSELECT文
-            var sql = "SELECT * FROM Main_Table";
 
             // 接続のためのオブジェクトを生成
             // 実行後にオブジェクトのCloseが必要なため基本的にusing文で囲う
@@ -48,23 +49,54 @@ namespace study_scheduler
                 // 接続を確立
                 connection.Open();
 
+
+                var sql = "SELECT * FROM Main_Table WHERE 年月日 BETWEEN '" + cur_date.ToString("yyyy/MM/01") + "' AND '"+cur_date.ToString("yyyy/MM/")+ DateTime.DaysInMonth(cur_date.Year, cur_date.Month).ToString() + "'; ";
+
+                DateTime temp_time;
+                int sum=0;
                 // SqlCommand：DBにSQL文を送信するためのオブジェクトを生成
                 // SqlDataReader：読み取ったデータを格納するためのオブジェクトを生成
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
                 {
-                    // 1行ごとに読み取る
                     while (reader.Read())
                     {
-                        // 列名を指定して、読み取ったデータをコンソール上に表示（行ごとに改行して表示）
-                        Console.WriteLine($"" +
-                            $"{reader["Name"]}\t\t" +
-                            $"{reader["Age"]}\t\t" +
-                            $"{reader["Birthday"]}");
+                        temp_time = (DateTime)reader["年月日"];
+                        sum += (int)reader["トータル時間"];
+                        Control[] button = this.Controls.Find("button" +((int)cur_date.DayOfWeek+1+temp_time.Day-1).ToString(), true);
+                        if (button.Length > 0)
+                        {
+                            ((Button)button[0]).BackColor =Color.Orange;
+                        }
+
                     }
+
                 }
+
+                total_time_label.Text = trans_minut_hour(ref sum).ToString("");
+            }
+           
+
+        }
+
+        private TimeOnly trans_minut_hour(ref int p_sum)
+        {
+            TimeOnly ret_time=new TimeOnly(0,0);
+            if (p_sum>=60)
+            {
+
+                int temp=p_sum;
+
+                 ret_time = new TimeOnly(p_sum/60, p_sum-((p_sum/60)*60));
+
+
+            }
+            else
+            {
+                ret_time = new TimeOnly(0, p_sum);
             }
 
+            return ret_time;
         }
 
 
@@ -209,6 +241,8 @@ namespace study_scheduler
 
             sort_button();
 
+            read_db();
+
         }
 
 
@@ -220,6 +254,8 @@ namespace study_scheduler
             cur_label_change();
 
             sort_button();
+
+            read_db() ;
         }
 
         private void sort_button()/*** 年月データを配列に代入 ***/
@@ -230,6 +266,7 @@ namespace study_scheduler
                 if (button.Length > 0)
                 {
                     ((Button)button[0]).Visible = false;
+                    ((Button)button[0]).BackColor= Color.White;
                 }
             }
 
