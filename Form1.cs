@@ -50,10 +50,10 @@ namespace study_scheduler
                 connection.Open();
 
 
-                var sql = "SELECT * FROM Main_Table WHERE 年月日 BETWEEN '" + cur_date.ToString("yyyy/MM/01") + "' AND '"+cur_date.ToString("yyyy/MM/")+ DateTime.DaysInMonth(cur_date.Year, cur_date.Month).ToString() + "'; ";
+                var sql = "SELECT * FROM Main_Table WHERE 年月日 BETWEEN '" + cur_date.ToString("yyyy/MM/01") + "' AND '" + cur_date.ToString("yyyy/MM/") + DateTime.DaysInMonth(cur_date.Year, cur_date.Month).ToString() + "'; ";
 
                 DateTime temp_time;
-                int sum=0;
+                int sum = 0;
                 // SqlCommand：DBにSQL文を送信するためのオブジェクトを生成
                 // SqlDataReader：読み取ったデータを格納するためのオブジェクトを生成
                 using (var command = new SqlCommand(sql, connection))
@@ -62,11 +62,14 @@ namespace study_scheduler
                     while (reader.Read())
                     {
                         temp_time = (DateTime)reader["年月日"];
+
+
                         sum += (int)reader["トータル時間"];
-                        Control[] button = this.Controls.Find("button" +((int)cur_date.DayOfWeek+1+temp_time.Day-1).ToString(), true);
+
+                        Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + 1 + temp_time.Day - 1).ToString(), true);
                         if (button.Length > 0)
                         {
-                            ((Button)button[0]).BackColor =Color.Orange;
+                            ((Button)button[0]).BackColor = Color.Orange;
                         }
 
                     }
@@ -75,19 +78,19 @@ namespace study_scheduler
 
                 total_time_label.Text = trans_minut_hour(ref sum).ToString("");
             }
-           
+
 
         }
 
         private TimeOnly trans_minut_hour(ref int p_sum)
         {
-            TimeOnly ret_time=new TimeOnly(0,0);
-            if (p_sum>=60)
+            TimeOnly ret_time = new TimeOnly(0, 0);
+            if (p_sum >= 60)
             {
 
-                int temp=p_sum;
+                int temp = p_sum;
 
-                 ret_time = new TimeOnly(p_sum/60, p_sum-((p_sum/60)*60));
+                ret_time = new TimeOnly(p_sum / 60, p_sum - ((p_sum / 60) * 60));
 
 
             }
@@ -255,7 +258,7 @@ namespace study_scheduler
 
             sort_button();
 
-            read_db() ;
+            read_db();
         }
 
         private void sort_button()/*** 年月データを配列に代入 ***/
@@ -266,7 +269,7 @@ namespace study_scheduler
                 if (button.Length > 0)
                 {
                     ((Button)button[0]).Visible = false;
-                    ((Button)button[0]).BackColor= Color.White;
+                    ((Button)button[0]).BackColor = Color.White;
                 }
             }
 
@@ -306,6 +309,7 @@ namespace study_scheduler
             DateTime today = DateTime.Today;
             change_per_second_information(ref today);
             change_second_timer.Start();
+            read_db();
 
         }
 
@@ -319,7 +323,7 @@ namespace study_scheduler
                 // グラデーション範囲（表示クリッピング領域）
                 e.Graphics.VisibleClipBounds,
                 // グラデーション開始色（紺色）
-                Color.SpringGreen,
+                Color.MediumSeaGreen,
 
                 // グラデーション終了色（赤紫）
                 Color.Cyan,

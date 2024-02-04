@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace study_scheduler.childforms
 {
@@ -16,11 +19,10 @@ namespace study_scheduler.childforms
         {
             InitializeComponent();
             init_time_label();
+            //重複チェック 後で
         }
-
-        private Color select_color;
         private bool st_or_end_flag;
-        private string high_light_label_name="";
+        private string high_light_label_name = "";
         private int need_count;
 
         //データ保存メイン処理
@@ -30,6 +32,7 @@ namespace study_scheduler.childforms
             //データチェック
             if (textBox1.Text.Length <= 0)
             {
+                if (radio_panel.Visible == true) hide_radio_panel();
                 name = "text_box_label";
                 highlight_method(ref name);
                 return;
@@ -37,12 +40,13 @@ namespace study_scheduler.childforms
 
             if (cur_color_panel.BackColor == Color.Gainsboro)
             {
+                if (radio_panel.Visible == true) hide_radio_panel();
                 name = "color_label";
                 highlight_method(ref name);
                 return;
             }
 
-            if (edittime_information.select_st_time>=edittime_information.select_end_time)
+            if (edittime_information.select_st_time >= edittime_information.select_end_time)
             {
                 if (radio_panel.Visible != true)
                 {
@@ -52,35 +56,235 @@ namespace study_scheduler.childforms
                     register_panel.Location = new Point(register_panel.Location.X - 300, register_panel.Location.Y);
                     which.Text = "Start Time";
                 }
-                
+
                 name = "which";
                 highlight_method(ref name);
                 return;
-               
+
             }
 
 
 
+            //メインテーブルに行があるかチェック
+
+            if ( exists_main_table() == false)
+            {
+                //Maintable insert
+
+                insert_main_table_and_create_day_table();
+            }
+            else
+            {
+
+                //時刻が被ってないか
+                if (distinct_plane_date() == true)
+                {
+                    name = "distincted_highlight_label";
+                    highlight_method(ref name);
+                    return;
+                }
+
+            }
+
+            if (edittime_information.select_correction_flag == true)//修正か登録か
+            {
+                //update
+            }
+            else
+            {
+                //insert
+                insert_cur_day_table();
+
+                //勉強時間ならmainテーブルアップデート処理
+                if (study_checkbox.Checked == true)
+                {
+                    update_main_table();
+                }
+
+            }
+
+            this.Close();
+        }
+
+        private bool distinct_plane_date()
+        {
+            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+
+            bool judement = false;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                var sql = "SELECT * FROM Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd");
+
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+
+                        if ((TimeOnly.Parse((string)reader["st"]) > edittime_information.select_st_time && edittime_information.select_st_time < TimeOnly.Parse((string)reader["end"])
+                            && TimeOnly.Parse((string)reader["st"]) > edittime_information.select_end_time && edittime_information.select_end_time < TimeOnly.Parse((string)reader["end"]))
+                            || (TimeOnly.Parse((string)reader["st"]) < edittime_information.select_st_time && edittime_information.select_st_time > TimeOnly.Parse((string)reader["end"])
+                            && TimeOnly.Parse((string)reader["st"]) < edittime_information.select_end_time && edittime_information.select_end_time > TimeOnly.Parse((string)reader["end"])))
+                        {
+                            judement = false;
+                        }
+                        else
+                        {
+                            //被ってるデータを表示
+                            distinct_panel.Visible = true;
+                            distinct_timer.Start();
+                            distinc_show_label.Text = ((string)reader["内容"]).PadRight(3) + (string)reader["st"] + "〜" + (string)reader["end"];
+                            judement = true;
+                            break;
+                        }
+
+                    }
+
+                }
+
+
+            }
+            return judement;
 
 
 
         }
 
+        private bool exists_main_table()
+        {
+            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+            // 実行するSELECT文
+            bool judement = false;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                var sql = "SELECT * FROM Main_Table WHERE 年月日 = '" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "' ";
+
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (cur_form_information.cur_date_button == (DateTime)reader["年月日"])
+                        {
+                            judement = true;
+                        }
+
+                    }
+
+                }
+
+
+            }
+            return judement;
+        }
+
+
+
+
+        private void insert_main_table_and_create_day_table()
+        {
+            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                var sql = " INSERT INTO Main_Table(年月日,トータル時間 ) VALUES('" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "', 0) ";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+
+            }
+
+            connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                var sql = " CREATE TABLE [dbo].[Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd") + "] ([st] NVARCHAR(50) NOT NULL PRIMARY KEY,[end] NVARCHAR(50) NOT NULL, [内容] NVARCHAR(50) NOT NULL,[カラー] NVARCHAR(50) NOT NULL,[勉強] BIT)";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+        private void insert_cur_day_table()
+        {
+            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+
+
+
+                // 接続を確立
+                connection.Open();
+
+                var sql = "  INSERT INTO Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd") + " VALUES( '" + edittime_information.select_st_time.ToString() + "',' " + edittime_information.select_end_time.ToString() + " ', '" + textBox1.Text + "','" + cur_color_panel.BackColor.Name + "', '" + study_checkbox.Checked.ToString().ToUpper() + "')";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+
+            }
+        }
+
+        private void update_main_table()
+        {
+            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+              
+                var sql = "UPDATE Main_Table SET トータル時間 ="+ (((Convert.ToInt16(edittime_information.select_end_time.Hour) * 60) + Convert.ToInt16(edittime_information.select_end_time.Minute)) - ((Convert.ToInt16(edittime_information.select_st_time.Hour) * 60) + Convert.ToInt16(edittime_information.select_st_time.Minute))).ToString().ToUpper() + "  WHERE 年月日 = '"+cur_form_information.cur_date_button.ToString("yyyy/MM/dd")+"'";
+
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+
+            }
+        }
+
         private void highlight_method(ref string label_name)
         {
-            
+
             text_box_label.Visible = true;
             color_label.Visible = true;
             which.Visible = true;
-            high_light_label_name =label_name;
+            high_light_label_name = label_name;
             need_count = 6;
             highlight_timer.Stop();
             highlight_timer.Start();
         }
 
-  
-        
-        private void highlight_timer_Tick( object sender, EventArgs e)
+
+
+        private void highlight_timer_Tick(object sender, EventArgs e)
         {
             if (need_count % 2 == 0)
             {
@@ -100,7 +304,7 @@ namespace study_scheduler.childforms
                 Control[] work = this.Controls.Find(high_light_label_name, true);
                 if (work.Length > 0)
                 {
-                    ((Label)work[0]).Visible =false;
+                    ((Label)work[0]).Visible = false;
                 }
                 work = radio_panel.Controls.Find(high_light_label_name, true);
                 if (work.Length > 0)
@@ -110,7 +314,7 @@ namespace study_scheduler.childforms
             }
 
             if (need_count == 0)
-            { 
+            {
                 highlight_timer.Stop();
 
             }
@@ -119,14 +323,14 @@ namespace study_scheduler.childforms
                 highlight_timer.Start();
                 need_count--;
             }
-           
+
         }
 
 
         private void init_time_label()
         {
-            st_time_label.Text = edittime_information.select_st_time.ToString("hh:mm");
-            end_time_label.Text = edittime_information.select_end_time.ToString("hh:mm");
+            st_time_label.Text = edittime_information.select_st_time.ToString();
+            end_time_label.Text = edittime_information.select_end_time.ToString();
 
         }
 
@@ -134,6 +338,7 @@ namespace study_scheduler.childforms
         private void back_btn_MouseClick(object sender, MouseEventArgs e)
         {
             this.Close();
+
         }
 
 
@@ -148,7 +353,6 @@ namespace study_scheduler.childforms
             }
             if (((Label)sender).Name == "start_label" || ((Label)sender).Name == "st_time_label")
             {
-                if (st_or_end_flag == true) return;
 
                 st_or_end_flag = true;
 
@@ -156,7 +360,7 @@ namespace study_scheduler.childforms
             }
             else if (((Label)sender).Name == "end_label" || ((Label)sender).Name == "end_time_label")
             {
-                if (st_or_end_flag == false) return;
+
 
                 st_or_end_flag = false;
 
@@ -175,24 +379,24 @@ namespace study_scheduler.childforms
                 minut_label.Text = edittime_information.select_st_time.Minute.ToString("00");
 
                 hour_track.Value = 23 - edittime_information.select_st_time.Hour;
-                minut_track.Value = 59 - edittime_information.select_st_time.Minute;
+                minut_track.Value = 11 - (edittime_information.select_st_time.Minute/12);
 
             }
             else if (st_or_end_flag == false)
             {
+
                 hour_label.Text = edittime_information.select_end_time.Hour.ToString("00");
                 minut_label.Text = edittime_information.select_end_time.Minute.ToString("00");
 
                 hour_track.Value = 23 - edittime_information.select_end_time.Hour;
-                minut_track.Value = 59 - edittime_information.select_end_time.Minute;
+                minut_track.Value = 11 - (edittime_information.select_end_time.Minute/12);
             }
         }
 
         //色選択
         private void select_color_click(object sender, MouseEventArgs e)
         {
-            select_color = ((Panel)sender).BackColor;
-            cur_color_panel.BackColor = select_color;
+            cur_color_panel.BackColor = ((Panel)sender).BackColor;
             if (radio_panel.Visible == true) hide_radio_panel();
         }
 
@@ -203,7 +407,7 @@ namespace study_scheduler.childforms
         //時間調節バー
         private void hour_track_Scroll(object sender, EventArgs e)
         {
-
+            
             hour_label.Text = (23 - hour_track.Value).ToString("00");
 
 
@@ -218,12 +422,12 @@ namespace study_scheduler.childforms
                 end_time_label.Text = hour_label.Text + ":" + minut_label.Text;
                 edittime_information.select_end_time = new TimeOnly(Convert.ToInt16(hour_label.Text), Convert.ToInt16(minut_label.Text));
             }
-
+           
         }
         //時間調節バー
         private void minut_track_Scroll(object sender, EventArgs e)
         {
-            minut_label.Text = (59 - minut_track.Value).ToString("00");
+            minut_label.Text = ((11 - minut_track.Value)*5).ToString("00");
             if (st_or_end_flag == true)
             {
                 st_time_label.Text = hour_label.Text + ":" + minut_label.Text;
@@ -257,6 +461,12 @@ namespace study_scheduler.childforms
             if (radio_panel.Visible == true) hide_radio_panel();
         }
 
-
+        private void distinct_timer_Tick(object sender, EventArgs e)
+        {
+            distinct_panel.Visible = false;
+        }
     }
+
+    
+
 }

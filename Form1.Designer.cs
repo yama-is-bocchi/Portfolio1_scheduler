@@ -131,10 +131,10 @@
             // label14
             // 
             label14.AutoSize = true;
-            label14.BackColor = Color.Cyan;
+            label14.BackColor = Color.MediumSeaGreen;
             label14.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label14.ForeColor = SystemColors.ActiveCaptionText;
-            label14.Location = new Point(1045, 9);
+            label14.Location = new Point(84, 81);
             label14.Name = "label14";
             label14.Size = new Size(138, 28);
             label14.TabIndex = 16;
@@ -143,10 +143,10 @@
             // total_time_label
             // 
             total_time_label.AutoSize = true;
-            total_time_label.BackColor = Color.Cyan;
+            total_time_label.BackColor = Color.SpringGreen;
             total_time_label.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             total_time_label.ForeColor = SystemColors.ActiveCaptionText;
-            total_time_label.Location = new Point(1183, 9);
+            total_time_label.Location = new Point(217, 81);
             total_time_label.Name = "total_time_label";
             total_time_label.Size = new Size(185, 28);
             total_time_label.TabIndex = 15;
@@ -158,7 +158,7 @@
             cur_month_num_label.BackColor = Color.Cyan;
             cur_month_num_label.Font = new Font("游明朝 Light", 72F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cur_month_num_label.ForeColor = SystemColors.ActiveCaptionText;
-            cur_month_num_label.Location = new Point(939, 29);
+            cur_month_num_label.Location = new Point(1004, 20);
             cur_month_num_label.Name = "cur_month_num_label";
             cur_month_num_label.Size = new Size(100, 124);
             cur_month_num_label.TabIndex = 14;
@@ -167,10 +167,10 @@
             // cur_month_str_label
             // 
             cur_month_str_label.AutoSize = true;
-            cur_month_str_label.BackColor = Color.SpringGreen;
+            cur_month_str_label.BackColor = Color.MediumSeaGreen;
             cur_month_str_label.Font = new Font("Segoe Script", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cur_month_str_label.ForeColor = SystemColors.ActiveCaptionText;
-            cur_month_str_label.Location = new Point(25, 46);
+            cur_month_str_label.Location = new Point(-1, 43);
             cur_month_str_label.Name = "cur_month_str_label";
             cur_month_str_label.Size = new Size(99, 38);
             cur_month_str_label.TabIndex = 13;
@@ -179,10 +179,10 @@
             // cur_year_label
             // 
             cur_year_label.AutoSize = true;
-            cur_year_label.BackColor = Color.SpringGreen;
+            cur_year_label.BackColor = Color.MediumSeaGreen;
             cur_year_label.Font = new Font("MV Boli", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cur_year_label.ForeColor = SystemColors.ActiveCaptionText;
-            cur_year_label.Location = new Point(25, 2);
+            cur_year_label.Location = new Point(-1, -1);
             cur_year_label.Name = "cur_year_label";
             cur_year_label.Size = new Size(81, 41);
             cur_year_label.TabIndex = 12;
