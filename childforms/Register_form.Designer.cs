@@ -74,7 +74,6 @@
             distinc_show_label = new Label();
             distincted_highlight_label = new Label();
             distinct_timer = new System.Windows.Forms.Timer(components);
-            test = new Label();
             register_panel.SuspendLayout();
             radio_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)minut_track).BeginInit();
@@ -452,7 +451,7 @@
             // 
             textBox1.Font = new Font("MV Boli", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox1.Location = new Point(32, 147);
-            textBox1.MaxLength = 9;
+            textBox1.MaxLength = 8;
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(241, 51);
             textBox1.TabIndex = 3;
@@ -543,14 +542,13 @@
             // 
             minut_track.BackColor = Color.Silver;
             minut_track.Cursor = Cursors.Hand;
-            minut_track.LargeChange = 2;
+            minut_track.LargeChange = 1;
             minut_track.Location = new Point(458, 31);
             minut_track.Maximum = 11;
             minut_track.Name = "minut_track";
             minut_track.Orientation = Orientation.Vertical;
             minut_track.RightToLeft = RightToLeft.Yes;
             minut_track.Size = new Size(45, 738);
-            minut_track.SmallChange = 2;
             minut_track.TabIndex = 7;
             minut_track.Value = 11;
             minut_track.ValueChanged += minut_track_Scroll;
@@ -567,6 +565,7 @@
             hour_track.Size = new Size(45, 738);
             hour_track.TabIndex = 6;
             hour_track.Value = 23;
+            hour_track.Scroll += hour_track_Scroll;
             hour_track.ValueChanged += hour_track_Scroll;
             // 
             // highlight_timer
@@ -582,19 +581,18 @@
             distinct_panel.Controls.Add(distincted_highlight_label);
             distinct_panel.Location = new Point(793, 2);
             distinct_panel.Name = "distinct_panel";
-            distinct_panel.Size = new Size(324, 92);
+            distinct_panel.Size = new Size(324, 145);
             distinct_panel.TabIndex = 26;
             distinct_panel.Visible = false;
             // 
             // distinc_show_label
             // 
             distinc_show_label.AutoSize = true;
-            distinc_show_label.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            distinc_show_label.Location = new Point(31, 40);
+            distinc_show_label.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            distinc_show_label.Location = new Point(3, 25);
             distinc_show_label.Name = "distinc_show_label";
-            distinc_show_label.Size = new Size(124, 25);
+            distinc_show_label.Size = new Size(0, 21);
             distinc_show_label.TabIndex = 26;
-            distinc_show_label.Text = "Distincted !!";
             // 
             // distincted_highlight_label
             // 
@@ -611,23 +609,12 @@
             distinct_timer.Interval = 6000;
             distinct_timer.Tick += distinct_timer_Tick;
             // 
-            // test
-            // 
-            test.AutoSize = true;
-            test.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            test.Location = new Point(369, 410);
-            test.Name = "test";
-            test.Size = new Size(182, 50);
-            test.TabIndex = 25;
-            test.Text = "Title\r\n(※maxlength is 8)";
-            // 
             // Register_form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1904, 1041);
-            Controls.Add(test);
             Controls.Add(distinct_panel);
             Controls.Add(radio_panel);
             Controls.Add(register_panel);
@@ -642,7 +629,6 @@
             distinct_panel.ResumeLayout(false);
             distinct_panel.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -692,6 +678,5 @@
         private Label distinc_show_label;
         private Label distincted_highlight_label;
         private System.Windows.Forms.Timer distinct_timer;
-        private Label test;
     }
 }

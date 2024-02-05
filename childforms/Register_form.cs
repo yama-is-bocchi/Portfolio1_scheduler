@@ -19,11 +19,15 @@ namespace study_scheduler.childforms
         {
             InitializeComponent();
             init_time_label();
+            
             //重複チェック 後で
         }
         private bool st_or_end_flag;
         private string high_light_label_name = "";
         private int need_count;
+        private TimeOnly corr_st;
+        private TimeOnly corr_end;
+        private bool corr_study_check;
 
         //データ保存メイン処理
         private void ok_btn_MouseClick(object sender, MouseEventArgs e)
@@ -67,7 +71,7 @@ namespace study_scheduler.childforms
 
             //メインテーブルに行があるかチェック
 
-            if ( exists_main_table() == false)
+            if (exists_main_table() == false)
             {
                 //Maintable insert
 
@@ -89,6 +93,8 @@ namespace study_scheduler.childforms
             if (edittime_information.select_correction_flag == true)//修正か登録か
             {
                 //update
+                update_corr_data();
+             
             }
             else
             {
@@ -106,11 +112,82 @@ namespace study_scheduler.childforms
             this.Close();
         }
 
+        private void corr_main_totaltime()
+        {
+
+
+            var connectionString = edittime_information.sql_code;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+
+                //勉強じゃなくなった
+                if (study_checkbox.Checked == false && corr_study_check == true)
+                {
+                    //メインテーブル減算処理
+                    var sql = "UPDATE Main_Table SET トータル時間 = トータル時間 -" + (((Convert.ToInt16(corr_end.Hour) * 60) + Convert.ToInt16(corr_end.Minute)) - ((Convert.ToInt16(corr_st.Hour) * 60) + Convert.ToInt16(corr_st.Minute))).ToString().ToUpper() + "  WHERE 年月日 = '" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
+            
+
+                    using (var command = new SqlCommand(sql, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                }
+                else if (study_checkbox.Checked == true && corr_study_check == true)
+                {
+                    //メインテーブル減算処理
+                    var sql = "UPDATE Main_Table SET トータル時間 = トータル時間 -" + (((Convert.ToInt16(corr_end.Hour) * 60) + Convert.ToInt16(corr_end.Minute)) - ((Convert.ToInt16(corr_st.Hour) * 60) + Convert.ToInt16(corr_st.Minute))).ToString().ToUpper() + "  WHERE 年月日 = '" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
+                 
+
+                    using (var command = new SqlCommand(sql, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    sql = "UPDATE Main_Table SET トータル時間 = トータル時間 +" + (((Convert.ToInt16(edittime_information.select_end_time.Hour) * 60) + Convert.ToInt16(edittime_information.select_end_time.Minute)) - ((Convert.ToInt16(edittime_information.select_st_time.Hour) * 60) + Convert.ToInt16(edittime_information.select_st_time.Minute))).ToString().ToUpper() + "  WHERE 年月日 = '" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
+
+                    using (var command = new SqlCommand(sql, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                }
+                
+            }
+
+        }
+
+        private void update_corr_data()
+        {
+            var connectionString = edittime_information.sql_code;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+
+                var sql = "UPDATE Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd") + " SET st ='11:00',  内容 = N'" + textBox1.Text + "', カラー='" + cur_color_panel.BackColor.Name + "',勉強 = '" + study_checkbox.Checked.ToString().ToUpper() + "'  WHERE st = '" + corr_st.ToString() + "'";
+
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+
+            }
+        }
+        //データ重複チェック
         private bool distinct_plane_date()
         {
-            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+            var connectionString = edittime_information.sql_code;
 
-            bool judement = false;
+            bool ret_judement = false;
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -125,21 +202,19 @@ namespace study_scheduler.childforms
                     while (reader.Read())
                     {
 
-                        if ((TimeOnly.Parse((string)reader["st"]) > edittime_information.select_st_time && edittime_information.select_st_time < TimeOnly.Parse((string)reader["end"])
-                            && TimeOnly.Parse((string)reader["st"]) > edittime_information.select_end_time && edittime_information.select_end_time < TimeOnly.Parse((string)reader["end"]))
-                            || (TimeOnly.Parse((string)reader["st"]) < edittime_information.select_st_time && edittime_information.select_st_time > TimeOnly.Parse((string)reader["end"])
-                            && TimeOnly.Parse((string)reader["st"]) < edittime_information.select_end_time && edittime_information.select_end_time > TimeOnly.Parse((string)reader["end"])))
+                        if (!((TimeOnly.Parse((string)reader["st"]) > edittime_information.select_st_time && edittime_information.select_st_time <= TimeOnly.Parse((string)reader["end"])
+                            && TimeOnly.Parse((string)reader["st"]) >= edittime_information.select_end_time && edittime_information.select_end_time < TimeOnly.Parse((string)reader["end"]))
+                            || (TimeOnly.Parse((string)reader["st"]) < edittime_information.select_st_time && edittime_information.select_st_time >= TimeOnly.Parse((string)reader["end"])
+                            && TimeOnly.Parse((string)reader["st"]) <= edittime_information.select_end_time && edittime_information.select_end_time > TimeOnly.Parse((string)reader["end"]))))
                         {
-                            judement = false;
-                        }
-                        else
-                        {
-                            //被ってるデータを表示
-                            distinct_panel.Visible = true;
-                            distinct_timer.Start();
-                            distinc_show_label.Text = ((string)reader["内容"]).PadRight(3) + (string)reader["st"] + "〜" + (string)reader["end"];
-                            judement = true;
-                            break;
+                            if (TimeOnly.Parse((string)reader["st"]) != corr_st && corr_end != TimeOnly.Parse((string)reader["end"]))
+                            {
+                                //被ってるデータを表示
+                                distinct_panel.Visible = true;
+                                distinct_timer.Start();
+                                distinc_show_label.Text += ((string)reader["内容"]).PadRight(3) + (string)reader["st"] + "〜" + (string)reader["end"]+"\n" ;
+                                ret_judement = true;
+                            }
                         }
 
                     }
@@ -148,7 +223,7 @@ namespace study_scheduler.childforms
 
 
             }
-            return judement;
+            return ret_judement;
 
 
 
@@ -156,8 +231,7 @@ namespace study_scheduler.childforms
 
         private bool exists_main_table()
         {
-            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
-            // 実行するSELECT文
+            var connectionString = edittime_information.sql_code;
             bool judement = false;
 
             using (var connection = new SqlConnection(connectionString))
@@ -191,8 +265,7 @@ namespace study_scheduler.childforms
 
         private void insert_main_table_and_create_day_table()
         {
-            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
-
+            var connectionString = edittime_information.sql_code;
             using (var connection = new SqlConnection(connectionString))
             {
                 // 接続を確立
@@ -208,14 +281,13 @@ namespace study_scheduler.childforms
 
             }
 
-            connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
-
+            connectionString = edittime_information.sql_code;
             using (var connection = new SqlConnection(connectionString))
             {
                 // 接続を確立
                 connection.Open();
 
-                var sql = " CREATE TABLE [dbo].[Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd") + "] ([st] NVARCHAR(50) NOT NULL PRIMARY KEY,[end] NVARCHAR(50) NOT NULL, [内容] NVARCHAR(50) NOT NULL,[カラー] NVARCHAR(50) NOT NULL,[勉強] BIT)";
+                var sql = " CREATE TABLE [dbo].[Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd") + "] ([st] NVARCHAR(50) NOT NULL ,[end] NVARCHAR(50) NOT NULL, [内容] NVARCHAR(50) NOT NULL,[カラー] NVARCHAR(50) NOT NULL,[勉強] BIT ,PRIMARY KEY(st))";
 
                 using (var command = new SqlCommand(sql, connection))
                 {
@@ -227,8 +299,7 @@ namespace study_scheduler.childforms
 
         private void insert_cur_day_table()
         {
-            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
-
+            var connectionString = edittime_information.sql_code;
             using (var connection = new SqlConnection(connectionString))
             {
 
@@ -237,7 +308,7 @@ namespace study_scheduler.childforms
                 // 接続を確立
                 connection.Open();
 
-                var sql = "  INSERT INTO Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd") + " VALUES( '" + edittime_information.select_st_time.ToString() + "',' " + edittime_information.select_end_time.ToString() + " ', '" + textBox1.Text + "','" + cur_color_panel.BackColor.Name + "', '" + study_checkbox.Checked.ToString().ToUpper() + "')";
+                var sql = "  INSERT INTO Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd") + " VALUES( '" + edittime_information.select_st_time.ToString() + "',' " + edittime_information.select_end_time.ToString() + " ', N'" + textBox1.Text + "','" + cur_color_panel.BackColor.Name + "', '" + study_checkbox.Checked.ToString().ToUpper() + "')";
 
                 using (var command = new SqlCommand(sql, connection))
                 {
@@ -250,23 +321,20 @@ namespace study_scheduler.childforms
 
         private void update_main_table()
         {
-            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
-
+            var connectionString = edittime_information.sql_code;
             using (var connection = new SqlConnection(connectionString))
             {
                 // 接続を確立
                 connection.Open();
 
-              
-                var sql = "UPDATE Main_Table SET トータル時間 ="+ (((Convert.ToInt16(edittime_information.select_end_time.Hour) * 60) + Convert.ToInt16(edittime_information.select_end_time.Minute)) - ((Convert.ToInt16(edittime_information.select_st_time.Hour) * 60) + Convert.ToInt16(edittime_information.select_st_time.Minute))).ToString().ToUpper() + "  WHERE 年月日 = '"+cur_form_information.cur_date_button.ToString("yyyy/MM/dd")+"'";
+
+                var sql = "UPDATE Main_Table SET トータル時間 = トータル時間 +" + (((Convert.ToInt16(edittime_information.select_end_time.Hour) * 60) + Convert.ToInt16(edittime_information.select_end_time.Minute)) - ((Convert.ToInt16(edittime_information.select_st_time.Hour) * 60) + Convert.ToInt16(edittime_information.select_st_time.Minute))).ToString().ToUpper() + "  WHERE 年月日 = '" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
 
 
                 using (var command = new SqlCommand(sql, connection))
                 {
                     command.ExecuteNonQuery();
                 }
-
-
             }
         }
 
@@ -329,8 +397,20 @@ namespace study_scheduler.childforms
 
         private void init_time_label()
         {
-            st_time_label.Text = edittime_information.select_st_time.ToString();
-            end_time_label.Text = edittime_information.select_end_time.ToString();
+           
+                st_time_label.Text = edittime_information.select_st_time.ToString();
+                end_time_label.Text = edittime_information.select_end_time.ToString();
+
+            if (edittime_information.select_correction_flag==true)
+            {
+                textBox1.Text = edittime_information.corr_title;
+                cur_color_panel.BackColor = edittime_information.corr_color;
+                study_checkbox.Checked=edittime_information.corr_study_flag;
+
+                corr_st = edittime_information.select_st_time;
+                corr_end = edittime_information.select_end_time;
+                corr_study_check = edittime_information.corr_study_flag;
+            }
 
         }
 
@@ -378,9 +458,9 @@ namespace study_scheduler.childforms
                 hour_label.Text = edittime_information.select_st_time.Hour.ToString("00");
                 minut_label.Text = edittime_information.select_st_time.Minute.ToString("00");
 
-                hour_track.Value = 23 - edittime_information.select_st_time.Hour;
-                minut_track.Value = 11 - (edittime_information.select_st_time.Minute/12);
-
+                
+                    hour_track.Value = 23 - edittime_information.select_st_time.Hour;
+                    minut_track.Value = 11 - (edittime_information.select_st_time.Minute / 5);
             }
             else if (st_or_end_flag == false)
             {
@@ -388,8 +468,10 @@ namespace study_scheduler.childforms
                 hour_label.Text = edittime_information.select_end_time.Hour.ToString("00");
                 minut_label.Text = edittime_information.select_end_time.Minute.ToString("00");
 
-                hour_track.Value = 23 - edittime_information.select_end_time.Hour;
-                minut_track.Value = 11 - (edittime_information.select_end_time.Minute/12);
+
+                    hour_track.Value = 23 - edittime_information.select_end_time.Hour;
+                    minut_track.Value = 11 - (edittime_information.select_end_time.Minute / 5);
+                
             }
         }
 
@@ -402,12 +484,10 @@ namespace study_scheduler.childforms
 
 
 
-
-
         //時間調節バー
         private void hour_track_Scroll(object sender, EventArgs e)
         {
-            
+            text_box_label.Text = edittime_information.select_end_time.ToString();
             hour_label.Text = (23 - hour_track.Value).ToString("00");
 
 
@@ -422,12 +502,12 @@ namespace study_scheduler.childforms
                 end_time_label.Text = hour_label.Text + ":" + minut_label.Text;
                 edittime_information.select_end_time = new TimeOnly(Convert.ToInt16(hour_label.Text), Convert.ToInt16(minut_label.Text));
             }
-           
+
         }
         //時間調節バー
         private void minut_track_Scroll(object sender, EventArgs e)
         {
-            minut_label.Text = ((11 - minut_track.Value)*5).ToString("00");
+            minut_label.Text = ((11 - minut_track.Value) * 5).ToString("00");
             if (st_or_end_flag == true)
             {
                 st_time_label.Text = hour_label.Text + ":" + minut_label.Text;
@@ -467,6 +547,6 @@ namespace study_scheduler.childforms
         }
     }
 
-    
+
 
 }

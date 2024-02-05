@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Daysform));
             schedule_panel = new Panel();
+            button1 = new Button();
+            panel23 = new Panel();
             label3 = new Label();
             all_remove_btn = new Button();
             memo_remove_btn = new Button();
@@ -81,7 +83,6 @@
             panel8 = new Panel();
             panel22 = new Panel();
             panel7 = new Panel();
-            panel23 = new Panel();
             panel6 = new Panel();
             panel24 = new Panel();
             panel5 = new Panel();
@@ -99,6 +100,8 @@
             // schedule_panel
             // 
             schedule_panel.BackColor = Color.White;
+            schedule_panel.Controls.Add(button1);
+            schedule_panel.Controls.Add(panel23);
             schedule_panel.Controls.Add(label3);
             schedule_panel.Controls.Add(all_remove_btn);
             schedule_panel.Controls.Add(memo_remove_btn);
@@ -150,7 +153,6 @@
             schedule_panel.Controls.Add(panel8);
             schedule_panel.Controls.Add(panel22);
             schedule_panel.Controls.Add(panel7);
-            schedule_panel.Controls.Add(panel23);
             schedule_panel.Controls.Add(panel6);
             schedule_panel.Controls.Add(panel24);
             schedule_panel.Controls.Add(panel5);
@@ -168,11 +170,34 @@
             schedule_panel.Size = new Size(1904, 1041);
             schedule_panel.TabIndex = 0;
             // 
+            // button1
+            // 
+            button1.BackgroundImageLayout = ImageLayout.Stretch;
+            button1.Cursor = Cursors.Hand;
+            button1.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button1.Image = (Image)resources.GetObject("button1.Image");
+            button1.ImageAlign = ContentAlignment.MiddleRight;
+            button1.Location = new Point(19, 217);
+            button1.Name = "button1";
+            button1.Size = new Size(142, 47);
+            button1.TabIndex = 59;
+            button1.Text = "select_remove";
+            button1.TextAlign = ContentAlignment.MiddleLeft;
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // panel23
+            // 
+            panel23.BackColor = Color.Black;
+            panel23.Location = new Point(333, 562);
+            panel23.Name = "panel23";
+            panel23.Size = new Size(3, 40);
+            panel23.TabIndex = 17;
+            // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("MV Boli", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(3, 180);
+            label3.Location = new Point(3, 276);
             label3.Name = "label3";
             label3.Size = new Size(257, 34);
             label3.TabIndex = 58;
@@ -180,13 +205,14 @@
             // 
             // all_remove_btn
             // 
+            all_remove_btn.BackgroundImageLayout = ImageLayout.Stretch;
             all_remove_btn.Cursor = Cursors.Hand;
             all_remove_btn.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             all_remove_btn.Image = (Image)resources.GetObject("all_remove_btn.Image");
             all_remove_btn.ImageAlign = ContentAlignment.MiddleRight;
-            all_remove_btn.Location = new Point(103, 9);
+            all_remove_btn.Location = new Point(19, 164);
             all_remove_btn.Name = "all_remove_btn";
-            all_remove_btn.Size = new Size(120, 47);
+            all_remove_btn.Size = new Size(142, 47);
             all_remove_btn.TabIndex = 57;
             all_remove_btn.Text = "All_remove";
             all_remove_btn.TextAlign = ContentAlignment.MiddleLeft;
@@ -228,6 +254,7 @@
             // 
             // textBox1
             // 
+            textBox1.BorderStyle = BorderStyle.FixedSingle;
             textBox1.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox1.Location = new Point(262, 34);
             textBox1.Multiline = true;
@@ -272,7 +299,7 @@
             label_btn24.BorderStyle = BorderStyle.Fixed3D;
             label_btn24.Cursor = Cursors.Hand;
             label_btn24.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn24.Location = new Point(1834, 907);
+            label_btn24.Location = new Point(1762, 907);
             label_btn24.Name = "label_btn24";
             label_btn24.Size = new Size(45, 37);
             label_btn24.TabIndex = 49;
@@ -286,7 +313,7 @@
             label_btn23.BorderStyle = BorderStyle.Fixed3D;
             label_btn23.Cursor = Cursors.Hand;
             label_btn23.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn23.Location = new Point(1684, 907);
+            label_btn23.Location = new Point(1612, 907);
             label_btn23.Name = "label_btn23";
             label_btn23.Size = new Size(45, 37);
             label_btn23.TabIndex = 48;
@@ -299,7 +326,7 @@
             label_btn22.BorderStyle = BorderStyle.Fixed3D;
             label_btn22.Cursor = Cursors.Hand;
             label_btn22.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn22.Location = new Point(1535, 907);
+            label_btn22.Location = new Point(1463, 907);
             label_btn22.Name = "label_btn22";
             label_btn22.Size = new Size(45, 37);
             label_btn22.TabIndex = 48;
@@ -312,7 +339,7 @@
             label_btn21.BorderStyle = BorderStyle.Fixed3D;
             label_btn21.Cursor = Cursors.Hand;
             label_btn21.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn21.Location = new Point(1386, 907);
+            label_btn21.Location = new Point(1328, 907);
             label_btn21.Name = "label_btn21";
             label_btn21.Size = new Size(45, 37);
             label_btn21.TabIndex = 47;
@@ -325,7 +352,7 @@
             label_btn20.BorderStyle = BorderStyle.Fixed3D;
             label_btn20.Cursor = Cursors.Hand;
             label_btn20.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn20.Location = new Point(1234, 907);
+            label_btn20.Location = new Point(1187, 907);
             label_btn20.Name = "label_btn20";
             label_btn20.Size = new Size(45, 37);
             label_btn20.TabIndex = 46;
@@ -338,7 +365,7 @@
             label_btn19.BorderStyle = BorderStyle.Fixed3D;
             label_btn19.Cursor = Cursors.Hand;
             label_btn19.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn19.Location = new Point(1085, 907);
+            label_btn19.Location = new Point(1038, 907);
             label_btn19.Name = "label_btn19";
             label_btn19.Size = new Size(45, 37);
             label_btn19.TabIndex = 45;
@@ -351,7 +378,7 @@
             label_btn18.BorderStyle = BorderStyle.Fixed3D;
             label_btn18.Cursor = Cursors.Hand;
             label_btn18.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn18.Location = new Point(933, 907);
+            label_btn18.Location = new Point(896, 907);
             label_btn18.Name = "label_btn18";
             label_btn18.Size = new Size(45, 37);
             label_btn18.TabIndex = 44;
@@ -364,7 +391,7 @@
             label_btn17.BorderStyle = BorderStyle.Fixed3D;
             label_btn17.Cursor = Cursors.Hand;
             label_btn17.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn17.Location = new Point(777, 907);
+            label_btn17.Location = new Point(750, 907);
             label_btn17.Name = "label_btn17";
             label_btn17.Size = new Size(45, 37);
             label_btn17.TabIndex = 43;
@@ -377,7 +404,7 @@
             label_btn16.BorderStyle = BorderStyle.Fixed3D;
             label_btn16.Cursor = Cursors.Hand;
             label_btn16.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn16.Location = new Point(626, 907);
+            label_btn16.Location = new Point(597, 907);
             label_btn16.Name = "label_btn16";
             label_btn16.Size = new Size(45, 37);
             label_btn16.TabIndex = 42;
@@ -390,7 +417,7 @@
             label_btn15.BorderStyle = BorderStyle.Fixed3D;
             label_btn15.Cursor = Cursors.Hand;
             label_btn15.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn15.Location = new Point(476, 907);
+            label_btn15.Location = new Point(460, 907);
             label_btn15.Name = "label_btn15";
             label_btn15.Size = new Size(45, 37);
             label_btn15.TabIndex = 41;
@@ -442,7 +469,7 @@
             label_btn12_1.BorderStyle = BorderStyle.Fixed3D;
             label_btn12_1.Cursor = Cursors.Hand;
             label_btn12_1.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn12_1.Location = new Point(1834, 605);
+            label_btn12_1.Location = new Point(1762, 605);
             label_btn12_1.Name = "label_btn12_1";
             label_btn12_1.Size = new Size(45, 37);
             label_btn12_1.TabIndex = 37;
@@ -455,7 +482,7 @@
             label_btn11.BorderStyle = BorderStyle.Fixed3D;
             label_btn11.Cursor = Cursors.Hand;
             label_btn11.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn11.Location = new Point(1684, 605);
+            label_btn11.Location = new Point(1612, 605);
             label_btn11.Name = "label_btn11";
             label_btn11.Size = new Size(45, 37);
             label_btn11.TabIndex = 36;
@@ -468,7 +495,7 @@
             label_btn10.BorderStyle = BorderStyle.Fixed3D;
             label_btn10.Cursor = Cursors.Hand;
             label_btn10.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn10.Location = new Point(1535, 605);
+            label_btn10.Location = new Point(1463, 605);
             label_btn10.Name = "label_btn10";
             label_btn10.Size = new Size(45, 37);
             label_btn10.TabIndex = 35;
@@ -481,7 +508,7 @@
             label_btn9.BorderStyle = BorderStyle.Fixed3D;
             label_btn9.Cursor = Cursors.Hand;
             label_btn9.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn9.Location = new Point(1377, 605);
+            label_btn9.Location = new Point(1328, 605);
             label_btn9.Name = "label_btn9";
             label_btn9.Size = new Size(31, 37);
             label_btn9.TabIndex = 34;
@@ -494,7 +521,7 @@
             label_btn8.BorderStyle = BorderStyle.Fixed3D;
             label_btn8.Cursor = Cursors.Hand;
             label_btn8.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn8.Location = new Point(1234, 605);
+            label_btn8.Location = new Point(1187, 605);
             label_btn8.Name = "label_btn8";
             label_btn8.Size = new Size(31, 37);
             label_btn8.TabIndex = 33;
@@ -507,7 +534,7 @@
             label_btn7.BorderStyle = BorderStyle.Fixed3D;
             label_btn7.Cursor = Cursors.Hand;
             label_btn7.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn7.Location = new Point(1085, 605);
+            label_btn7.Location = new Point(1038, 605);
             label_btn7.Name = "label_btn7";
             label_btn7.Size = new Size(31, 37);
             label_btn7.TabIndex = 32;
@@ -520,7 +547,7 @@
             label_btn6.BorderStyle = BorderStyle.Fixed3D;
             label_btn6.Cursor = Cursors.Hand;
             label_btn6.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn6.Location = new Point(933, 605);
+            label_btn6.Location = new Point(896, 605);
             label_btn6.Name = "label_btn6";
             label_btn6.Size = new Size(31, 37);
             label_btn6.TabIndex = 31;
@@ -533,7 +560,7 @@
             label_btn5.BorderStyle = BorderStyle.Fixed3D;
             label_btn5.Cursor = Cursors.Hand;
             label_btn5.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn5.Location = new Point(777, 605);
+            label_btn5.Location = new Point(750, 605);
             label_btn5.Name = "label_btn5";
             label_btn5.Size = new Size(31, 37);
             label_btn5.TabIndex = 30;
@@ -546,7 +573,7 @@
             label_btn4.BorderStyle = BorderStyle.Fixed3D;
             label_btn4.Cursor = Cursors.Hand;
             label_btn4.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn4.Location = new Point(626, 605);
+            label_btn4.Location = new Point(611, 605);
             label_btn4.Name = "label_btn4";
             label_btn4.Size = new Size(31, 37);
             label_btn4.TabIndex = 30;
@@ -559,7 +586,7 @@
             label_btn3.BorderStyle = BorderStyle.Fixed3D;
             label_btn3.Cursor = Cursors.Hand;
             label_btn3.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn3.Location = new Point(476, 605);
+            label_btn3.Location = new Point(466, 605);
             label_btn3.Name = "label_btn3";
             label_btn3.Size = new Size(31, 37);
             label_btn3.TabIndex = 29;
@@ -572,7 +599,7 @@
             label_btn2.BorderStyle = BorderStyle.Fixed3D;
             label_btn2.Cursor = Cursors.Hand;
             label_btn2.Font = new Font("游明朝 Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            label_btn2.Location = new Point(330, 605);
+            label_btn2.Location = new Point(320, 605);
             label_btn2.Name = "label_btn2";
             label_btn2.Size = new Size(31, 37);
             label_btn2.TabIndex = 28;
@@ -608,7 +635,7 @@
             // panel10
             // 
             panel10.BackColor = Color.Black;
-            panel10.Location = new Point(1689, 562);
+            panel10.Location = new Point(1197, 559);
             panel10.Name = "panel10";
             panel10.Size = new Size(3, 40);
             panel10.TabIndex = 24;
@@ -616,7 +643,7 @@
             // panel11
             // 
             panel11.BackColor = Color.Black;
-            panel11.Location = new Point(1689, 864);
+            panel11.Location = new Point(1629, 861);
             panel11.Name = "panel11";
             panel11.Size = new Size(3, 40);
             panel11.TabIndex = 10;
@@ -624,7 +651,7 @@
             // panel16
             // 
             panel16.BackColor = Color.Black;
-            panel16.Location = new Point(1539, 559);
+            panel16.Location = new Point(1341, 559);
             panel16.Name = "panel16";
             panel16.Size = new Size(3, 40);
             panel16.TabIndex = 25;
@@ -632,7 +659,7 @@
             // panel12
             // 
             panel12.BackColor = Color.Black;
-            panel12.Location = new Point(1539, 861);
+            panel12.Location = new Point(1485, 861);
             panel12.Name = "panel12";
             panel12.Size = new Size(3, 40);
             panel12.TabIndex = 11;
@@ -640,7 +667,7 @@
             // panel17
             // 
             panel17.BackColor = Color.Black;
-            panel17.Location = new Point(1389, 559);
+            panel17.Location = new Point(1629, 559);
             panel17.Name = "panel17";
             panel17.Size = new Size(3, 40);
             panel17.TabIndex = 23;
@@ -648,7 +675,7 @@
             // panel13
             // 
             panel13.BackColor = Color.Black;
-            panel13.Location = new Point(1389, 861);
+            panel13.Location = new Point(1341, 861);
             panel13.Name = "panel13";
             panel13.Size = new Size(3, 40);
             panel13.TabIndex = 9;
@@ -656,7 +683,7 @@
             // panel18
             // 
             panel18.BackColor = Color.Black;
-            panel18.Location = new Point(1239, 562);
+            panel18.Location = new Point(1485, 559);
             panel18.Name = "panel18";
             panel18.Size = new Size(3, 40);
             panel18.TabIndex = 22;
@@ -664,7 +691,7 @@
             // panel14
             // 
             panel14.BackColor = Color.Black;
-            panel14.Location = new Point(1239, 864);
+            panel14.Location = new Point(1197, 861);
             panel14.Name = "panel14";
             panel14.Size = new Size(3, 40);
             panel14.TabIndex = 8;
@@ -672,7 +699,7 @@
             // panel19
             // 
             panel19.BackColor = Color.Black;
-            panel19.Location = new Point(1089, 562);
+            panel19.Location = new Point(1053, 562);
             panel19.Name = "panel19";
             panel19.Size = new Size(3, 40);
             panel19.TabIndex = 21;
@@ -680,7 +707,7 @@
             // panel15
             // 
             panel15.BackColor = Color.Black;
-            panel15.Location = new Point(1089, 864);
+            panel15.Location = new Point(1053, 861);
             panel15.Name = "panel15";
             panel15.Size = new Size(3, 40);
             panel15.TabIndex = 7;
@@ -688,7 +715,7 @@
             // panel20
             // 
             panel20.BackColor = Color.Black;
-            panel20.Location = new Point(789, 562);
+            panel20.Location = new Point(765, 562);
             panel20.Name = "panel20";
             panel20.Size = new Size(3, 40);
             panel20.TabIndex = 19;
@@ -696,7 +723,7 @@
             // panel9
             // 
             panel9.BackColor = Color.Black;
-            panel9.Location = new Point(789, 861);
+            panel9.Location = new Point(765, 861);
             panel9.Name = "panel9";
             panel9.Size = new Size(3, 40);
             panel9.TabIndex = 5;
@@ -704,7 +731,7 @@
             // panel21
             // 
             panel21.BackColor = Color.Black;
-            panel21.Location = new Point(639, 559);
+            panel21.Location = new Point(621, 562);
             panel21.Name = "panel21";
             panel21.Size = new Size(3, 40);
             panel21.TabIndex = 20;
@@ -712,7 +739,7 @@
             // panel8
             // 
             panel8.BackColor = Color.Black;
-            panel8.Location = new Point(639, 861);
+            panel8.Location = new Point(621, 861);
             panel8.Name = "panel8";
             panel8.Size = new Size(3, 40);
             panel8.TabIndex = 5;
@@ -720,7 +747,7 @@
             // panel22
             // 
             panel22.BackColor = Color.Black;
-            panel22.Location = new Point(489, 559);
+            panel22.Location = new Point(477, 562);
             panel22.Name = "panel22";
             panel22.Size = new Size(3, 40);
             panel22.TabIndex = 18;
@@ -728,23 +755,15 @@
             // panel7
             // 
             panel7.BackColor = Color.Black;
-            panel7.Location = new Point(489, 859);
+            panel7.Location = new Point(477, 861);
             panel7.Name = "panel7";
             panel7.Size = new Size(3, 40);
             panel7.TabIndex = 4;
             // 
-            // panel23
-            // 
-            panel23.BackColor = Color.Black;
-            panel23.Location = new Point(339, 562);
-            panel23.Name = "panel23";
-            panel23.Size = new Size(3, 40);
-            panel23.TabIndex = 17;
-            // 
             // panel6
             // 
             panel6.BackColor = Color.Black;
-            panel6.Location = new Point(339, 864);
+            panel6.Location = new Point(333, 861);
             panel6.Name = "panel6";
             panel6.Size = new Size(3, 40);
             panel6.TabIndex = 3;
@@ -760,7 +779,7 @@
             // panel5
             // 
             panel5.BackColor = Color.Black;
-            panel5.Location = new Point(189, 864);
+            panel5.Location = new Point(189, 861);
             panel5.Name = "panel5";
             panel5.Size = new Size(3, 40);
             panel5.TabIndex = 2;
@@ -768,7 +787,7 @@
             // panel25
             // 
             panel25.BackColor = Color.Black;
-            panel25.Location = new Point(939, 547);
+            panel25.Location = new Point(909, 547);
             panel25.Name = "panel25";
             panel25.Size = new Size(3, 50);
             panel25.TabIndex = 14;
@@ -776,7 +795,7 @@
             // panel4
             // 
             panel4.BackColor = Color.Black;
-            panel4.Location = new Point(939, 849);
+            panel4.Location = new Point(909, 851);
             panel4.Name = "panel4";
             panel4.Size = new Size(3, 50);
             panel4.TabIndex = 1;
@@ -784,7 +803,7 @@
             // panel26
             // 
             panel26.BackColor = Color.Black;
-            panel26.Location = new Point(1839, 547);
+            panel26.Location = new Point(1773, 544);
             panel26.Name = "panel26";
             panel26.Size = new Size(5, 55);
             panel26.TabIndex = 15;
@@ -792,7 +811,7 @@
             // panel3
             // 
             panel3.BackColor = Color.Black;
-            panel3.Location = new Point(1839, 849);
+            panel3.Location = new Point(1773, 846);
             panel3.Name = "panel3";
             panel3.Size = new Size(5, 55);
             panel3.TabIndex = 1;
@@ -810,7 +829,7 @@
             panel28.BackColor = Color.Black;
             panel28.Location = new Point(48, 597);
             panel28.Name = "panel28";
-            panel28.Size = new Size(1796, 5);
+            panel28.Size = new Size(1730, 5);
             panel28.TabIndex = 13;
             // 
             // panel2
@@ -826,7 +845,7 @@
             panel1.BackColor = Color.Black;
             panel1.Location = new Point(48, 899);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1793, 5);
+            panel1.Size = new Size(1730, 5);
             panel1.TabIndex = 0;
             // 
             // Daysform
@@ -908,5 +927,6 @@
         private Button memo_remove_btn;
         private Button all_remove_btn;
         private Label label3;
+        private Button button1;
     }
 }
