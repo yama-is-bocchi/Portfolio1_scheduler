@@ -581,7 +581,7 @@
             distinct_panel.Controls.Add(distincted_highlight_label);
             distinct_panel.Location = new Point(793, 2);
             distinct_panel.Name = "distinct_panel";
-            distinct_panel.Size = new Size(324, 145);
+            distinct_panel.Size = new Size(324, 28);
             distinct_panel.TabIndex = 26;
             distinct_panel.Visible = false;
             // 

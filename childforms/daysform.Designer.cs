@@ -28,9 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Daysform));
             schedule_panel = new Panel();
-            button1 = new Button();
+            now_panel = new Panel();
+            label5 = new Label();
+            panel29 = new Panel();
+            label4 = new Label();
+            title_box = new TextBox();
+            select_remove = new Button();
             panel23 = new Panel();
             label3 = new Label();
             all_remove_btn = new Button();
@@ -94,13 +100,18 @@
             panel28 = new Panel();
             panel2 = new Panel();
             panel1 = new Panel();
+            now_pos_timer = new System.Windows.Forms.Timer(components);
             schedule_panel.SuspendLayout();
+            now_panel.SuspendLayout();
             SuspendLayout();
             // 
             // schedule_panel
             // 
             schedule_panel.BackColor = Color.White;
-            schedule_panel.Controls.Add(button1);
+            schedule_panel.Controls.Add(now_panel);
+            schedule_panel.Controls.Add(label4);
+            schedule_panel.Controls.Add(title_box);
+            schedule_panel.Controls.Add(select_remove);
             schedule_panel.Controls.Add(panel23);
             schedule_panel.Controls.Add(label3);
             schedule_panel.Controls.Add(all_remove_btn);
@@ -170,20 +181,71 @@
             schedule_panel.Size = new Size(1904, 1041);
             schedule_panel.TabIndex = 0;
             // 
-            // button1
+            // now_panel
             // 
-            button1.BackgroundImageLayout = ImageLayout.Stretch;
-            button1.Cursor = Cursors.Hand;
-            button1.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.ImageAlign = ContentAlignment.MiddleRight;
-            button1.Location = new Point(19, 217);
-            button1.Name = "button1";
-            button1.Size = new Size(142, 47);
-            button1.TabIndex = 59;
-            button1.Text = "select_remove";
-            button1.TextAlign = ContentAlignment.MiddleLeft;
-            button1.UseVisualStyleBackColor = true;
+            now_panel.Controls.Add(label5);
+            now_panel.Controls.Add(panel29);
+            now_panel.Location = new Point(33, 480);
+            now_panel.Name = "now_panel";
+            now_panel.Size = new Size(28, 68);
+            now_panel.TabIndex = 0;
+            now_panel.Visible = false;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(0, 21);
+            label5.Name = "label5";
+            label5.Size = new Size(32, 15);
+            label5.TabIndex = 63;
+            label5.Text = "Now";
+            // 
+            // panel29
+            // 
+            panel29.BackColor = Color.Black;
+            panel29.Location = new Point(12, 39);
+            panel29.Name = "panel29";
+            panel29.Size = new Size(3, 30);
+            panel29.TabIndex = 62;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(19, 311);
+            label4.Name = "label4";
+            label4.Size = new Size(211, 21);
+            label4.TabIndex = 61;
+            label4.Text = "Day's Title (max 5length)";
+            // 
+            // title_box
+            // 
+            title_box.BorderStyle = BorderStyle.FixedSingle;
+            title_box.Font = new Font("MV Boli", 26.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            title_box.Location = new Point(19, 335);
+            title_box.MaxLength = 5;
+            title_box.Multiline = true;
+            title_box.Name = "title_box";
+            title_box.Size = new Size(203, 54);
+            title_box.TabIndex = 60;
+            title_box.TextChanged += title_box_TextChanged;
+            // 
+            // select_remove
+            // 
+            select_remove.BackgroundImageLayout = ImageLayout.Stretch;
+            select_remove.Cursor = Cursors.Hand;
+            select_remove.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            select_remove.Image = (Image)resources.GetObject("select_remove.Image");
+            select_remove.ImageAlign = ContentAlignment.MiddleRight;
+            select_remove.Location = new Point(12, 206);
+            select_remove.Name = "select_remove";
+            select_remove.Size = new Size(142, 47);
+            select_remove.TabIndex = 59;
+            select_remove.Text = "Select_remove";
+            select_remove.TextAlign = ContentAlignment.MiddleLeft;
+            select_remove.UseVisualStyleBackColor = true;
+            select_remove.Visible = false;
+            select_remove.MouseClick += select_remove_MouseClick;
             // 
             // panel23
             // 
@@ -197,7 +259,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("MV Boli", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(3, 276);
+            label3.Location = new Point(3, 256);
             label3.Name = "label3";
             label3.Size = new Size(257, 34);
             label3.TabIndex = 58;
@@ -210,13 +272,14 @@
             all_remove_btn.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             all_remove_btn.Image = (Image)resources.GetObject("all_remove_btn.Image");
             all_remove_btn.ImageAlign = ContentAlignment.MiddleRight;
-            all_remove_btn.Location = new Point(19, 164);
+            all_remove_btn.Location = new Point(12, 153);
             all_remove_btn.Name = "all_remove_btn";
             all_remove_btn.Size = new Size(142, 47);
             all_remove_btn.TabIndex = 57;
             all_remove_btn.Text = "All_remove";
             all_remove_btn.TextAlign = ContentAlignment.MiddleLeft;
             all_remove_btn.UseVisualStyleBackColor = true;
+            all_remove_btn.Visible = false;
             all_remove_btn.MouseClick += all_remove_btn_MouseClick;
             // 
             // memo_remove_btn
@@ -228,6 +291,7 @@
             memo_remove_btn.Size = new Size(31, 34);
             memo_remove_btn.TabIndex = 56;
             memo_remove_btn.UseVisualStyleBackColor = true;
+            memo_remove_btn.Visible = false;
             memo_remove_btn.MouseClick += memo_remove_btn_MouseClick;
             // 
             // back_btn
@@ -287,7 +351,7 @@
             // 
             date_label.AutoSize = true;
             date_label.Font = new Font("MV Boli", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            date_label.Location = new Point(12, 59);
+            date_label.Location = new Point(0, 59);
             date_label.Name = "date_label";
             date_label.Size = new Size(244, 49);
             date_label.TabIndex = 50;
@@ -848,6 +912,11 @@
             panel1.Size = new Size(1730, 5);
             panel1.TabIndex = 0;
             // 
+            // now_pos_timer
+            // 
+            now_pos_timer.Interval = 1000;
+            now_pos_timer.Tick += now_pos_timer_Tick;
+            // 
             // Daysform
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -858,6 +927,8 @@
             Text = "Daysform";
             schedule_panel.ResumeLayout(false);
             schedule_panel.PerformLayout();
+            now_panel.ResumeLayout(false);
+            now_panel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -927,6 +998,12 @@
         private Button memo_remove_btn;
         private Button all_remove_btn;
         private Label label3;
-        private Button button1;
+        private Button select_remove;
+        private Label label4;
+        private TextBox title_box;
+        private Panel panel29;
+        private Panel now_panel;
+        private Label label5;
+        private System.Windows.Forms.Timer now_pos_timer;
     }
 }

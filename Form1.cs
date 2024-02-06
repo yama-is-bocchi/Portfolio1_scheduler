@@ -19,6 +19,7 @@ using AngleSharp.Common;
 using Microsoft.Data.SqlClient;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
+using study_scheduler.childforms;
 
 
 namespace study_scheduler
@@ -31,15 +32,81 @@ namespace study_scheduler
             change_today_information();
             sort_button();
             read_db();
+            read_memo_file();
+            
         }
 
         private DateTime cur_date;
 
 
+        private void read_memo_file()
+        {
+            for (int i = 0; i < DateTime.DaysInMonth(cur_date.Year, cur_date.Month); i++)
+            {
+                if (File.Exists(@"memofolder\"+ cur_date.Year.ToString()+cur_date.Month.ToString("00")+(i+1).ToString("00")+".txt"))
+                {
+                    Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek +i+1).ToString(), true);
+                    if (button.Length > 0)
+                    {
+                        ((Button)button[0]).BackColor = Color.Orange;
+                    }
+                }
+            }
+            check_title_file();
+        }
+
+        private void check_title_file()
+        {
+            for (int i = 0; i < DateTime.DaysInMonth(cur_date.Year, cur_date.Month); i++)
+            {
+                if (File.Exists(@"memofolder\title\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt"))
+                {
+                    
+                    Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + i + 1).ToString(), true);
+                    if (button.Length > 0)
+                    {
+                        string directory = @"memofolder\title\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt";
+                        string? title=read_title_file(ref directory);
+                        ((Button)button[0]).Text +="\n"+title;
+                    }
+                }
+            }
+        }
+
+        private string read_title_file(ref string file_directroy)
+        {
+            string? work="";
+            StreamReader sr = new StreamReader(file_directroy);
+            {
+
+                while (!sr.EndOfStream)
+                {
+
+                    string line = sr.ReadLine() + "";
+
+                    string[] values = line.Split();
+
+                    List<string> lists = [.. values];
+
+                    foreach (string list in lists)
+                    {
+                        work = list;
+                        break;
+                    }
+
+
+
+                }
+                sr.Close();
+            }
+
+            return work;
+        }
+
         //データベースを読み取りボタンの配色を変更させる
         private void read_db()
         {
-            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+            var connectionString = edittime_information.sql_code;
             // 実行するSELECT文
 
             // 接続のためのオブジェクトを生成
@@ -52,7 +119,7 @@ namespace study_scheduler
 
                 var sql = "SELECT * FROM Main_Table WHERE 年月日 BETWEEN '" + cur_date.ToString("yyyy/MM/01") + "' AND '" + cur_date.ToString("yyyy/MM/") + DateTime.DaysInMonth(cur_date.Year, cur_date.Month).ToString() + "'; ";
 
-                DateTime temp_time;
+                DateTime temp_time=new DateTime();
                 int sum = 0;
                 // SqlCommand：DBにSQL文を送信するためのオブジェクトを生成
                 // SqlDataReader：読み取ったデータを格納するためのオブジェクトを生成
@@ -66,7 +133,7 @@ namespace study_scheduler
 
                         sum += (int)reader["トータル時間"];
 
-                        Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + 1 + temp_time.Day - 1).ToString(), true);
+                        Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + temp_time.Day).ToString(), true);
                         if (button.Length > 0)
                         {
                             ((Button)button[0]).BackColor = Color.Orange;
@@ -77,6 +144,16 @@ namespace study_scheduler
                 }
 
                 total_time_label.Text = trans_minut_hour(ref sum).ToString("");
+
+                if (temp_time==new DateTime())
+                {
+                    all_remove_btn.Visible = false;
+                }
+                else
+                {
+                    all_remove_btn.Visible = true;
+                }
+
             }
 
 
@@ -230,7 +307,7 @@ namespace study_scheduler
         {
             cur_month_num_label.Text = cur_date.Month.ToString();
 
-            cur_month_str_label.Text = month_string_class.readOnlymonth[Convert.ToInt16(cur_date.Month) - 1];
+            cur_month_str_label.Text = cur_date.ToString("MMMM", System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
 
             cur_year_label.Text = cur_date.Year.ToString();
         }
@@ -246,6 +323,7 @@ namespace study_scheduler
 
             read_db();
 
+            read_memo_file();
         }
 
 
@@ -259,6 +337,8 @@ namespace study_scheduler
             sort_button();
 
             read_db();
+
+            read_memo_file() ;
         }
 
         private void sort_button()/*** 年月データを配列に代入 ***/
@@ -309,8 +389,9 @@ namespace study_scheduler
             DateTime today = DateTime.Today;
             change_per_second_information(ref today);
             change_second_timer.Start();
+            sort_button();
             read_db();
-
+            read_memo_file();
         }
 
         //cur_panelの背景をグラデーションに変更
@@ -346,8 +427,24 @@ namespace study_scheduler
 
         private void select_day_btn(object sender, MouseEventArgs e)
         {
-            cur_form_information.cur_date_button = new DateTime(cur_date.Year, cur_date.Month, Convert.ToInt16(((Button)sender).Text));
-            open_childform(new childforms.Daysform());
+            if (((Button)sender).Text.Length > 2)
+            {
+                cur_form_information.cur_date_button = new DateTime(cur_date.Year, cur_date.Month, Convert.ToInt16(((Button)sender).Text.Substring(0, 2)));
+                open_childform(new childforms.Daysform());
+
+            }
+            else
+            {
+                cur_form_information.cur_date_button = new DateTime(cur_date.Year, cur_date.Month, Convert.ToInt16(((Button)sender).Text));
+                open_childform(new childforms.Daysform());
+            }
+        }
+
+        private void all_remove_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+            Remove_code.remove_code = "all";
+            if (Directory.Exists("memofolder"))Directory.Delete("memofolder",true);
+            open_childform(new childforms.remove_form());
         }
     }
 }

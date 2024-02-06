@@ -30,6 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             cur_panel = new Panel();
+            all_remove_btn = new Button();
             label14 = new Label();
             total_time_label = new Label();
             cur_month_num_label = new Label();
@@ -102,6 +103,7 @@
             // cur_panel
             // 
             cur_panel.BorderStyle = BorderStyle.FixedSingle;
+            cur_panel.Controls.Add(all_remove_btn);
             cur_panel.Controls.Add(label14);
             cur_panel.Controls.Add(total_time_label);
             cur_panel.Controls.Add(cur_month_num_label);
@@ -127,6 +129,21 @@
             cur_panel.TabIndex = 0;
             cur_panel.Paint += panel1_Paint;
             cur_panel.Resize += panel1_Resize;
+            // 
+            // all_remove_btn
+            // 
+            all_remove_btn.BackColor = Color.MediumSeaGreen;
+            all_remove_btn.Cursor = Cursors.Hand;
+            all_remove_btn.FlatStyle = FlatStyle.Flat;
+            all_remove_btn.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            all_remove_btn.Image = Properties.Resources._9392;
+            all_remove_btn.Location = new Point(157, 2);
+            all_remove_btn.Name = "all_remove_btn";
+            all_remove_btn.Size = new Size(61, 72);
+            all_remove_btn.TabIndex = 59;
+            all_remove_btn.TextAlign = ContentAlignment.TopLeft;
+            all_remove_btn.UseVisualStyleBackColor = false;
+            all_remove_btn.MouseClick += all_remove_btn_MouseClick;
             // 
             // label14
             // 
@@ -158,7 +175,7 @@
             cur_month_num_label.BackColor = Color.Cyan;
             cur_month_num_label.Font = new Font("游明朝 Light", 72F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cur_month_num_label.ForeColor = SystemColors.ActiveCaptionText;
-            cur_month_num_label.Location = new Point(1004, 20);
+            cur_month_num_label.Location = new Point(902, 20);
             cur_month_num_label.Name = "cur_month_num_label";
             cur_month_num_label.Size = new Size(100, 124);
             cur_month_num_label.TabIndex = 14;
@@ -1121,5 +1138,6 @@
         private Label label7;
         private Label label14;
         private Label total_time_label;
+        private Button all_remove_btn;
     }
 }

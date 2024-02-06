@@ -8,27 +8,8 @@ using System.Threading.Tasks;
 
 namespace study_scheduler
 {
-    public  class month_string_class
-    {
-       public static List<string> month_list = new List<string>() 
-            {
-                "January",
-                "February",
-                 "March",
-                 "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                 "October",
-                 "November",
-                 "December"
-            };
-        public static ReadOnlyCollection<string> readOnlymonth =
-           new ReadOnlyCollection<string>(month_list);
-     }
 
+   
 
     public static class cur_form_information
     {
@@ -55,7 +36,20 @@ namespace study_scheduler
         public const int x_size =12;//5分で11
         public const int y_size =55;
     }
-    
+
+    public class Remove_code()
+    {
+        public static string? remove_code;
+    }
+
+    public class Now_panel() 
+    {
+        public const int x_pos =33;
+        public const int y_am_pos =480;
+        public const int y_pm_pos =782;
+    }
+
+
 }
 
 
