@@ -737,6 +737,7 @@ namespace study_scheduler.childforms
 
         private void regiFormClosed(object? sender, EventArgs e)
         {
+            back_btn.Focus();
             //読み取りデータベース
             if (exists_plan() == true)
             {
