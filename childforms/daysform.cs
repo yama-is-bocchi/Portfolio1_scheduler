@@ -195,9 +195,11 @@ namespace study_scheduler.childforms
                 }
             }
             init_panel();
+            change_main_total_time();
             if (exists_plan() == true)
             {
                 //パネル生成処理
+                
                 read_data_base();
                 change_gene_panel();
 
@@ -210,6 +212,51 @@ namespace study_scheduler.childforms
                 select_remove.Visible = false;
                 select_remove.BackColor = Color.White;
             }
+        }
+
+
+        private void change_main_total_time()
+        {
+            var connectionString = edittime_information.sql_code;
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                var sql = "SELECT 勉強 FROM Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd");
+                int sum = 0;
+
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        TimeOnly st = TimeOnly.Parse((string)reader["st"]);
+                        TimeOnly end = TimeOnly.Parse((string)reader["end_time"]);
+
+                        if ((bool)reader["勉強"] == true)
+                        {
+                            sum = sum + (((end.Hour - st.Hour) * 60) + (end.Minute - st.Minute));
+
+                        }
+                        else
+                        {
+                            return;
+                        }
+
+                    }
+
+                }
+                if (sum>0) 
+                {
+                    sql = "UPDATE Main_Table SET トータル時間 = トータル時間 - " + sum.ToString() + " WHERE 年月日 = " + cur_form_information.cur_date_button.ToString("yyyy/MM/dd");
+                    using (var command = new SqlCommand(sql, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            return;
         }
 
         private void remove_table(ref DateTime p_date)
