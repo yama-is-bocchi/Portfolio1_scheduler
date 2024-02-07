@@ -44,7 +44,7 @@
             back_btn = new Button();
             label2 = new Label();
             textBox1 = new TextBox();
-            total_time = new Label();
+            total_time_label = new Label();
             label1 = new Label();
             date_label = new Label();
             label_btn24 = new Label();
@@ -101,6 +101,7 @@
             panel2 = new Panel();
             panel1 = new Panel();
             now_pos_timer = new System.Windows.Forms.Timer(components);
+            pageSetupDialog1 = new PageSetupDialog();
             schedule_panel.SuspendLayout();
             now_panel.SuspendLayout();
             SuspendLayout();
@@ -119,7 +120,7 @@
             schedule_panel.Controls.Add(back_btn);
             schedule_panel.Controls.Add(label2);
             schedule_panel.Controls.Add(textBox1);
-            schedule_panel.Controls.Add(total_time);
+            schedule_panel.Controls.Add(total_time_label);
             schedule_panel.Controls.Add(label1);
             schedule_panel.Controls.Add(date_label);
             schedule_panel.Controls.Add(label_btn24);
@@ -234,6 +235,7 @@
             // 
             select_remove.BackgroundImageLayout = ImageLayout.Stretch;
             select_remove.Cursor = Cursors.Hand;
+            select_remove.FlatStyle = FlatStyle.Flat;
             select_remove.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             select_remove.Image = (Image)resources.GetObject("select_remove.Image");
             select_remove.ImageAlign = ContentAlignment.MiddleRight;
@@ -269,6 +271,7 @@
             // 
             all_remove_btn.BackgroundImageLayout = ImageLayout.Stretch;
             all_remove_btn.Cursor = Cursors.Hand;
+            all_remove_btn.FlatStyle = FlatStyle.Flat;
             all_remove_btn.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             all_remove_btn.Image = (Image)resources.GetObject("all_remove_btn.Image");
             all_remove_btn.ImageAlign = ContentAlignment.MiddleRight;
@@ -327,15 +330,15 @@
             textBox1.TabIndex = 53;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
-            // total_time
+            // total_time_label
             // 
-            total_time.AutoSize = true;
-            total_time.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            total_time.Location = new Point(163, 124);
-            total_time.Name = "total_time";
-            total_time.Size = new Size(60, 21);
-            total_time.TabIndex = 52;
-            total_time.Text = "00:00";
+            total_time_label.AutoSize = true;
+            total_time_label.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            total_time_label.Location = new Point(163, 124);
+            total_time_label.Name = "total_time_label";
+            total_time_label.Size = new Size(60, 21);
+            total_time_label.TabIndex = 52;
+            total_time_label.Text = "00:00";
             // 
             // label1
             // 
@@ -990,7 +993,7 @@
         private Label label_btn10;
         private Label label_btn9;
         private Label date_label;
-        private Label total_time;
+        private Label total_time_label;
         private Label label1;
         private Label label2;
         private TextBox textBox1;
@@ -1005,5 +1008,6 @@
         private Panel now_panel;
         private Label label5;
         private System.Windows.Forms.Timer now_pos_timer;
+        private PageSetupDialog pageSetupDialog1;
     }
 }

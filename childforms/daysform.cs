@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient.Server;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -198,6 +199,8 @@ namespace study_scheduler.childforms
             {
                 //パネル生成処理
                 read_data_base();
+                change_gene_panel();
+
             }
             if (generate_object_count == 0)
             {
@@ -386,6 +389,8 @@ namespace study_scheduler.childforms
             return judement;
         }
 
+       
+
         private void read_data_base()
         {
             var connectionString = edittime_information.sql_code;
@@ -398,6 +403,7 @@ namespace study_scheduler.childforms
                 connection.Open();
 
                 var sql = "SELECT * FROM Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd");
+                int sum=0;
 
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
@@ -405,13 +411,21 @@ namespace study_scheduler.childforms
                     while (reader.Read())
                     {
                         TimeOnly st = TimeOnly.Parse((string)reader["st"]);
+                        TimeOnly end = TimeOnly.Parse((string)reader["end_time"]);
 
-                        Generate_plan_panel(ref st, TimeOnly.Parse((string)reader["end_time"]), Color.FromName((string)reader["カラー"]), (string)reader["内容"]);
+                        
+                        if(select_remove.BackColor!=Color.Red)Generate_plan_panel(ref st, end, Color.FromName((string)reader["カラー"]), (string)reader["内容"]);
 
+                        if ((bool)reader["勉強"] ==true)
+                        {
+                            sum=sum+(((end.Hour-st.Hour)*60)+(end.Minute-st.Minute));
+                        
+                        }
+                       
                     }
 
                 }
-
+                total_time_label.Text = ((sum/60)).ToString()+":"+(sum-((sum/60)*60)).ToString("00");
 
             }
             return;
@@ -559,9 +573,15 @@ namespace study_scheduler.childforms
             }
             work.Controls.Add(st_end_label);
             st_end_label.Location = new Point(2, 27);
-            st_end_label.MouseClick += give_plan_corr;
-        }
+            if (select_remove.BackColor==Color.White) {
+                st_end_label.MouseClick += give_plan_corr;
 
+            }
+            else if(select_remove.BackColor==Color.Red)
+            {
+                st_end_label.MouseClick += give_remove_event;
+            }
+        }
 
 
         private void give_title_label(ref Panel work, string title)
@@ -615,9 +635,15 @@ namespace study_scheduler.childforms
             }
             work.Controls.Add(title_label);
             title_label.Location = new Point(2, 3);
-            title_label.MouseClick += give_plan_corr;
-        }
+            if (select_remove.BackColor==Color.White) {
+                title_label.MouseClick += give_plan_corr;
 
+            }
+            else if(select_remove.BackColor==Color.Red)
+            {
+                title_label.MouseClick += give_remove_event;
+            }
+        }
         private void give_plan_corr(object? sender, MouseEventArgs e)
         {
             edittime_information.select_correction_flag = true;

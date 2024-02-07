@@ -45,8 +45,8 @@ namespace study_scheduler
     public class Now_panel() 
     {
         public const int x_pos =33;
-        public const int y_am_pos =480;
-        public const int y_pm_pos =782;
+        public const int y_am_pos =478;
+        public const int y_pm_pos =781;
     }
 
 
