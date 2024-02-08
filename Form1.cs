@@ -20,6 +20,7 @@ using Microsoft.Data.SqlClient;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 using study_scheduler.childforms;
+using System.Data.Common;
 
 
 namespace study_scheduler
@@ -33,11 +34,50 @@ namespace study_scheduler
             sort_button();
             read_db();
             read_memo_file();
-            
+            all_remove_btn_visi_jud();
         }
 
         private DateTime cur_date;
 
+
+        private void all_remove_btn_visi_jud()
+        {
+            var connectionString = edittime_information.sql_code;
+            // 実行するSELECT文
+
+            // 接続のためのオブジェクトを生成
+            // 実行後にオブジェクトのCloseが必要なため基本的にusing文で囲う
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+
+                var sql = "SELECT COUNT(*) FROM Main_Table";
+
+                // SqlCommand：DBにSQL文を送信するためのオブジェクトを生成
+                // SqlDataReader：読み取ったデータを格納するためのオブジェクトを生成
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if ((int)reader[""] == 0)
+                        {
+                            all_remove_btn.Visible = false;
+                        }
+                        else
+                        {
+                            all_remove_btn.Visible = true;
+                        }
+                    }
+
+                }
+
+            }
+
+
+        }
 
         private void read_memo_file()
         {
@@ -145,14 +185,7 @@ namespace study_scheduler
 
                 total_time_label.Text = trans_minut_hour(ref sum).ToString("");
 
-                if (temp_time==new DateTime())
-                {
-                    all_remove_btn.Visible = false;
-                }
-                else
-                {
-                    all_remove_btn.Visible = true;
-                }
+  
 
             }
 
@@ -324,6 +357,8 @@ namespace study_scheduler
             read_db();
 
             read_memo_file();
+
+            all_remove_btn_visi_jud(); 
         }
 
 
@@ -339,6 +374,8 @@ namespace study_scheduler
             read_db();
 
             read_memo_file() ;
+
+            all_remove_btn_visi_jud();
         }
 
         private void sort_button()/*** 年月データを配列に代入 ***/
@@ -392,6 +429,7 @@ namespace study_scheduler
             sort_button();
             read_db();
             read_memo_file();
+            all_remove_btn_visi_jud();
         }
 
         //cur_panelの背景をグラデーションに変更
