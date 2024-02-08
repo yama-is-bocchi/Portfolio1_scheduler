@@ -43,10 +43,6 @@ namespace study_scheduler
         private void all_remove_btn_visi_jud()
         {
             var connectionString = edittime_information.sql_code;
-            // 実行するSELECT文
-
-            // 接続のためのオブジェクトを生成
-            // 実行後にオブジェクトのCloseが必要なため基本的にusing文で囲う
             using (var connection = new SqlConnection(connectionString))
             {
                 // 接続を確立
@@ -55,8 +51,6 @@ namespace study_scheduler
 
                 var sql = "SELECT COUNT(*) FROM Main_Table";
 
-                // SqlCommand：DBにSQL文を送信するためのオブジェクトを生成
-                // SqlDataReader：読み取ったデータを格納するためのオブジェクトを生成
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
                 {
@@ -147,13 +141,8 @@ namespace study_scheduler
         private void read_db()
         {
             var connectionString = edittime_information.sql_code;
-            // 実行するSELECT文
-
-            // 接続のためのオブジェクトを生成
-            // 実行後にオブジェクトのCloseが必要なため基本的にusing文で囲う
             using (var connection = new SqlConnection(connectionString))
             {
-                // 接続を確立
                 connection.Open();
 
 
@@ -161,8 +150,6 @@ namespace study_scheduler
 
                 DateTime temp_time=new DateTime();
                 int sum = 0;
-                // SqlCommand：DBにSQL文を送信するためのオブジェクトを生成
-                // SqlDataReader：読み取ったデータを格納するためのオブジェクトを生成
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
                 {
@@ -435,26 +422,17 @@ namespace study_scheduler
         //cur_panelの背景をグラデーションに変更
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            // ブロック（{}）を抜けたら自動的に Dispose するC#構文
             using (
                 // グラデーションブラシ作成
                 var gb = new LinearGradientBrush(
-                // グラデーション範囲（表示クリッピング領域）
                 e.Graphics.VisibleClipBounds,
-                // グラデーション開始色（紺色）
                 Color.MediumSeaGreen,
-
-                // グラデーション終了色（赤紫）
                 Color.Cyan,
-                // グラデーション方向（縦）
                 LinearGradientMode.Horizontal))
             {
                 // 四角形の内部を塗りつぶす（表示クリッピング領域）
                 e.Graphics.FillRectangle(gb, e.Graphics.VisibleClipBounds);
             }
-            // using構文を使用したため Dispose を書く必要はない
-            //リソースを解放する
-            //gb.Dispose();
         }
         //cur_panelの背景を変更
         private void panel1_Resize(object sender, EventArgs e)

@@ -143,6 +143,8 @@ namespace study_scheduler.childforms
 
         private void give_remove_event(object? sender, MouseEventArgs e)
         {
+
+            change_main_total_time();
             edittime_information.select_correction_flag = true;
             string p_st = "";
             //senderネームからテーブルを検索してendまでとりだす
@@ -195,7 +197,7 @@ namespace study_scheduler.childforms
                 }
             }
             init_panel();
-            change_main_total_time();
+            
             if (exists_plan() == true)
             {
                 //パネル生成処理
@@ -223,7 +225,7 @@ namespace study_scheduler.childforms
                 // 接続を確立
                 connection.Open();
 
-                var sql = "SELECT 勉強 FROM Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd");
+                var sql = "SELECT * FROM Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd");
                 int sum = 0;
 
                 using (var command = new SqlCommand(sql, connection))
@@ -621,11 +623,13 @@ namespace study_scheduler.childforms
             work.Controls.Add(st_end_label);
             st_end_label.Location = new Point(2, 27);
             if (select_remove.BackColor==Color.White) {
+                
                 st_end_label.MouseClick += give_plan_corr;
 
             }
             else if(select_remove.BackColor==Color.Red)
             {
+                st_end_label.MouseClick -= give_plan_corr;
                 st_end_label.MouseClick += give_remove_event;
             }
         }
@@ -683,11 +687,13 @@ namespace study_scheduler.childforms
             work.Controls.Add(title_label);
             title_label.Location = new Point(2, 3);
             if (select_remove.BackColor==Color.White) {
+
                 title_label.MouseClick += give_plan_corr;
 
             }
             else if(select_remove.BackColor==Color.Red)
             {
+                title_label.MouseClick -= give_plan_corr;
                 title_label.MouseClick += give_remove_event;
             }
         }
