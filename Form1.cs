@@ -144,9 +144,7 @@ namespace study_scheduler
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-
-
-                var sql = "SELECT * FROM Main_Table WHERE ”NŒŽ“ú BETWEEN '" + cur_date.ToString("yyyy/MM/01") + "' AND '" + cur_date.ToString("yyyy/MM/") + DateTime.DaysInMonth(cur_date.Year, cur_date.Month).ToString() + "'; ";
+                var sql = "SELECT * FROM Main_Table WHERE ”NŒŽ“ú BETWEEN '" + cur_date.ToString("yyyy/MM/01") + "' AND '" + cur_date.ToString("yyyy/MM/") + DateTime.DaysInMonth(cur_date.Year, cur_date.Month).ToString() + "' ";
 
                 DateTime temp_time = new DateTime();
                 int sum = 0;
@@ -170,7 +168,7 @@ namespace study_scheduler
 
                 }
 
-                total_time_label.Text = trans_minut_hour(ref sum).ToString("");
+                total_time_label.Text = trans_minut_hour(ref sum);
 
 
 
@@ -179,24 +177,23 @@ namespace study_scheduler
 
         }
 
-        private TimeOnly trans_minut_hour(ref int p_sum)
+        private string trans_minut_hour(ref int p_sum)
         {
-            TimeOnly ret_time = new TimeOnly(0, 0);
+            string? ret_hour="00";
+            string? ret_minute="00";
             if (p_sum >= 60)
             {
+                ret_hour = (p_sum / 60).ToString("00") ;
 
-                int temp = p_sum;
-
-                ret_time = new TimeOnly(p_sum / 60, p_sum - ((p_sum / 60) * 60));
-
+                ret_minute = (p_sum % 60).ToString("00");
 
             }
             else
             {
-                ret_time = new TimeOnly(0, p_sum);
+                ret_minute = p_sum.ToString("00");
             }
 
-            return ret_time;
+            return ret_hour+":"+ret_minute;
         }
 
 
@@ -213,8 +210,8 @@ namespace study_scheduler
 
             change_second_timer.Start();
 
-            scraping_tokyo_temp();
 
+            scraping_tokyo_temp();
         }
 
         private void scraping_tokyo_temp()

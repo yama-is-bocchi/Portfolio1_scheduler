@@ -48,8 +48,6 @@ namespace study_scheduler
         public const int y_am_pos =478;
         public const int y_pm_pos =781;
     }
-
-
 }
 
 

@@ -251,7 +251,7 @@ namespace study_scheduler.childforms
                 }
                 if (sum>0) 
                 {
-                    sql = "UPDATE Main_Table SET トータル時間 = トータル時間 - " + sum.ToString() + " WHERE 年月日 = " + cur_form_information.cur_date_button.ToString("yyyy/MM/dd");
+                    sql = "UPDATE Main_Table SET トータル時間 = トータル時間 - " + sum.ToString() + " WHERE 年月日 =' " + cur_form_information.cur_date_button.ToString("yyyy/MM/dd")+"'";
                     using (var command = new SqlCommand(sql, connection))
                     {
                         command.ExecuteNonQuery();
