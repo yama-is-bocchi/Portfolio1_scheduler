@@ -30,7 +30,13 @@ namespace study_scheduler.childforms
         private bool corr_study_check;
 
         //データ保存メイン処理
-        private void ok_btn_MouseClick(object sender, MouseEventArgs e)
+        private void ok_btn_MouseClick(object? sender, MouseEventArgs e)
+        {
+         Ok_method();
+        }
+
+
+        private void Ok_method()
         {
             string name;
             //データチェック
@@ -52,7 +58,8 @@ namespace study_scheduler.childforms
 
             if (edittime_information.select_st_time >= edittime_information.select_end_time)
             {
-                if (edittime_information.select_end_time!=new TimeOnly(0,0)) {
+                if (edittime_information.select_end_time != new TimeOnly(0, 0))
+                {
                     if (radio_panel.Visible != true)
                     {
                         st_or_end_flag = true;
@@ -68,11 +75,10 @@ namespace study_scheduler.childforms
                 }
                 else
                 {
-                    edittime_information.select_end_time=new TimeOnly(23,59);
+                    edittime_information.select_end_time = new TimeOnly(23, 59);
                 }
-                
-            }
 
+            }
 
 
             //メインテーブルに行があるかチェック
@@ -102,11 +108,11 @@ namespace study_scheduler.childforms
                 update_corr_data();
 
                 //勉強に変更された
-                if (corr_study_check==false&&study_checkbox.Checked==true)
+                if (corr_study_check == false && study_checkbox.Checked == true)
                 {
                     update_main_table();
                 }
-                else 
+                else
                 {
                     corr_main_totaltime();
                 }
@@ -127,6 +133,9 @@ namespace study_scheduler.childforms
             this.Close();
         }
 
+
+
+
         private void corr_main_totaltime()
         {
 
@@ -144,7 +153,7 @@ namespace study_scheduler.childforms
                 {
                     //メインテーブル減算処理
                     var sql = "UPDATE Main_Table SET トータル時間 = トータル時間 -" + (((Convert.ToInt16(corr_end.Hour) * 60) + Convert.ToInt16(corr_end.Minute)) - ((Convert.ToInt16(corr_st.Hour) * 60) + Convert.ToInt16(corr_st.Minute))).ToString().ToUpper() + "  WHERE 年月日 = '" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
-            
+
 
                     using (var command = new SqlCommand(sql, connection))
                     {
@@ -156,7 +165,7 @@ namespace study_scheduler.childforms
                 {
                     //メインテーブル減算処理
                     var sql = "UPDATE Main_Table SET トータル時間 = トータル時間 -" + (((Convert.ToInt16(corr_end.Hour) * 60) + Convert.ToInt16(corr_end.Minute)) - ((Convert.ToInt16(corr_st.Hour) * 60) + Convert.ToInt16(corr_st.Minute))).ToString().ToUpper() + "  WHERE 年月日 = '" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
-                 
+
 
                     using (var command = new SqlCommand(sql, connection))
                     {
@@ -171,7 +180,7 @@ namespace study_scheduler.childforms
                     }
 
                 }
-                
+
             }
 
         }
@@ -186,7 +195,7 @@ namespace study_scheduler.childforms
                 connection.Open();
 
 
-                var sql = "UPDATE Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd") + " SET st = '" + edittime_information.select_st_time.ToString()+ "',end_time ='"+edittime_information.select_end_time.ToString() +"',  内容 = N'" + textBox1.Text + "', カラー='" + cur_color_panel.BackColor.Name + "',勉強 = '" + study_checkbox.Checked.ToString().ToUpper() + "'  WHERE st = '" + corr_st.ToString() + "'";
+                var sql = "UPDATE Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd") + " SET st = '" + edittime_information.select_st_time.ToString() + "',end_time ='" + edittime_information.select_end_time.ToString() + "',  内容 = N'" + textBox1.Text + "', カラー='" + cur_color_panel.BackColor.Name + "',勉強 = '" + study_checkbox.Checked.ToString().ToUpper() + "'  WHERE st = '" + corr_st.ToString() + "'";
 
 
                 using (var command = new SqlCommand(sql, connection))
@@ -227,8 +236,8 @@ namespace study_scheduler.childforms
                                 //被ってるデータを表示
                                 distinct_panel.Visible = true;
                                 distinct_timer.Start();
-                                distinc_show_label.Text += ((string)reader["内容"]).PadRight(3) + (string)reader["st"] + "〜" + (string)reader["end_time"] +"\n" ;
-                                distinct_panel.Size = new Size(distinct_panel.Size.Width, distinct_panel.Size.Height+30);
+                                distinc_show_label.Text += ((string)reader["内容"]).PadRight(3) + (string)reader["st"] + "〜" + (string)reader["end_time"] + "\n";
+                                distinct_panel.Size = new Size(distinct_panel.Size.Width, distinct_panel.Size.Height + 30);
                                 ret_judement = true;
                             }
                         }
@@ -413,19 +422,21 @@ namespace study_scheduler.childforms
 
         private void init_time_label()
         {
-           
-                st_time_label.Text = edittime_information.select_st_time.ToString();
-            if (edittime_information.select_end_time==new TimeOnly(23,59))
+
+            ActiveControl = back_btn;
+
+            st_time_label.Text = edittime_information.select_st_time.ToString();
+            if (edittime_information.select_end_time == new TimeOnly(23, 59))
             {
                 edittime_information.select_end_time = new TimeOnly(0, 0);
             }
-                end_time_label.Text = edittime_information.select_end_time.ToString();
+            end_time_label.Text = edittime_information.select_end_time.ToString();
 
-            if (edittime_information.select_correction_flag==true)
+            if (edittime_information.select_correction_flag == true)
             {
                 textBox1.Text = edittime_information.corr_title;
                 cur_color_panel.BackColor = edittime_information.corr_color;
-                study_checkbox.Checked=edittime_information.corr_study_flag;
+                study_checkbox.Checked = edittime_information.corr_study_flag;
 
                 corr_st = edittime_information.select_st_time;
                 corr_end = edittime_information.select_end_time;
@@ -478,9 +489,9 @@ namespace study_scheduler.childforms
                 hour_label.Text = edittime_information.select_st_time.Hour.ToString("00");
                 minut_label.Text = edittime_information.select_st_time.Minute.ToString("00");
 
-                
-                    hour_track.Value = 23 - edittime_information.select_st_time.Hour;
-                    minut_track.Value = 11 - (edittime_information.select_st_time.Minute / 5);
+
+                hour_track.Value = 23 - edittime_information.select_st_time.Hour;
+                minut_track.Value = 11 - (edittime_information.select_st_time.Minute / 5);
             }
             else if (st_or_end_flag == false)
             {
@@ -489,9 +500,9 @@ namespace study_scheduler.childforms
                 minut_label.Text = edittime_information.select_end_time.Minute.ToString("00");
 
 
-                    hour_track.Value = 23 - edittime_information.select_end_time.Hour;
-                    minut_track.Value = 11 - (edittime_information.select_end_time.Minute / 5);
-                
+                hour_track.Value = 23 - edittime_information.select_end_time.Hour;
+                minut_track.Value = 11 - (edittime_information.select_end_time.Minute / 5);
+
             }
         }
 
@@ -564,8 +575,19 @@ namespace study_scheduler.childforms
         {
             distinct_panel.Visible = false;
         }
+
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            return false;
+        }
+
+        private void Register_form_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter) 
+            {
+                Ok_method();
+            }
+        }
     }
-
-
 
 }

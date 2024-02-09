@@ -1060,6 +1060,7 @@
             ClientSize = new Size(1904, 1041);
             Controls.Add(cur_panel);
             Controls.Add(main_panel);
+            KeyPreview = true;
             Name = "Form1";
             Text = "Scheduler";
             WindowState = FormWindowState.Maximized;

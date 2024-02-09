@@ -77,9 +77,9 @@ namespace study_scheduler
         {
             for (int i = 0; i < DateTime.DaysInMonth(cur_date.Year, cur_date.Month); i++)
             {
-                if (File.Exists(@"memofolder\"+ cur_date.Year.ToString()+cur_date.Month.ToString("00")+(i+1).ToString("00")+".txt"))
+                if (File.Exists(@"memofolder\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt"))
                 {
-                    Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek +i+1).ToString(), true);
+                    Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + i + 1).ToString(), true);
                     if (button.Length > 0)
                     {
                         ((Button)button[0]).BackColor = Color.Orange;
@@ -95,13 +95,13 @@ namespace study_scheduler
             {
                 if (File.Exists(@"memofolder\title\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt"))
                 {
-                    
+
                     Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + i + 1).ToString(), true);
                     if (button.Length > 0)
                     {
                         string directory = @"memofolder\title\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt";
-                        string? title=read_title_file(ref directory);
-                        ((Button)button[0]).Text +="\n"+title;
+                        string? title = read_title_file(ref directory);
+                        ((Button)button[0]).Text += "\n" + title;
                     }
                 }
             }
@@ -109,7 +109,7 @@ namespace study_scheduler
 
         private string read_title_file(ref string file_directroy)
         {
-            string? work="";
+            string? work = "";
             StreamReader sr = new StreamReader(file_directroy);
             {
 
@@ -148,7 +148,7 @@ namespace study_scheduler
 
                 var sql = "SELECT * FROM Main_Table WHERE ”NŒŽ“ú BETWEEN '" + cur_date.ToString("yyyy/MM/01") + "' AND '" + cur_date.ToString("yyyy/MM/") + DateTime.DaysInMonth(cur_date.Year, cur_date.Month).ToString() + "'; ";
 
-                DateTime temp_time=new DateTime();
+                DateTime temp_time = new DateTime();
                 int sum = 0;
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
@@ -172,7 +172,7 @@ namespace study_scheduler
 
                 total_time_label.Text = trans_minut_hour(ref sum).ToString("");
 
-  
+
 
             }
 
@@ -345,7 +345,7 @@ namespace study_scheduler
 
             read_memo_file();
 
-            all_remove_btn_visi_jud(); 
+            all_remove_btn_visi_jud();
         }
 
 
@@ -360,7 +360,7 @@ namespace study_scheduler
 
             read_db();
 
-            read_memo_file() ;
+            read_memo_file();
 
             all_remove_btn_visi_jud();
         }
@@ -459,8 +459,9 @@ namespace study_scheduler
         private void all_remove_btn_MouseClick(object sender, MouseEventArgs e)
         {
             Remove_code.remove_code = "all";
-            if (Directory.Exists("memofolder"))Directory.Delete("memofolder",true);
+            if (Directory.Exists("memofolder")) Directory.Delete("memofolder", true);
             open_childform(new childforms.remove_form());
         }
+
     }
 }

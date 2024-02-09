@@ -618,8 +618,10 @@
             Controls.Add(distinct_panel);
             Controls.Add(radio_panel);
             Controls.Add(register_panel);
+            KeyPreview = true;
             Name = "Register_form";
             Text = "Register_form";
+            KeyDown += Register_form_KeyDown;
             register_panel.ResumeLayout(false);
             register_panel.PerformLayout();
             radio_panel.ResumeLayout(false);
