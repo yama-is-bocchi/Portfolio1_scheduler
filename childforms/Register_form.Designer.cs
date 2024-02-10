@@ -74,6 +74,7 @@
             distinc_show_label = new Label();
             distincted_highlight_label = new Label();
             distinct_timer = new System.Windows.Forms.Timer(components);
+            exit_btn = new Button();
             register_panel.SuspendLayout();
             radio_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)minut_track).BeginInit();
@@ -450,12 +451,15 @@
             // textBox1
             // 
             textBox1.Font = new Font("MV Boli", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(32, 147);
+            textBox1.Location = new Point(32, 134);
             textBox1.MaxLength = 8;
+            textBox1.Multiline = true;
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(241, 51);
+            textBox1.Size = new Size(241, 50);
             textBox1.TabIndex = 3;
             textBox1.MouseClick += _MouseClick;
+            textBox1.TextChanged += textBox1_TextChanged;
+            textBox1.PreviewKeyDown += textBox1_PreviewKeyDown;
             // 
             // text_box_label
             // 
@@ -600,14 +604,27 @@
             distincted_highlight_label.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             distincted_highlight_label.Location = new Point(3, 0);
             distincted_highlight_label.Name = "distincted_highlight_label";
-            distincted_highlight_label.Size = new Size(124, 25);
+            distincted_highlight_label.Size = new Size(126, 25);
             distincted_highlight_label.TabIndex = 25;
-            distincted_highlight_label.Text = "Distincted !!";
+            distincted_highlight_label.Text = "Duplicated !!";
             // 
             // distinct_timer
             // 
             distinct_timer.Interval = 6000;
             distinct_timer.Tick += distinct_timer_Tick;
+            // 
+            // exit_btn
+            // 
+            exit_btn.BackColor = Color.Red;
+            exit_btn.Cursor = Cursors.Hand;
+            exit_btn.FlatStyle = FlatStyle.Flat;
+            exit_btn.Location = new Point(1890, 0);
+            exit_btn.Name = "exit_btn";
+            exit_btn.Size = new Size(30, 25);
+            exit_btn.TabIndex = 27;
+            exit_btn.Text = "X";
+            exit_btn.UseVisualStyleBackColor = false;
+            exit_btn.MouseClick += exit_btn_MouseClick;
             // 
             // Register_form
             // 
@@ -615,9 +632,11 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(exit_btn);
             Controls.Add(distinct_panel);
             Controls.Add(radio_panel);
             Controls.Add(register_panel);
+            FormBorderStyle = FormBorderStyle.None;
             KeyPreview = true;
             Name = "Register_form";
             Text = "Register_form";
@@ -680,5 +699,6 @@
         private Label distinc_show_label;
         private Label distincted_highlight_label;
         private System.Windows.Forms.Timer distinct_timer;
+        private Button exit_btn;
     }
 }

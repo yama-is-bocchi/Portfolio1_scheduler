@@ -33,6 +33,7 @@
             cancel_btn = new Button();
             label1 = new Label();
             panel1 = new Panel();
+            exit_btn = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -92,12 +93,27 @@
             panel1.Size = new Size(423, 258);
             panel1.TabIndex = 4;
             // 
+            // exit_btn
+            // 
+            exit_btn.BackColor = Color.Red;
+            exit_btn.Cursor = Cursors.Hand;
+            exit_btn.FlatStyle = FlatStyle.Flat;
+            exit_btn.Location = new Point(1874, -1);
+            exit_btn.Name = "exit_btn";
+            exit_btn.Size = new Size(30, 25);
+            exit_btn.TabIndex = 28;
+            exit_btn.Text = "X";
+            exit_btn.UseVisualStyleBackColor = false;
+            exit_btn.MouseClick += exit_btn_MouseClick;
+            // 
             // remove_form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(exit_btn);
             Controls.Add(panel1);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "remove_form";
             Text = "remove_form";
             panel1.ResumeLayout(false);
@@ -112,5 +128,6 @@
         private Button cancel_btn;
         private Label label1;
         private Panel panel1;
+        private Button exit_btn;
     }
 }

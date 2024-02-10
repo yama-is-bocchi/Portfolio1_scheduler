@@ -197,11 +197,11 @@ namespace study_scheduler.childforms
                 }
             }
             init_panel();
-            
+
             if (exists_plan() == true)
             {
                 //パネル生成処理
-                
+
                 read_data_base();
                 change_gene_panel();
 
@@ -249,9 +249,9 @@ namespace study_scheduler.childforms
                     }
 
                 }
-                if (sum>0) 
+                if (sum > 0)
                 {
-                    sql = "UPDATE Main_Table SET トータル時間 = トータル時間 - " + sum.ToString() + " WHERE 年月日 =' " + cur_form_information.cur_date_button.ToString("yyyy/MM/dd")+"'";
+                    sql = "UPDATE Main_Table SET トータル時間 = トータル時間 - " + sum.ToString() + " WHERE 年月日 =' " + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
                     using (var command = new SqlCommand(sql, connection))
                     {
                         command.ExecuteNonQuery();
@@ -290,18 +290,23 @@ namespace study_scheduler.childforms
         {
             date_label.Text = cur_form_information.cur_date_button.ToString();
 
-            if (cur_form_information.cur_date_button == DateTime.Today)
+          
+
+            if (true!=Directory.Exists(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\"))
             {
-                //現在位置の指針生成
+                Directory.CreateDirectory(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\");
             }
 
-            if (!System.IO.Directory.Exists("memofolder")) Directory.CreateDirectory("memofolder");
+            if (!System.IO.Directory.Exists(@"memofolder\" + cur_form_information.cur_data_base_name))
+            {
+                Directory.CreateDirectory(@"memofolder\" + cur_form_information.cur_data_base_name);
+            }
 
-            if (System.IO.File.Exists(@"memofolder\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt"))
+            if (System.IO.File.Exists(@"memofolder\" + cur_form_information.cur_data_base_name + @"\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt"))
             {
 
                 string work = "";
-                StreamReader sr = new StreamReader(@"memofolder\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
+                StreamReader sr = new StreamReader(@"memofolder\" + cur_form_information.cur_data_base_name + @"\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
                 {
 
                     while (!sr.EndOfStream)
@@ -333,11 +338,11 @@ namespace study_scheduler.childforms
             }
 
 
-            if (System.IO.File.Exists(@"memofolder\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt"))
+            if (System.IO.File.Exists(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt"))
             {
 
                 string work = "";
-                StreamReader sr = new StreamReader(@"memofolder\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
+                StreamReader sr = new StreamReader(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
                 {
 
                     while (!sr.EndOfStream)
@@ -384,7 +389,7 @@ namespace study_scheduler.childforms
 
 
             now_panel.Visible = true;
-               
+
             if (DateTime.Now.Hour < 12)
             {
                 now_panel.Location = new Point(Now_panel.x_pos + ((DateTime.Now.Hour * 60) / 5) * Daysform_infromation.x_size + (DateTime.Now.Minute / 5 * 12), Now_panel.y_am_pos);
@@ -438,7 +443,7 @@ namespace study_scheduler.childforms
             return judement;
         }
 
-       
+
 
         private void read_data_base()
         {
@@ -452,7 +457,7 @@ namespace study_scheduler.childforms
                 connection.Open();
 
                 var sql = "SELECT * FROM Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd");
-                int sum=0;
+                int sum = 0;
 
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
@@ -462,19 +467,19 @@ namespace study_scheduler.childforms
                         TimeOnly st = TimeOnly.Parse((string)reader["st"]);
                         TimeOnly end = TimeOnly.Parse((string)reader["end_time"]);
 
-                        
-                        if(select_remove.BackColor!=Color.Red)Generate_plan_panel(ref st, end, Color.FromName((string)reader["カラー"]), (string)reader["内容"]);
 
-                        if ((bool)reader["勉強"] ==true)
+                        if (select_remove.BackColor != Color.Red) Generate_plan_panel(ref st, end, Color.FromName((string)reader["カラー"]), (string)reader["内容"]);
+
+                        if ((bool)reader["勉強"] == true)
                         {
-                            sum=sum+(((end.Hour-st.Hour)*60)+(end.Minute-st.Minute));
-                        
+                            sum = sum + (((end.Hour - st.Hour) * 60) + (end.Minute - st.Minute));
+
                         }
-                       
+
                     }
 
                 }
-                total_time_label.Text = ((sum/60)).ToString()+":"+(sum-((sum/60)*60)).ToString("00");
+                total_time_label.Text = ((sum / 60)).ToString() + ":" + (sum - ((sum / 60) * 60)).ToString("00");
 
             }
             return;
@@ -622,12 +627,13 @@ namespace study_scheduler.childforms
             }
             work.Controls.Add(st_end_label);
             st_end_label.Location = new Point(2, 27);
-            if (select_remove.BackColor==Color.White) {
-                
+            if (select_remove.BackColor == Color.White)
+            {
+
                 st_end_label.MouseClick += give_plan_corr;
 
             }
-            else if(select_remove.BackColor==Color.Red)
+            else if (select_remove.BackColor == Color.Red)
             {
                 st_end_label.MouseClick -= give_plan_corr;
                 st_end_label.MouseClick += give_remove_event;
@@ -686,12 +692,13 @@ namespace study_scheduler.childforms
             }
             work.Controls.Add(title_label);
             title_label.Location = new Point(2, 3);
-            if (select_remove.BackColor==Color.White) {
+            if (select_remove.BackColor == Color.White)
+            {
 
                 title_label.MouseClick += give_plan_corr;
 
             }
-            else if(select_remove.BackColor==Color.Red)
+            else if (select_remove.BackColor == Color.Red)
             {
                 title_label.MouseClick -= give_plan_corr;
                 title_label.MouseClick += give_remove_event;
@@ -790,6 +797,11 @@ namespace study_scheduler.childforms
 
         private void regiFormClosed(object? sender, EventArgs e)
         {
+            if (cur_form_information.exit_btn_flag == true)
+            {
+                Close();
+                return;
+            }
             back_btn.Focus();
             //読み取りデータベース
             if (exists_plan() == true)
@@ -834,7 +846,7 @@ namespace study_scheduler.childforms
         private void memo_remove()
         {
             memo_remove_btn.Visible = false;
-            File.Delete(@"memofolder\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
+            File.Delete(@"memofolder\" + cur_form_information.cur_data_base_name + @"\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
             textBox1.Text = "";
         }
         //登録クリック
@@ -871,7 +883,7 @@ namespace study_scheduler.childforms
                 {
                     textBox1.ScrollBars = ScrollBars.None;
                 }
-                using (StreamWriter sw = new StreamWriter(@"memofolder\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt", false,
+                using (StreamWriter sw = new StreamWriter(@"memofolder\" + cur_form_information.cur_data_base_name + @"\"  + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt", false,
                                                        Encoding.GetEncoding("unicode")))
                 {
                     sw.Write(textBox1.Text);
@@ -881,7 +893,7 @@ namespace study_scheduler.childforms
             else if (textBox1.Text.Length == 0)
             {
                 memo_remove_btn.Visible = false;
-                if (File.Exists(@"memofolder\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt")) File.Delete(@"memofolder\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
+                if (File.Exists(@"memofolder\" + cur_form_information.cur_data_base_name + @"\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt")) File.Delete(@"memofolder\" + cur_form_information.cur_data_base_name + @"\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
 
             }
 
@@ -907,10 +919,10 @@ namespace study_scheduler.childforms
 
         private void title_box_TextChanged(object sender, EventArgs e)
         {
-            if (!Directory.Exists(@"memofolder\title\")) Directory.CreateDirectory(@"memofolder\title");
+            
             if (title_box.Text.Length > 0)
             {
-                using (StreamWriter sw = new StreamWriter(@"memofolder\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt", false,
+                using (StreamWriter sw = new StreamWriter(@"memofolder\"+ cur_form_information.cur_data_base_name+@"\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt", false,
                                                        Encoding.GetEncoding("unicode")))
                 {
                     sw.Write(title_box.Text);
@@ -920,7 +932,7 @@ namespace study_scheduler.childforms
             else if (title_box.Text.Length == 0)
             {
                 memo_remove_btn.Visible = false;
-                if (File.Exists(@"memofolder\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt")) File.Delete(@"memofolder\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
+                if (File.Exists(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt")) File.Delete(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
 
             }
         }
@@ -936,15 +948,21 @@ namespace study_scheduler.childforms
             {
                 now_panel.Location = new Point(Now_panel.x_pos + ((((DateTime.Now.Hour - 12) * 60) / 5) * Daysform_infromation.x_size) + (DateTime.Now.Minute / 5 * 12), Now_panel.y_pm_pos);
             }
-            if (DateTime.Today.Day!=cur_form_information.cur_date_button.Day)
+            if (DateTime.Today.Day != cur_form_information.cur_date_button.Day)
             {
                 now_panel.Visible = false;
                 now_pos_timer.Stop();
             }
-            else 
+            else
             {
                 now_pos_timer.Start();
             }
+        }
+
+        private void exit_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+            cur_form_information.exit_btn_flag = true;
+            Close();
         }
     }
 }

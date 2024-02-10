@@ -29,7 +29,11 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             cur_panel = new Panel();
+            exit_btn = new Button();
+            Change_db_btn = new Button();
+            Kakeibo_btn = new Button();
             all_remove_btn = new Button();
             label14 = new Label();
             total_time_label = new Label();
@@ -103,6 +107,9 @@
             // cur_panel
             // 
             cur_panel.BorderStyle = BorderStyle.FixedSingle;
+            cur_panel.Controls.Add(exit_btn);
+            cur_panel.Controls.Add(Change_db_btn);
+            cur_panel.Controls.Add(Kakeibo_btn);
             cur_panel.Controls.Add(all_remove_btn);
             cur_panel.Controls.Add(label14);
             cur_panel.Controls.Add(total_time_label);
@@ -130,6 +137,49 @@
             cur_panel.Paint += panel1_Paint;
             cur_panel.Resize += panel1_Resize;
             // 
+            // exit_btn
+            // 
+            exit_btn.BackColor = Color.Red;
+            exit_btn.Cursor = Cursors.Hand;
+            exit_btn.FlatStyle = FlatStyle.Flat;
+            exit_btn.Location = new Point(1890, 0);
+            exit_btn.Name = "exit_btn";
+            exit_btn.Size = new Size(30, 25);
+            exit_btn.TabIndex = 16;
+            exit_btn.Text = "X";
+            exit_btn.UseVisualStyleBackColor = false;
+            exit_btn.MouseClick += exit_btn_MouseClick;
+            // 
+            // Change_db_btn
+            // 
+            Change_db_btn.BackColor = Color.MediumSeaGreen;
+            Change_db_btn.Cursor = Cursors.Hand;
+            Change_db_btn.FlatStyle = FlatStyle.Flat;
+            Change_db_btn.Font = new Font("MV Boli", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Change_db_btn.Location = new Point(102, 111);
+            Change_db_btn.Name = "Change_db_btn";
+            Change_db_btn.Size = new Size(70, 44);
+            Change_db_btn.TabIndex = 61;
+            Change_db_btn.Text = "LogOut";
+            Change_db_btn.TextAlign = ContentAlignment.TopLeft;
+            Change_db_btn.UseVisualStyleBackColor = false;
+            Change_db_btn.MouseClick += Change_db_btn_MouseClick;
+            // 
+            // Kakeibo_btn
+            // 
+            Kakeibo_btn.BackColor = Color.MediumSeaGreen;
+            Kakeibo_btn.Cursor = Cursors.Hand;
+            Kakeibo_btn.FlatStyle = FlatStyle.Flat;
+            Kakeibo_btn.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            Kakeibo_btn.Image = (Image)resources.GetObject("Kakeibo_btn.Image");
+            Kakeibo_btn.Location = new Point(228, 6);
+            Kakeibo_btn.Name = "Kakeibo_btn";
+            Kakeibo_btn.Size = new Size(61, 72);
+            Kakeibo_btn.TabIndex = 60;
+            Kakeibo_btn.TextAlign = ContentAlignment.TopLeft;
+            Kakeibo_btn.UseVisualStyleBackColor = false;
+            Kakeibo_btn.MouseClick += Kakeibo_btn_MouseClick;
+            // 
             // all_remove_btn
             // 
             all_remove_btn.BackColor = Color.MediumSeaGreen;
@@ -137,7 +187,7 @@
             all_remove_btn.FlatStyle = FlatStyle.Flat;
             all_remove_btn.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
             all_remove_btn.Image = Properties.Resources._9392;
-            all_remove_btn.Location = new Point(157, 2);
+            all_remove_btn.Location = new Point(161, 6);
             all_remove_btn.Name = "all_remove_btn";
             all_remove_btn.Size = new Size(61, 72);
             all_remove_btn.TabIndex = 59;
@@ -165,9 +215,9 @@
             total_time_label.ForeColor = SystemColors.ActiveCaptionText;
             total_time_label.Location = new Point(217, 81);
             total_time_label.Name = "total_time_label";
-            total_time_label.Size = new Size(185, 28);
+            total_time_label.Size = new Size(80, 28);
             total_time_label.TabIndex = 15;
-            total_time_label.Text = "100000000000";
+            total_time_label.Text = "00:00";
             // 
             // cur_month_num_label
             // 
@@ -1060,6 +1110,7 @@
             ClientSize = new Size(1904, 1041);
             Controls.Add(cur_panel);
             Controls.Add(main_panel);
+            FormBorderStyle = FormBorderStyle.None;
             KeyPreview = true;
             Name = "Form1";
             Text = "Scheduler";
@@ -1140,5 +1191,8 @@
         private Label label14;
         private Label total_time_label;
         private Button all_remove_btn;
+        private Button Kakeibo_btn;
+        private Button Change_db_btn;
+        private Button exit_btn;
     }
 }

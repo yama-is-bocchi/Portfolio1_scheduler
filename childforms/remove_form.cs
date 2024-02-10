@@ -90,27 +90,33 @@ namespace study_scheduler.childforms
                 // 接続を確立
                 connection.Open();
 
-                var sql = "DROP TABLE Table_"+p_date.ToString("yyyy_MM_dd");
+                var sql = "DROP TABLE Table_" + p_date.ToString("yyyy_MM_dd");
 
                 using (var command = new SqlCommand(sql, connection))
                 {
                     command.ExecuteNonQuery();
                 }
-                
-                sql = "DELETE FROM Main_Table WHERE 年月日 = '"+ p_date.ToString("yyyy/MM/dd") + "'";
+
+                sql = "DELETE FROM Main_Table WHERE 年月日 = '" + p_date.ToString("yyyy/MM/dd") + "'";
 
                 using (var command = new SqlCommand(sql, connection))
                 {
                     command.ExecuteNonQuery();
                 }
             }
-        } 
+        }
 
 
 
         private void cancel_btn_MouseClick(object sender, MouseEventArgs e)
         {
             this.Close();
+        }
+
+        private void exit_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+            cur_form_information.exit_btn_flag = true;
+            Close();
         }
     }
 }

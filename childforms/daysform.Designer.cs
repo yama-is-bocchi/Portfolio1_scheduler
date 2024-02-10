@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Daysform));
             schedule_panel = new Panel();
+            exit_btn = new Button();
             now_panel = new Panel();
             label5 = new Label();
             panel29 = new Panel();
@@ -109,6 +110,7 @@
             // schedule_panel
             // 
             schedule_panel.BackColor = Color.White;
+            schedule_panel.Controls.Add(exit_btn);
             schedule_panel.Controls.Add(now_panel);
             schedule_panel.Controls.Add(label4);
             schedule_panel.Controls.Add(title_box);
@@ -181,6 +183,19 @@
             schedule_panel.Name = "schedule_panel";
             schedule_panel.Size = new Size(1904, 1041);
             schedule_panel.TabIndex = 0;
+            // 
+            // exit_btn
+            // 
+            exit_btn.BackColor = Color.Red;
+            exit_btn.Cursor = Cursors.Hand;
+            exit_btn.FlatStyle = FlatStyle.Flat;
+            exit_btn.Location = new Point(1890, 0);
+            exit_btn.Name = "exit_btn";
+            exit_btn.Size = new Size(30, 25);
+            exit_btn.TabIndex = 62;
+            exit_btn.Text = "X";
+            exit_btn.UseVisualStyleBackColor = false;
+            exit_btn.MouseClick += exit_btn_MouseClick;
             // 
             // now_panel
             // 
@@ -926,6 +941,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1904, 1041);
             Controls.Add(schedule_panel);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "Daysform";
             Text = "Daysform";
             schedule_panel.ResumeLayout(false);
@@ -1009,5 +1025,6 @@
         private Label label5;
         private System.Windows.Forms.Timer now_pos_timer;
         private PageSetupDialog pageSetupDialog1;
+        private Button exit_btn;
     }
 }

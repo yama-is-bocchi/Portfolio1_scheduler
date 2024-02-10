@@ -19,7 +19,7 @@ namespace study_scheduler.childforms
         {
             InitializeComponent();
             init_time_label();
-            
+
             //重複チェック 後で
         }
         private bool st_or_end_flag;
@@ -32,7 +32,7 @@ namespace study_scheduler.childforms
         //データ保存メイン処理
         private void ok_btn_MouseClick(object? sender, MouseEventArgs e)
         {
-         Ok_method();
+            Ok_method();
         }
 
 
@@ -583,10 +583,33 @@ namespace study_scheduler.childforms
 
         private void Register_form_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == Keys.Enter) 
+            if (e.KeyData == Keys.Enter)
             {
+                ActiveControl = ok_btn;
                 Ok_method();
             }
+        }
+
+        private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                ActiveControl = ok_btn;
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox1.Text.Contains("\n"))
+            {
+                textBox1.Text = textBox1.Text.Replace("\n", "");
+            }
+        }
+
+        private void exit_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+            cur_form_information.exit_btn_flag = true;
+            this.Close();
         }
     }
 

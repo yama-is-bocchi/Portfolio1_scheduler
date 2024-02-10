@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace study_scheduler
 {
@@ -14,12 +16,16 @@ namespace study_scheduler
     public static class cur_form_information
     {
         public static DateTime cur_date_button;
+        public static bool exit_btn_flag;
+
+        public static string? cur_data_base_name;
     }
 
 
     public static class edittime_information
     {
-        public static string sql_code = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=study_scheduler;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+        public static string Title_Data_base_connect_code= @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = Title_data_base; Integrated Security = True; Connect Timeout = 30; Encrypt=False;Trust Server Certificate=False;Application Intent = ReadWrite; Multi Subnet Failover=False";
+        public static string? sql_code;
         public static TimeOnly select_st_time;
         public static TimeOnly select_end_time;
         public static Color corr_color;

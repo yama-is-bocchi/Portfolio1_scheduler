@@ -21,6 +21,8 @@ using static System.ComponentModel.Design.ObjectSelectorEditor;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 using study_scheduler.childforms;
 using System.Data.Common;
+using System.Security.Permissions;
+using study_scheduler.Methods;
 
 
 namespace study_scheduler
@@ -31,14 +33,9 @@ namespace study_scheduler
         {
             InitializeComponent();
             change_today_information();
-            sort_button();
-            read_db();
-            read_memo_file();
-            all_remove_btn_visi_jud();
         }
 
         private DateTime cur_date;
-
 
         private void all_remove_btn_visi_jud()
         {
@@ -77,7 +74,7 @@ namespace study_scheduler
         {
             for (int i = 0; i < DateTime.DaysInMonth(cur_date.Year, cur_date.Month); i++)
             {
-                if (File.Exists(@"memofolder\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt"))
+                if (File.Exists(@"memofolder\"+cur_form_information.cur_data_base_name+@"\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt"))
                 {
                     Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + i + 1).ToString(), true);
                     if (button.Length > 0)
@@ -93,13 +90,13 @@ namespace study_scheduler
         {
             for (int i = 0; i < DateTime.DaysInMonth(cur_date.Year, cur_date.Month); i++)
             {
-                if (File.Exists(@"memofolder\title\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt"))
+                if (File.Exists(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt"))
                 {
 
                     Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + i + 1).ToString(), true);
                     if (button.Length > 0)
                     {
-                        string directory = @"memofolder\title\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt";
+                        string directory = @"memofolder\" + cur_form_information.cur_data_base_name + @"\title\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt";
                         string? title = read_title_file(ref directory);
                         ((Button)button[0]).Text += "\n" + title;
                     }
@@ -127,9 +124,6 @@ namespace study_scheduler
                         work = list;
                         break;
                     }
-
-
-
                 }
                 sr.Close();
             }
@@ -167,11 +161,7 @@ namespace study_scheduler
                     }
 
                 }
-
                 total_time_label.Text = trans_minut_hour(ref sum);
-
-
-
             }
 
 
@@ -179,11 +169,11 @@ namespace study_scheduler
 
         private string trans_minut_hour(ref int p_sum)
         {
-            string? ret_hour="00";
-            string? ret_minute="00";
+            string? ret_hour = "00";
+            string? ret_minute = "00";
             if (p_sum >= 60)
             {
-                ret_hour = (p_sum / 60).ToString("00") ;
+                ret_hour = (p_sum / 60).ToString("00");
 
                 ret_minute = (p_sum % 60).ToString("00");
 
@@ -193,13 +183,34 @@ namespace study_scheduler
                 ret_minute = p_sum.ToString("00");
             }
 
-            return ret_hour+":"+ret_minute;
+            return ret_hour + ":" + ret_minute;
         }
 
 
         //今日の情報(年,月日,名古屋の気温,天気)を更新
         private void change_today_information()
         {
+            Connection_methods connect = new Connection_methods();
+
+            if (connect.Check_folder() == false)
+            {
+                connect.Create_folder_file();
+            }
+
+            if (connect.Read_connection_str() == "")
+            {
+                open_childform(new Loginform());
+                return;
+            }
+            else
+            {
+                cur_form_information.cur_data_base_name=connect.Read_connection_str();
+            }
+
+            edittime_information.sql_code= @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog =" +cur_form_information.cur_data_base_name +"; Integrated Security = True; Connect Timeout = 30; Encrypt=False;Trust Server Certificate=False;Application Intent = ReadWrite; Multi Subnet Failover=False";
+
+
+
             DateTime today = DateTime.Today;
 
             cur_date = new DateTime(today.Year, today.Month, 1); ;
@@ -210,8 +221,17 @@ namespace study_scheduler
 
             change_second_timer.Start();
 
-
             scraping_tokyo_temp();
+
+            sort_button();
+
+            read_db();
+
+            read_memo_file();
+
+            all_remove_btn_visi_jud();
+
+            total_time_label.Text=connect.Read_connection_str();
         }
 
         private void scraping_tokyo_temp()
@@ -405,15 +425,22 @@ namespace study_scheduler
         //子フォームが閉じたら元に戻す
         private void SubFormClosed(object? sender, EventArgs e)
         {
-            cur_panel.Visible = true;
-            cur_panel.Enabled = true;
-            DateTime today = DateTime.Today;
-            change_per_second_information(ref today);
-            change_second_timer.Start();
-            sort_button();
-            read_db();
-            read_memo_file();
-            all_remove_btn_visi_jud();
+            if (cur_form_information.exit_btn_flag == true)
+            {
+                Close();
+                Application.Exit();
+                return;
+            }
+            else
+            {
+                change_today_information();
+                cur_panel.Visible = true;
+                cur_panel.Enabled = true;
+                DateTime today = DateTime.Today;
+                change_per_second_information(ref today);
+                change_second_timer.Start();
+                
+            }
         }
 
         //cur_panelの背景をグラデーションに変更
@@ -460,5 +487,27 @@ namespace study_scheduler
             open_childform(new childforms.remove_form());
         }
 
+        private void Kakeibo_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void Change_db_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            StreamWriter sw = new StreamWriter(@"data_folder\connect.txt");
+            {
+                sw.Write("");
+                sw.Close();
+            }
+
+            open_childform(new Loginform());
+        }
+
+        private void exit_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+            Close();
+            Application.Exit();
+        }
     }
 }
