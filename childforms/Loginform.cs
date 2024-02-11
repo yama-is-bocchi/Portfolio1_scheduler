@@ -80,6 +80,7 @@ namespace study_scheduler.childforms
             {
                 up_or_in_btn.Text = "Login";
                 which_label.Text = "Sign up";
+
             }
             else
             {
@@ -131,11 +132,11 @@ namespace study_scheduler.childforms
                 //勧告
                 return;
             }
-
+            string p_pass = Password_textbox.Text;
             //ログインor新規登録
             if (which_label.Text == "Login")
             {
-                string p_pass = Password_textbox.Text;
+                
                 if (false == connection_class.Check_passward(ref p_str, p_pass))//パスワードチェック
                 {
                     need_count = 6;
@@ -174,8 +175,28 @@ namespace study_scheduler.childforms
             {
                 //データベース作成,ログイン
                 //サクセス画面
+
+                if (connection_class.Insert_title_db_and_Create_database(ref p_str, p_pass)==true)
+                {
+                    //データフォルダーに上書き
+                    edittime_information.sql_code = edittime_information.Title_Data_base_connect_code.Replace("Title_data_base", p_str);
+                    connection_class.Write_connetion_str(ref p_str);
+                    panel1.Visible = false;
+                    fault_label.Text = "Succes!!";
+                    fault_label.Location = new Point(700, 430);
+                    login_timer.Start();
+                    return;
+                }
+                else
+                {
+                    need_count = 6;
+                    fault_kind = "Fault connect...";
+                    fault_timer.Start();
+                    //勧告
+                    return;
+                }
+
             }
-            return;
         }
 
         private void ok_btn_MouseClick(object sender, MouseEventArgs e)

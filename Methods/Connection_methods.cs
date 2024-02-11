@@ -1,11 +1,15 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace study_scheduler.Methods
 {
@@ -163,6 +167,47 @@ namespace study_scheduler.Methods
             return false;
         }
 
+        public bool Insert_title_db_and_Create_database(ref string p_title,string p_password)
+        {
+            var connectionString = edittime_information.Title_Data_base_connect_code;
 
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                var sql = " INSERT INTO タイトルテーブル(タイトル,パスワード ) VALUES(N'"+p_title+ "' , N'" + p_password+" ') ";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            //データベース作成
+            using (var connection = new SqlConnection(connectionString.Replace("Title_data_base", "master")))
+            {
+                connection.Open();
+
+                var sql = "CREATE DATABASE "+p_title;
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            using (var connection = new SqlConnection(connectionString.Replace("Title_data_base", p_title)))
+            {
+                connection.Open();
+
+                var sql = "CREATE TABLE[dbo].[Main_Table]([年月日] DATE NOT NULL PRIMARY KEY,[トータル時間] INT NULL)";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+            return true;
+        }
     }
 }
