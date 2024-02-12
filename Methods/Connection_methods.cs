@@ -90,7 +90,7 @@ namespace study_scheduler.Methods
                 // 接続を確立
                 connection.Open();
 
-                var sql = "SELECT COUNT(*) FROM タイトルテーブル WHERE タイトル = '" + p_title + "'";
+                var sql = "SELECT COUNT(*) FROM タイトルテーブル WHERE タイトル = N'" + p_title + "'";
 
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
@@ -120,7 +120,7 @@ namespace study_scheduler.Methods
                 // 接続を確立
                 connection.Open();
 
-                var sql = "SELECT * FROM タイトルテーブル WHERE タイトル = '" + p_title + "'";
+                var sql = "SELECT * FROM タイトルテーブル WHERE タイトル = N'" + p_title + "'";
 
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
@@ -175,7 +175,7 @@ namespace study_scheduler.Methods
             {
                 connection.Open();
 
-                var sql = " INSERT INTO タイトルテーブル(タイトル,パスワード ) VALUES(N'"+p_title+ "' , N'" + p_password+" ') ";
+                var sql = " INSERT INTO タイトルテーブル(タイトル,パスワード ) VALUES(N'"+p_title+ "' , N'" + p_password+"') ";
 
                 using (var command = new SqlCommand(sql, connection))
                 {
@@ -200,7 +200,7 @@ namespace study_scheduler.Methods
             {
                 connection.Open();
 
-                var sql = "CREATE TABLE[dbo].[Main_Table]([年月日] DATE NOT NULL PRIMARY KEY,[トータル時間] INT NULL)";
+                var sql = "CREATE TABLE[dbo].[Main_Table]([年月日] DATE NOT NULL PRIMARY KEY,[トータル時間] INT NULL,[メモ] NTEXT NULL,[])";
 
                 using (var command = new SqlCommand(sql, connection))
                 {
@@ -210,4 +210,183 @@ namespace study_scheduler.Methods
             return true;
         }
     }
+
+    public class Scheduler_Tabele_methods
+    {
+        public void InsertMaintbl()
+        {
+            var connectionString = edittime_information.sql_code;
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                var sql = " INSERT INTO Main_Table(年月日,トータル時間 ) VALUES('" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "', 0 ) ";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+
+            }
+        }
+
+        public void Create_days_tbl()
+        {
+            var connectionString = edittime_information.sql_code;
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                var sql = "CREATE TABLE[dbo].[Table_"+cur_form_information.cur_date_button.ToString("yyyy_MM_dd")+"]([st] NVARCHAR(50) NOT NULL,[end_time] NVARCHAR(50) NOT NULL,[内容] NVARCHAR(50) NOT NULL,[カラー]   NVARCHAR(50) NOT NULL,[勉強]   BIT   NULL,PRIMARY KEY CLUSTERED([st] ASC))"; 
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+
+            }
+        }
+
+        public bool Exists_main_table()
+        {
+            var connectionString = edittime_information.sql_code;
+            bool judement = false;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                var sql = "SELECT 年月日 FROM Main_Table WHERE 年月日 = '" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "' ";
+
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (cur_form_information.cur_date_button == (DateTime)reader["年月日"])
+                        {
+                            judement = true;
+                        }
+
+                    }
+
+                }
+            }
+            return judement;
+        }
+
+        public bool Exists_days_tbl()
+        {
+            var connectionString = edittime_information.sql_code;
+            bool judement = false;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                var sql = "SELECT COUNT(table_name) FROM information_schema.tables WHERE table_name = 'Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd")+ "'";
+
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if ((int)reader[""]>0)
+                        {
+                            judement = true;
+                        }
+
+                    }
+
+                }
+            }
+            return judement;
+        }
+
+        public bool Exists_title()
+        {
+            var connectionString = edittime_information.sql_code;
+            bool judement = false;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                var sql = "SELECT COUNT(*) FROM Main_Table WHERE 年月日 = '" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "' AND タイトル IS NOT NULL";
+
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if ((int)reader[""] > 0)
+                        {
+                            judement = true;
+                        }
+
+                    }
+
+                }
+            }
+            return judement;
+        }
+
+        public bool Exists_memo()
+        {
+            var connectionString = edittime_information.sql_code;
+            bool judement = false;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                var sql = "SELECT COUNT(*) FROM Main_Table WHERE 年月日 = '" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "' AND メモ IS NOT NULL";
+
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if ((int)reader[""] > 0)
+                        {
+                            judement = true;
+                        }
+
+                    }
+
+                }
+            }
+            return judement;
+        }
+
+        public void Delete_main_tbl_colum()
+        {
+            var connectionString = edittime_information.sql_code;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                var sql = "DELETE FROM Main_Table WHERE 年月日 = '" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+    }
+
+
 }

@@ -42,6 +42,7 @@
             fault_timer = new System.Windows.Forms.Timer(components);
             login_timer = new System.Windows.Forms.Timer(components);
             panel1 = new Panel();
+            enter_timer = new System.Windows.Forms.Timer(components);
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -184,6 +185,10 @@
             panel1.Size = new Size(1920, 1080);
             panel1.TabIndex = 31;
             // 
+            // enter_timer
+            // 
+            enter_timer.Tick += enter_timer_Tick;
+            // 
             // Loginform
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -218,5 +223,6 @@
         private System.Windows.Forms.Timer fault_timer;
         private System.Windows.Forms.Timer login_timer;
         private Panel panel1;
+        private System.Windows.Forms.Timer enter_timer;
     }
 }

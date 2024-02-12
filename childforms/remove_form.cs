@@ -52,6 +52,8 @@ namespace study_scheduler.childforms
         {
             var connectionString = edittime_information.sql_code;
 
+            if (Directory.Exists("memofolder")) Directory.Delete("memofolder", true);
+
             using (var connection = new SqlConnection(connectionString))
             {
                 // 接続を確立
@@ -79,6 +81,8 @@ namespace study_scheduler.childforms
                     command.ExecuteNonQuery();
                 }
             }
+
+
         }
 
         private void remove_table(ref DateTime p_date)

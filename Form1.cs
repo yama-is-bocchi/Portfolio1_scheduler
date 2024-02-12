@@ -33,6 +33,7 @@ namespace study_scheduler
         {
             InitializeComponent();
             change_today_information();
+            
         }
 
         private DateTime cur_date;
@@ -70,66 +71,40 @@ namespace study_scheduler
 
         }
 
-        private void read_memo_file()
+
+
+        //titleを読み取り
+        private void Read_memo_title()
         {
-            for (int i = 0; i < DateTime.DaysInMonth(cur_date.Year, cur_date.Month); i++)
+            var connectionString = edittime_information.sql_code;
+            using (var connection = new SqlConnection(connectionString))
             {
-                if (File.Exists(@"memofolder\"+cur_form_information.cur_data_base_name+@"\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt"))
+                // 接続を確立
+                connection.Open();
+                var sql = "SELECT 年月日,タイトル FROM Main_Table WHERE 年月日 BETWEEN '" + cur_date.ToString("yyyy/MM/01") + "' AND '"+cur_date.ToString("yyyy/MM/") + DateTime.DaysInMonth(cur_date.Year, cur_date.Month).ToString() + "' AND タイトル IS NOT NULL";
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
                 {
-                    Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + i + 1).ToString(), true);
-                    if (button.Length > 0)
+                    while (reader.Read())
                     {
-                        ((Button)button[0]).BackColor = Color.Orange;
+                        DateTime temp_time = (DateTime)reader["年月日"];
+
+                        Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + temp_time.Day).ToString(), true);
+                        if (button.Length > 0)
+                        {
+                            ((Button)button[0]).Text += "\n"+(string)reader["タイトル"];
+                        }
+
                     }
+
                 }
+
+
             }
-            check_title_file();
+            return;
         }
 
-        private void check_title_file()
-        {
-            for (int i = 0; i < DateTime.DaysInMonth(cur_date.Year, cur_date.Month); i++)
-            {
-                if (File.Exists(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt"))
-                {
-
-                    Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + i + 1).ToString(), true);
-                    if (button.Length > 0)
-                    {
-                        string directory = @"memofolder\" + cur_form_information.cur_data_base_name + @"\title\" + cur_date.Year.ToString() + cur_date.Month.ToString("00") + (i + 1).ToString("00") + ".txt";
-                        string? title = read_title_file(ref directory);
-                        ((Button)button[0]).Text += "\n" + title;
-                    }
-                }
-            }
-        }
-
-        private string read_title_file(ref string file_directroy)
-        {
-            string? work = "";
-            StreamReader sr = new StreamReader(file_directroy);
-            {
-
-                while (!sr.EndOfStream)
-                {
-
-                    string line = sr.ReadLine() + "";
-
-                    string[] values = line.Split();
-
-                    List<string> lists = [.. values];
-
-                    foreach (string list in lists)
-                    {
-                        work = list;
-                        break;
-                    }
-                }
-                sr.Close();
-            }
-
-            return work;
-        }
+    
 
         //データベースを読み取りボタンの配色を変更させる
         private void read_db()
@@ -151,6 +126,7 @@ namespace study_scheduler
 
 
                         sum += (int)reader["トータル時間"];
+
 
                         Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + temp_time.Day).ToString(), true);
                         if (button.Length > 0)
@@ -227,11 +203,9 @@ namespace study_scheduler
 
             read_db();
 
-            read_memo_file();
+            Read_memo_title();
 
             all_remove_btn_visi_jud();
-
-            total_time_label.Text=connect.Read_connection_str();
         }
 
         private void scraping_tokyo_temp()
@@ -248,6 +222,9 @@ namespace study_scheduler
             if (element == null)
             {
                 weather_pic_box.Visible = false;
+                temp_max_label.Visible = false;
+                temp_min_label.Visible = false;
+                label5.Visible= false;
                 return;
             }
 
@@ -293,7 +270,10 @@ namespace study_scheduler
             /// 
             if (element == null)
             {
+                weather_pic_box.Visible = false;
                 temp_max_label.Visible = false;
+                temp_min_label.Visible = false;
+                label5.Visible = false;
                 return;
             }
 
@@ -307,7 +287,10 @@ namespace study_scheduler
 
             if (element == null)
             {
+                weather_pic_box.Visible = false;
+                temp_max_label.Visible = false;
                 temp_min_label.Visible = false;
+                label5.Visible = false;
                 return;
             }
 
@@ -360,7 +343,7 @@ namespace study_scheduler
 
             read_db();
 
-            read_memo_file();
+            Read_memo_title();
 
             all_remove_btn_visi_jud();
         }
@@ -377,7 +360,7 @@ namespace study_scheduler
 
             read_db();
 
-            read_memo_file();
+            Read_memo_title();
 
             all_remove_btn_visi_jud();
         }
@@ -396,6 +379,7 @@ namespace study_scheduler
 
             for (int i = 0; i < DateTime.DaysInMonth(cur_date.Year, cur_date.Month); i++)
             {
+                
                 Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + 1 + i).ToString(), true);
                 if (button.Length > 0)
                 {
@@ -483,12 +467,12 @@ namespace study_scheduler
         private void all_remove_btn_MouseClick(object sender, MouseEventArgs e)
         {
             Remove_code.remove_code = "all";
-            if (Directory.Exists("memofolder")) Directory.Delete("memofolder", true);
             open_childform(new childforms.remove_form());
         }
 
         private void Kakeibo_btn_MouseClick(object sender, MouseEventArgs e)
         {
+            
 
         }
 

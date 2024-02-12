@@ -44,7 +44,7 @@
             memo_remove_btn = new Button();
             back_btn = new Button();
             label2 = new Label();
-            textBox1 = new TextBox();
+            memotextbox = new TextBox();
             total_time_label = new Label();
             label1 = new Label();
             date_label = new Label();
@@ -121,7 +121,7 @@
             schedule_panel.Controls.Add(memo_remove_btn);
             schedule_panel.Controls.Add(back_btn);
             schedule_panel.Controls.Add(label2);
-            schedule_panel.Controls.Add(textBox1);
+            schedule_panel.Controls.Add(memotextbox);
             schedule_panel.Controls.Add(total_time_label);
             schedule_panel.Controls.Add(label1);
             schedule_panel.Controls.Add(date_label);
@@ -244,7 +244,6 @@
             title_box.Name = "title_box";
             title_box.Size = new Size(203, 54);
             title_box.TabIndex = 60;
-            title_box.TextChanged += title_box_TextChanged;
             // 
             // select_remove
             // 
@@ -334,16 +333,16 @@
             label2.TabIndex = 54;
             label2.Text = "Memo";
             // 
-            // textBox1
+            // memotextbox
             // 
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(262, 34);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(1615, 355);
-            textBox1.TabIndex = 53;
-            textBox1.TextChanged += textBox1_TextChanged;
+            memotextbox.BorderStyle = BorderStyle.FixedSingle;
+            memotextbox.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            memotextbox.Location = new Point(262, 34);
+            memotextbox.Multiline = true;
+            memotextbox.Name = "memotextbox";
+            memotextbox.Size = new Size(1615, 355);
+            memotextbox.TabIndex = 53;
+            memotextbox.TextChanged += textBox1_TextChanged;
             // 
             // total_time_label
             // 
@@ -1012,7 +1011,7 @@
         private Label total_time_label;
         private Label label1;
         private Label label2;
-        private TextBox textBox1;
+        private TextBox memotextbox;
         private Button back_btn;
         private Button memo_remove_btn;
         private Button all_remove_btn;

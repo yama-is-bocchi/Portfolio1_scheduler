@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Data.SqlClient.Server;
+using study_scheduler.Methods;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,7 +24,7 @@ namespace study_scheduler.childforms
             init_form();
 
         }
-
+        Scheduler_Tabele_methods methods = new Scheduler_Tabele_methods();
         private int generate_object_count = 0;
 
         private void change_gene_panel()
@@ -198,7 +199,7 @@ namespace study_scheduler.childforms
             }
             init_panel();
 
-            if (exists_plan() == true)
+            if (methods.Exists_days_tbl() == true)
             {
                 //パネル生成処理
 
@@ -214,6 +215,7 @@ namespace study_scheduler.childforms
                 select_remove.Visible = false;
                 select_remove.BackColor = Color.White;
             }
+            memo_title_save_jud_method();
         }
 
 
@@ -288,93 +290,12 @@ namespace study_scheduler.childforms
         //画面初期処理
         private void init_form()
         {
-            date_label.Text = cur_form_information.cur_date_button.ToString();
+            date_label.Text = cur_form_information.cur_date_button.ToString("yyyy/MM/dd");
 
-          
+            //タイトル、メモ読み取り処理
+            Read_memo_title();
 
-            if (true!=Directory.Exists(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\"))
-            {
-                Directory.CreateDirectory(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\");
-            }
-
-            if (!System.IO.Directory.Exists(@"memofolder\" + cur_form_information.cur_data_base_name))
-            {
-                Directory.CreateDirectory(@"memofolder\" + cur_form_information.cur_data_base_name);
-            }
-
-            if (System.IO.File.Exists(@"memofolder\" + cur_form_information.cur_data_base_name + @"\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt"))
-            {
-
-                string work = "";
-                StreamReader sr = new StreamReader(@"memofolder\" + cur_form_information.cur_data_base_name + @"\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
-                {
-
-                    while (!sr.EndOfStream)
-                    {
-
-                        string line = sr.ReadLine() + "";
-
-                        string[] values = line.Split();
-
-                        List<string> lists = new List<string>();
-
-                        lists.AddRange(values);
-
-                        foreach (string list in lists)
-                        {
-                            work += list + "\r\n";
-                        }
-
-
-
-                    }
-                    sr.Close();
-                }
-                textBox1.Text = work;
-            }
-            else
-            {
-                textBox1.Text = "";
-            }
-
-
-            if (System.IO.File.Exists(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt"))
-            {
-
-                string work = "";
-                StreamReader sr = new StreamReader(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
-                {
-
-                    while (!sr.EndOfStream)
-                    {
-
-                        string line = sr.ReadLine() + "";
-
-                        string[] values = line.Split();
-
-                        List<string> lists = new List<string>();
-
-                        lists.AddRange(values);
-
-                        foreach (string list in lists)
-                        {
-                            work = list;
-                        }
-
-
-
-                    }
-                    sr.Close();
-                }
-                title_box.Text = work;
-            }
-            else
-            {
-                title_box.Text = "";
-            }
-
-
-            if (exists_plan() == true)
+            if (methods.Exists_days_tbl() == true)
             {
                 all_remove_btn.Visible = true;
                 select_remove.Visible = true;
@@ -411,37 +332,7 @@ namespace study_scheduler.childforms
         }
 
 
-        //プランが存在するか
-        private bool exists_plan()
-        {
-            var connectionString = edittime_information.sql_code;
-            bool judement = false;
-
-            using (var connection = new SqlConnection(connectionString))
-            {
-                // 接続を確立
-                connection.Open();
-
-                var sql = "SELECT * FROM Main_Table WHERE 年月日 = '" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "' ";
-
-                using (var command = new SqlCommand(sql, connection))
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        if (cur_form_information.cur_date_button == (DateTime)reader["年月日"])
-                        {
-                            judement = true;
-                        }
-
-                    }
-
-                }
-
-
-            }
-            return judement;
-        }
+    
 
 
 
@@ -744,6 +635,7 @@ namespace study_scheduler.childforms
             }
             edittime_information.select_st_time = TimeOnly.Parse(p_st);
             search_end_time(ref p_st);
+            memo_title_save_jud_method();
             open_form(new childforms.Register_form());
 
 
@@ -804,10 +696,11 @@ namespace study_scheduler.childforms
             }
             back_btn.Focus();
             //読み取りデータベース
-            if (exists_plan() == true)
+            if (methods.Exists_days_tbl() == true)
             {
                 init_panel();
                 read_data_base();
+                Read_memo_title();
             }
             else
             {
@@ -828,6 +721,7 @@ namespace study_scheduler.childforms
         //戻るボタン
         private void back_btn_MouseClick(object sender, MouseEventArgs e)
         {
+            memo_title_save_jud_method();
             this.Close();
         }
         //全て削除処理
@@ -837,17 +731,35 @@ namespace study_scheduler.childforms
             init_panel();
             open_form(new childforms.remove_form());
         }
+
         //メモ削除処理
         private void memo_remove_btn_MouseClick(object sender, MouseEventArgs e)
         {
-            memo_remove();
-        }
-        //メモ削除処理
-        private void memo_remove()
-        {
             memo_remove_btn.Visible = false;
-            File.Delete(@"memofolder\" + cur_form_information.cur_data_base_name + @"\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
-            textBox1.Text = "";
+            Memo_colum_remove();
+            memotextbox.Text = "";
+        }
+        private void Memo_colum_remove()
+        {
+            var connectionString = edittime_information.sql_code;
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+
+                var sql = " UPDATE Main_Table SET メモ = NULL WHERE 年月日 ='"+cur_form_information.cur_date_button.ToString("yyyy/MM/dd")+"'";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            if (methods.Exists_days_tbl() == false && methods.Exists_title() == false)//タイトルも存在しないか?
+            {
+                //メインテーブルから削除
+                methods.Delete_main_tbl_colum();
+            }
         }
         //登録クリック
         private void register_schedule_label_click(object sender, MouseEventArgs e)
@@ -865,35 +777,31 @@ namespace study_scheduler.childforms
 
 
             }
+            memo_title_save_jud_method();
             open_form(new childforms.Register_form());
         }
 
         //メモ変更処理
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (textBox1.Text.Length > 0)
+            if (memotextbox.Text.Length > 0)
             {
                 memo_remove_btn.Visible = true;
 
-                if (textBox1.Lines.Length > 11)//10行超えたらスクロールバー追加
+                if (memotextbox.Lines.Length > 11)//10行超えたらスクロールバー追加
                 {
-                    textBox1.ScrollBars = ScrollBars.Vertical;
+                    memotextbox.ScrollBars = ScrollBars.Vertical;
                 }
-                else if (textBox1.Lines.Length <= 11)
+                else if (memotextbox.Lines.Length <= 11)
                 {
-                    textBox1.ScrollBars = ScrollBars.None;
+                    memotextbox.ScrollBars = ScrollBars.None;
                 }
-                using (StreamWriter sw = new StreamWriter(@"memofolder\" + cur_form_information.cur_data_base_name + @"\"  + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt", false,
-                                                       Encoding.GetEncoding("unicode")))
-                {
-                    sw.Write(textBox1.Text);
-                    sw.Close();
-                }
+
             }
-            else if (textBox1.Text.Length == 0)
+            else if (memotextbox.Text.Length == 0)
             {
                 memo_remove_btn.Visible = false;
-                if (File.Exists(@"memofolder\" + cur_form_information.cur_data_base_name + @"\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt")) File.Delete(@"memofolder\" + cur_form_information.cur_data_base_name + @"\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
+
 
             }
 
@@ -917,25 +825,7 @@ namespace study_scheduler.childforms
 
         }
 
-        private void title_box_TextChanged(object sender, EventArgs e)
-        {
-            
-            if (title_box.Text.Length > 0)
-            {
-                using (StreamWriter sw = new StreamWriter(@"memofolder\"+ cur_form_information.cur_data_base_name+@"\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt", false,
-                                                       Encoding.GetEncoding("unicode")))
-                {
-                    sw.Write(title_box.Text);
-                    sw.Close();
-                }
-            }
-            else if (title_box.Text.Length == 0)
-            {
-                memo_remove_btn.Visible = false;
-                if (File.Exists(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt")) File.Delete(@"memofolder\" + cur_form_information.cur_data_base_name + @"\title\" + cur_form_information.cur_date_button.Year.ToString() + cur_form_information.cur_date_button.Month.ToString("00") + cur_form_information.cur_date_button.Day.ToString("00") + ".txt");
 
-            }
-        }
 
         private void now_pos_timer_Tick(object sender, EventArgs e)
         {
@@ -961,8 +851,163 @@ namespace study_scheduler.childforms
 
         private void exit_btn_MouseClick(object sender, MouseEventArgs e)
         {
+            memo_title_save_jud_method();
             cur_form_information.exit_btn_flag = true;
             Close();
+        }
+
+        private void memo_title_save_jud_method()
+        {
+            if (title_box.Text.Length==0&&methods.Exists_days_tbl()==false
+                &&memotextbox.Text.Length==0)
+            {
+                methods.Delete_main_tbl_colum();
+            }else if (methods.Exists_main_table() == false)//テーブルが存在するか?
+            {//しない
+                methods.InsertMaintbl();
+            }
+            string? work;
+            work = memotextbox.Text;
+            Save_memo_data(ref work);
+            work = title_box.Text;
+            Save_title_data(ref work);
+        }
+
+        private void Save_memo_data(ref string p_memo)
+        {
+
+            var connectionString = edittime_information.sql_code;
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+                var sql = "UPDATE Main_Table SET メモ = N'" + p_memo + "' WHERE 年月日='" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+            }
+            return;
+        }
+
+        private void Save_title_data(ref string p_title)
+        {
+            var connectionString = edittime_information.sql_code;
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                var sql = "";
+                connection.Open();
+                if (title_box.Text.Length == 0)
+                {
+                    sql = "UPDATE Main_Table SET タイトル = NULL WHERE 年月日='" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
+                }
+                else
+                {
+                    sql = "UPDATE Main_Table SET タイトル = N'" + p_title + "' WHERE 年月日='" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
+
+                }
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+            }
+            return;
+        }
+
+        private void Read_memo_title()
+        {
+            var connectionString = edittime_information.sql_code;
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+                var sql = "SELECT COUNT(*) FROM Main_Table WHERE 年月日='" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'AND メモ IS NOT NULL";
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if ((int)reader[""] > 0)
+                        {
+                            //メモBOX記入
+                            Write_memo_box();
+                            break;
+                        }
+
+                    }
+
+                }
+                sql = "SELECT COUNT(*) FROM Main_Table WHERE 年月日='" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'AND タイトル IS NOT NULL";
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if ((int)reader[""] > 0)
+                        {
+                            //タイトルBOX記入
+                            Write_title_box();
+                            break;
+                        }
+
+                    }
+
+                }
+
+
+            }
+            return;
+        }
+
+
+        private void Write_memo_box()
+        {
+            var connectionString = edittime_information.sql_code;
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+                var sql = "SELECT メモ FROM Main_Table WHERE 年月日='" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        memotextbox.Text = (string)reader["メモ"];
+                        return;
+
+                    }
+
+                }
+            }
+            return;
+        }
+
+
+        private void Write_title_box()
+        {
+            var connectionString = edittime_information.sql_code;
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // 接続を確立
+                connection.Open();
+                var sql = "SELECT タイトル FROM Main_Table WHERE 年月日='" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        title_box.Text = (string)reader["タイトル"];
+                        return;
+
+                    }
+
+                }
+            }
+            return;
         }
     }
 }

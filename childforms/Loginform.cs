@@ -76,6 +76,9 @@ namespace study_scheduler.childforms
 
         private void up_or_in_btn_MouseClick(object sender, MouseEventArgs e)
         {
+            Title_textbox.Text = "";
+            Password_textbox.Text = "";
+
             if (up_or_in_btn.Text == "Sign up")
             {
                 up_or_in_btn.Text = "Login";
@@ -136,7 +139,7 @@ namespace study_scheduler.childforms
             //ログインor新規登録
             if (which_label.Text == "Login")
             {
-                
+
                 if (false == connection_class.Check_passward(ref p_str, p_pass))//パスワードチェック
                 {
                     need_count = 6;
@@ -176,7 +179,7 @@ namespace study_scheduler.childforms
                 //データベース作成,ログイン
                 //サクセス画面
 
-                if (connection_class.Insert_title_db_and_Create_database(ref p_str, p_pass)==true)
+                if (connection_class.Insert_title_db_and_Create_database(ref p_str, p_pass) == true)
                 {
                     //データフォルダーに上書き
                     edittime_information.sql_code = edittime_information.Title_Data_base_connect_code.Replace("Title_data_base", p_str);
@@ -248,10 +251,16 @@ namespace study_scheduler.childforms
 
         private void Loginform_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == Keys.Enter && Title_textbox.Text.Length>0&& Password_textbox.Text.Length>0)
+            if (e.KeyData == Keys.Enter && Title_textbox.Text.Length > 0 && Password_textbox.Text.Length > 0)
             {
-                ok_method();
+                enter_timer.Start();
             }
+        }
+
+        private void enter_timer_Tick(object sender, EventArgs e)
+        {
+            ok_method();
+            enter_timer.Stop();
         }
     }
 }

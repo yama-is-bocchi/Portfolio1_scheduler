@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using study_scheduler.Methods;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -80,14 +81,17 @@ namespace study_scheduler.childforms
 
             }
 
+            Scheduler_Tabele_methods methods = new Scheduler_Tabele_methods();
 
             //メインテーブルに行があるかチェック
 
-            if (exists_main_table() == false)
+            if (methods.Exists_main_table() == false)
             {
                 //Maintable insert
+                methods.InsertMaintbl();
+                //daysテーブル作成
+                methods.Create_days_tbl();
 
-                insert_main_table_and_create_day_table();
             }
             else
             {
@@ -254,72 +258,6 @@ namespace study_scheduler.childforms
 
         }
 
-        private bool exists_main_table()
-        {
-            var connectionString = edittime_information.sql_code;
-            bool judement = false;
-
-            using (var connection = new SqlConnection(connectionString))
-            {
-                // 接続を確立
-                connection.Open();
-
-                var sql = "SELECT * FROM Main_Table WHERE 年月日 = '" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "' ";
-
-                using (var command = new SqlCommand(sql, connection))
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        if (cur_form_information.cur_date_button == (DateTime)reader["年月日"])
-                        {
-                            judement = true;
-                        }
-
-                    }
-
-                }
-
-
-            }
-            return judement;
-        }
-
-
-
-
-        private void insert_main_table_and_create_day_table()
-        {
-            var connectionString = edittime_information.sql_code;
-            using (var connection = new SqlConnection(connectionString))
-            {
-                // 接続を確立
-                connection.Open();
-
-                var sql = " INSERT INTO Main_Table(年月日,トータル時間 ) VALUES('" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "', 0 ) ";
-
-                using (var command = new SqlCommand(sql, connection))
-                {
-                    command.ExecuteNonQuery();
-                }
-
-
-            }
-
-            connectionString = edittime_information.sql_code;
-            using (var connection = new SqlConnection(connectionString))
-            {
-                // 接続を確立
-                connection.Open();
-
-                var sql = " CREATE TABLE [dbo].[Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd") + "] ([st] NVARCHAR(50) NOT NULL ,[end_time] NVARCHAR(50) NOT NULL, [内容] NVARCHAR(50) NOT NULL,[カラー] NVARCHAR(50) NOT NULL,[勉強] BIT ,PRIMARY KEY(st))";
-
-                using (var command = new SqlCommand(sql, connection))
-                {
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
 
 
         private void insert_cur_day_table()
