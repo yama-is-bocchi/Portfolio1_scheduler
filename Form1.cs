@@ -472,8 +472,7 @@ namespace study_scheduler
 
         private void Kakeibo_btn_MouseClick(object sender, MouseEventArgs e)
         {
-            
-
+            open_childform(new Kakeibo_forms.Kakeibo_main());
         }
 
         private void Change_db_btn_MouseClick(object sender, MouseEventArgs e)

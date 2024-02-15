@@ -200,7 +200,33 @@ namespace study_scheduler.Methods
             {
                 connection.Open();
 
-                var sql = "CREATE TABLE[dbo].[Main_Table]([年月日] DATE NOT NULL PRIMARY KEY,[トータル時間] INT NULL,[メモ] NTEXT NULL,[])";
+                var sql = "CREATE TABLE[dbo].[Main_Table]([年月日] DATE NOT NULL PRIMARY KEY,[トータル時間] INT NULL,[メモ] NTEXT NULL,[タイトル] NTEXT NULL)";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                sql = "CREATE TABLE[dbo].[収入テーブル]([ID_NUM] INT NOT NULL PRIMARY KEY,[日付] DATE NOT NULL,[タイトル] NVARCHAR(50) NOT NULL,[収入] BIGINT NOT NULL)";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+                sql = "CREATE TABLE[dbo].[残高テーブル]([ID_NUM] INT NOT NULL PRIMARY KEY,[日付] DATE NOT NULL,[残高] BIGINT NOT NULL)";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+                sql = "CREATE TABLE[dbo].[支出テーブル]([ID_NUM] INT NOT NULL PRIMARY KEY,[日付] DATE NOT NULL,[タイトル] NVARCHAR(50) NOT NULL,[支出] BIGINT NOT NULL)";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                sql = "CREATE TABLE[dbo].[目標テーブル]([タイトル] NVARCHAR(50) NOT NULL PRIMARY KEY,[目標金額] BIGINT NOT NULL)";
 
                 using (var command = new SqlCommand(sql, connection))
                 {

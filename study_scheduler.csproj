@@ -62,8 +62,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="新しいフォルダー\" />
-  </ItemGroup>
-
 </Project>

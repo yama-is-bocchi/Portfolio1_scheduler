@@ -116,7 +116,7 @@ namespace study_scheduler.childforms
             if ((connection_class.Check_password_pattern(ref p_str)) == false)//パスワードに全角が入ってるか?
             {
                 need_count = 6;
-                fault_kind = "Please retype Password without '全角'";
+                fault_kind = "Please retype Password without '全角' or space";
                 fault_timer.Start();
                 ActiveControl = Password_textbox;
                 //勧告

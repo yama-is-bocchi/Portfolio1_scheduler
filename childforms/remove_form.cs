@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using study_scheduler.Methods;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -87,6 +88,8 @@ namespace study_scheduler.childforms
 
         private void remove_table(ref DateTime p_date)
         {
+            Scheduler_Tabele_methods methods = new Scheduler_Tabele_methods();
+
             var connectionString = edittime_information.sql_code;
 
             using (var connection = new SqlConnection(connectionString))
@@ -94,14 +97,18 @@ namespace study_scheduler.childforms
                 // 接続を確立
                 connection.Open();
 
-                var sql = "DROP TABLE Table_" + p_date.ToString("yyyy_MM_dd");
+                var sql = "";
+                //テーブルがあるなら
+                if (methods.Exists_days_tbl()==true) {
 
-                using (var command = new SqlCommand(sql, connection))
-                {
-                    command.ExecuteNonQuery();
+                    sql = "DROP TABLE Table_" + p_date.ToString("yyyy_MM_dd");
+
+                    using (var command = new SqlCommand(sql, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
                 }
-
-                sql = "DELETE FROM Main_Table WHERE 年月日 = '" + p_date.ToString("yyyy/MM/dd") + "'";
+                 sql = "DELETE FROM Main_Table WHERE 年月日 = '" + p_date.ToString("yyyy/MM/dd") + "'";
 
                 using (var command = new SqlCommand(sql, connection))
                 {

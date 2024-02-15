@@ -39,7 +39,7 @@ namespace study_scheduler
         public const int x_start_pos = 47;
         public const int y_am_start_pos = 547;
         public const int y_pm_start_pos = 849;
-        public const int x_size =12;//5分で11
+        public const int x_size =12;//5分で12
         public const int y_size =55;
     }
 
@@ -54,6 +54,25 @@ namespace study_scheduler
         public const int y_am_pos =478;
         public const int y_pm_pos =781;
     }
+
+    public class Kakeibo_const() 
+    {
+        public static DateTime kakeibo_date;
+        public static DateTime Temp_date_pick=new DateTime();
+        public static string? cur_page_name;
+        
+    }
+    public class kakeibo_goal_const()
+    {
+        public  Point title_point = new Point(116, 79);
+        public  Point goal_point = new Point(484, 79);
+        public  Point money_point = new Point(893, 79);
+        public  Point diff_point = new Point(1299, 79);
+        public Size under_line_size = new Size(1666,3);
+        public Point under_line_point = new Point(1666, 3);
+    }
+
+
 }
 
 

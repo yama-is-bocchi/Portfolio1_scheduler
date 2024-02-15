@@ -132,7 +132,7 @@
             cur_panel.Dock = DockStyle.Top;
             cur_panel.Location = new Point(0, 0);
             cur_panel.Name = "cur_panel";
-            cur_panel.Size = new Size(1904, 160);
+            cur_panel.Size = new Size(1904, 162);
             cur_panel.TabIndex = 0;
             cur_panel.Paint += panel1_Paint;
             cur_panel.Resize += panel1_Resize;

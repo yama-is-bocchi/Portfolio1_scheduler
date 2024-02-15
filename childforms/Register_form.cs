@@ -95,7 +95,7 @@ namespace study_scheduler.childforms
             }
             else
             {
-
+                if (methods.Exists_days_tbl() == false)methods.Create_days_tbl();
                 //時刻が被ってないか
                 if (distinct_plane_date() == true)
                 {
@@ -123,6 +123,7 @@ namespace study_scheduler.childforms
             }
             else
             {
+                
                 //insert
                 insert_cur_day_table();
 

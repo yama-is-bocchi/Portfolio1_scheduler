@@ -876,18 +876,37 @@ namespace study_scheduler.childforms
         private void Save_memo_data(ref string p_memo)
         {
 
-            var connectionString = edittime_information.sql_code;
-            using (var connection = new SqlConnection(connectionString))
+            if (memotextbox.Text.Length==0) 
             {
-                // 接続を確立
-                connection.Open();
-                var sql = "UPDATE Main_Table SET メモ = N'" + p_memo + "' WHERE 年月日='" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
-                using (var command = new SqlCommand(sql, connection))
+                var connectionString = edittime_information.sql_code;
+                using (var connection = new SqlConnection(connectionString))
                 {
-                    command.ExecuteNonQuery();
-                }
+                    // 接続を確立
+                    connection.Open();
+                    var sql = "UPDATE Main_Table SET メモ = NULL WHERE 年月日='" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
+                    using (var command = new SqlCommand(sql, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
 
+                }
             }
+            else 
+            {
+                var connectionString = edittime_information.sql_code;
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    // 接続を確立
+                    connection.Open();
+                    var sql = "UPDATE Main_Table SET メモ = N'" + p_memo + "' WHERE 年月日='" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
+                    using (var command = new SqlCommand(sql, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                }
+            }
+            
             return;
         }
 
