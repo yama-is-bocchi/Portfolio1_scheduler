@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace study_scheduler.Methods
 {
@@ -32,7 +33,7 @@ namespace study_scheduler.Methods
         }
 
 
-        private int Read_database_count(ref string kind)
+        public int Read_database_count(ref string kind)
         {
             int count = 0;
 
@@ -70,7 +71,7 @@ namespace study_scheduler.Methods
                 connection.Open();
 
                 
-                var sql = " INSERT INTO " + Kakeibo_const.cur_page_name + "テーブル(ID_NUM,日付,タイトル,"+ Kakeibo_const.cur_page_name + " ) VALUES(" + id_num.ToString() + ",'" + Date.ToString("yyyy/MM/dd") + "','" + Title + "'," + money.ToString() + ") ";
+                var sql = " INSERT INTO " + Kakeibo_const.cur_page_name + "テーブル(ID_NUM,日付,タイトル,"+ Kakeibo_const.cur_page_name + " ) VALUES(" + id_num.ToString() + ",'" + Date.ToString("yyyy/MM/dd") + "',N'" + Title + "'," + money.ToString() + ") ";
 
                 using (var command = new SqlCommand(sql, connection))
                 {
@@ -142,7 +143,69 @@ namespace study_scheduler.Methods
             }
         }
 
-        
+
+        public void Insert_goal_tbl(ref string title,bool income,Int64 amount)
+        {
+            var connectionString = edittime_information.sql_code;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                var sql = " INSERT INTO 目標テーブル(タイトル,目標金額,収入) VALUES(N'"+title+"',"+amount+",'"+income.ToString().ToUpper()+"')";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public bool Exists_goal_tbl(ref string title, bool income)
+        {
+            var connectionString = edittime_information.sql_code;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                var sql = "SELECT COUNT(*) FROM 目標テーブル WHERE タイトル=N'"+title+"' AND 収入='"+income.ToString().ToUpper()+"'";
+
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if ((int)reader[""]>0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public void Update_goal_tbl(ref string title, bool income, Int64 amount)
+        {
+            var connectionString = edittime_information.sql_code;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                var sql = " UPDATE 目標テーブル SET タイトル=N'"+title+"',目標金額 ="+amount.ToString()+" WHERE タイトル=N'" + title + "' AND 収入='" + income.ToString().ToUpper()+"'";
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
 
     }
 }

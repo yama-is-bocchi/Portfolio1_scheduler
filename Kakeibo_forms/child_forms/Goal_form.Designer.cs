@@ -35,6 +35,7 @@
             add_btn = new Button();
             change_btn = new Button();
             goal_panel = new Panel();
+            goal_panel.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -42,7 +43,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("MV Boli", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.LimeGreen;
-            label1.Location = new Point(116, 9);
+            label1.Location = new Point(119, 9);
             label1.Name = "label1";
             label1.Size = new Size(88, 41);
             label1.TabIndex = 13;
@@ -53,7 +54,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("MV Boli", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.LimeGreen;
-            label2.Location = new Point(455, 9);
+            label2.Location = new Point(466, 9);
             label2.Name = "label2";
             label2.Size = new Size(210, 41);
             label2.TabIndex = 14;
@@ -64,7 +65,7 @@
             change_cur_info.AutoSize = true;
             change_cur_info.Font = new Font("MV Boli", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             change_cur_info.ForeColor = Color.LimeGreen;
-            change_cur_info.Location = new Point(875, 9);
+            change_cur_info.Location = new Point(883, 9);
             change_cur_info.Name = "change_cur_info";
             change_cur_info.Size = new Size(195, 41);
             change_cur_info.TabIndex = 15;
@@ -75,7 +76,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("MV Boli", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.LimeGreen;
-            label4.Location = new Point(1299, 9);
+            label4.Location = new Point(1297, 9);
             label4.Name = "label4";
             label4.Size = new Size(74, 41);
             label4.TabIndex = 16;
@@ -96,6 +97,8 @@
             add_btn.Text = "Add";
             add_btn.UseVisualStyleBackColor = false;
             add_btn.MouseClick += add_btn_MouseClick;
+            add_btn.MouseEnter += add_btn_MouseEnter;
+            add_btn.MouseLeave += add_btn_MouseLeave;
             // 
             // change_btn
             // 
@@ -111,9 +114,17 @@
             change_btn.TabIndex = 22;
             change_btn.Text = "Change";
             change_btn.UseVisualStyleBackColor = false;
+            change_btn.MouseClick += change_btn_MouseClick;
             // 
             // goal_panel
             // 
+            goal_panel.AutoScroll = true;
+            goal_panel.Controls.Add(add_btn);
+            goal_panel.Controls.Add(change_btn);
+            goal_panel.Controls.Add(label1);
+            goal_panel.Controls.Add(label2);
+            goal_panel.Controls.Add(label4);
+            goal_panel.Controls.Add(change_cur_info);
             goal_panel.Dock = DockStyle.Fill;
             goal_panel.Location = new Point(0, 0);
             goal_panel.Name = "goal_panel";
@@ -126,18 +137,13 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(70, 70, 70);
             ClientSize = new Size(1660, 879);
-            Controls.Add(change_btn);
-            Controls.Add(add_btn);
-            Controls.Add(label4);
-            Controls.Add(change_cur_info);
-            Controls.Add(label2);
-            Controls.Add(label1);
             Controls.Add(goal_panel);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Goal_form";
             Text = "Goal_form";
+            goal_panel.ResumeLayout(false);
+            goal_panel.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion

@@ -226,7 +226,7 @@ namespace study_scheduler.Methods
                     command.ExecuteNonQuery();
                 }
 
-                sql = "CREATE TABLE[dbo].[目標テーブル]([タイトル] NVARCHAR(50) NOT NULL PRIMARY KEY,[目標金額] BIGINT NOT NULL)";
+                sql = "CREATE TABLE[dbo].[目標テーブル]([タイトル] NVARCHAR(50) NOT NULL,[目標金額] BIGINT NOT NULL,[収入] BIT NULL,CONSTRAINT[UK1] UNIQUE NONCLUSTERED([タイトル] ASC, [収入] ASC))" ;
 
                 using (var command = new SqlCommand(sql, connection))
                 {
@@ -411,8 +411,8 @@ namespace study_scheduler.Methods
             }
         }
 
+        
+
 
     }
-
-
 }

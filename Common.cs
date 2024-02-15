@@ -64,15 +64,15 @@ namespace study_scheduler
     }
     public class kakeibo_goal_const()
     {
-        public  Point title_point = new Point(116, 79);
-        public  Point goal_point = new Point(484, 79);
-        public  Point money_point = new Point(893, 79);
-        public  Point diff_point = new Point(1299, 79);
+        public  Point title_point = new Point(116, 82);
+        public  Point goal_point = new Point(484, 82);
+        public  Point money_point = new Point(893, 82);
+        public  Point diff_point = new Point(1299, 82);
         public Size under_line_size = new Size(1666,3);
-        public Point under_line_point = new Point(1666, 3);
+        public Point under_line_point = new Point(3, 123);
+        public static string? cur_setting_mode;
+        public Point gene_label_point = new Point(18, 14);
     }
-
-
 }
 
 

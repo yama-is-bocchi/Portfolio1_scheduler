@@ -72,6 +72,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
 
         private void Ok_method()
         {
+            this.KeyPreview = false;
             string temp = amountbox.Text;
             //check処理
             if (kakei_methods.amount_check(ref temp) == false || amountbox.Text.Length >= 18 || amountbox.Text.Length == 0)
@@ -96,14 +97,14 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             insert_timer.Start();
             titlebox.Text = "";
             amountbox.Text = "";
-
+            this.KeyPreview = true;
         }
 
         private void Income_regi_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter && titlebox.Text.Length > 0 && amountbox.Text.Length > 0)
             {
-                enter_timer.Start();
+                Ok_method();
             }
         }
 
