@@ -186,6 +186,12 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             if (sender == null|| kakeibo_static_info.cur_page_name == null) return;
             int p_id =Convert.ToInt16((((Button)sender).Text).Replace("X   ",""));
             methods.Delete_select_tbl_colum(ref kakeibo_static_info.cur_page_name, p_id);
+            Control[] work = this.Controls.Find("money" + ((Button)sender).Name.Replace("remove", ""), true);
+            bool p_flag=false;
+            if (kakeibo_static_info.cur_page_name == "収入") p_flag = true;
+            Int64 p_pre= Convert.ToInt64(work[0].Text);
+            Int64 p_a = 0;
+            methods.Update_zandaka_tbl(ref p_a,p_pre,p_flag);
             Init_object();
             if (Read_tbl() == false) return;
         }
