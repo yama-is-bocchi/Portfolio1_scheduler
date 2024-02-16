@@ -466,7 +466,7 @@ namespace study_scheduler
 
         private void all_remove_btn_MouseClick(object sender, MouseEventArgs e)
         {
-            Remove_code.remove_code = "all";
+            kakeibo_static_info.remove_code = "all";
             open_childform(new childforms.remove_form());
         }
 

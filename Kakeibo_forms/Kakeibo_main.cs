@@ -29,7 +29,7 @@ namespace study_scheduler.Kakeibo_forms
             Kakeibo_const.kakeibo_date = DateTime.Now;
             cur_date_label.Text = Kakeibo_const.kakeibo_date.ToString("yyyy/MM/dd");
             cur_month_str_label.Text = Kakeibo_const.kakeibo_date.ToString("MMMM", System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
-            cur_page_label.Text = "Top page";
+            cur_page_label.Text = "トップページ";
         }
 
         
@@ -107,31 +107,34 @@ namespace study_scheduler.Kakeibo_forms
         {
             Cur_form?.Close();
 
-            if (((Button)sender).Text.Contains("Income registration"))
+            if (((Button)sender).Text.Contains("収入登録"))
             {
                 Cur_active_btn = Income_regi_btn;
-                cur_page_label.Text = "Income registration";
-                Kakeibo_const.cur_page_name = "収入";
+                cur_page_label.Text = "収入登録";
+                kakeibo_static_info.cur_page_name = "収入";
                 Cur_form = new child_forms.Income_regi();
             }
-            else if (((Button)sender).Text.Contains("Expenditure registration"))
+            else if (((Button)sender).Text.Contains("支出登録"))
             {
                 Cur_active_btn = Expenditure_regi_btn;
-                cur_page_label.Text = "Expenditure registration";
-                Kakeibo_const.cur_page_name = "支出";
+                cur_page_label.Text = "支出登録";
+                kakeibo_static_info.cur_page_name = "支出";
                 Cur_form = new child_forms.Income_regi();
             }
-            else if (((Button)sender).Text.Contains("Goal registration, reference"))
+            else if (((Button)sender).Text.Contains("目標登録"))
             {
                 Cur_active_btn = goal_regi_btn;
-                cur_page_label.Text = "Goal registration, reference";
-                Kakeibo_const.cur_page_name = "目標";
+                cur_page_label.Text = "目標登録,参照";
+                kakeibo_static_info.cur_page_name = "目標";
                 Cur_form = new child_forms.Goal_form();
 
             }
-            else if (((Button)sender).Text.Contains("remaining amount"))
+            else if (((Button)sender).Text.Contains("残高参照"))
             {
                 Cur_active_btn = Income_expendi_remain_ref_btn;
+                cur_page_label.Text = "収入,支出,残高参照";
+                kakeibo_static_info.cur_page_name = "サブトップ";
+                Cur_form = new child_forms.Zandaka_form();
             }
            
         }

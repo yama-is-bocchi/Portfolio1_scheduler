@@ -22,7 +22,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         }
         private string Cur_page_name;
         Kakeibo_form_methods methods1 = new Kakeibo_form_methods();
-        private int colum_count=0;
+        private int colum_count = 0;
 
         private void init_form()
         {
@@ -41,24 +41,29 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             {
                 // 接続を確立
                 bool p_flag;
-                if (Cur_page_name=="支出")
+                if (Cur_page_name == "支出")
                 {
-                    p_flag = false ;
+                    p_flag = false;
                 }
                 else
                 {
-                    p_flag = true ;
+                    p_flag = true;
                 }
 
                 connection.Open();
-                var sql = "SELECT COUNT(*) FROM 目標テーブル WHERE 収入 = '"+p_flag.ToString().ToUpper()+"'";
+                var sql = "SELECT COUNT(*) FROM 目標テーブル WHERE 収入 = '" + p_flag.ToString().ToUpper() + "'";
 
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        if ((int)reader[""] == 0) return false;
+                        if ((int)reader[""] == 0) 
+                        {
+                            colum_count = 0;
+                            return false;
+                        }
+                        
                     }
                 }
 
@@ -111,7 +116,16 @@ namespace study_scheduler.Kakeibo_forms.child_forms
 
 
             //実際の金額
-            Int64 temp_money = Ret_cur_tbl_money(ref p_Title);
+            //存在しなかったら0にする
+            Int64 temp_money;
+            if (methods1.Exists_income_expen_colum(ref Cur_page_name,p_Title)) 
+            {
+                temp_money = Ret_cur_tbl_money(ref p_Title);
+            }
+            else
+            {
+                temp_money = 0;
+            }
             Label money_label = new Label();
             goal_panel.Controls.Add(money_label);
             money_label.Name = "money" + count.ToString();
@@ -121,39 +135,68 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             money_label.ForeColor = Color.LimeGreen;
             money_label.BringToFront();
             money_label.Show();
+            money_label.AutoSize = true;
 
             //差額
             Label diff_label = new Label();
             goal_panel.Controls.Add(diff_label);
             diff_label.Name = "diff" + count.ToString();
-            if (Cur_page_name=="支出") 
+            if (Cur_page_name == "支出")
             {
-              
                 diff_label.Text = (goal - temp_money).ToString("+#;-#;");
             }
             else
             {
-                diff_label.Text = (temp_money-goal).ToString("+#;-#;");
+                diff_label.Text = (temp_money - goal).ToString("+#;-#;");
             }
             diff_label.Font = new Font("MV Boli", 16);
             diff_label.Location = new Point(const_data.diff_point.X, const_data.diff_point.Y + (count * 100));
             diff_label.ForeColor = Color.LimeGreen;
             diff_label.BringToFront();
             diff_label.Show();
+            diff_label.AutoSize= true;
 
             //アンダーライン生成
             Panel under_line = new Panel();
             goal_panel.Controls.Add(under_line);
             under_line.Name = "underline" + count.ToString();
-            under_line.Size = new Size (const_data.under_line_size.Width,const_data.under_line_size.Height);
+            under_line.Size = new Size(const_data.under_line_size.Width, const_data.under_line_size.Height);
             under_line.Location = new Point(const_data.under_line_point.X, const_data.under_line_point.Y + (count * 100));
             under_line.BackColor = Color.Black;
             under_line.SuspendLayout();
             under_line.BringToFront();
             under_line.Show();
 
+            //削除ボタン作成
+            Button remove_btn = new Button();
+            goal_panel.Controls.Add(remove_btn);
+            remove_btn.Name = "remove" + count.ToString();
+            remove_btn.Size = new Size(const_data.remove_btn_size.Width, const_data.remove_btn_size.Height);
+            remove_btn.Location = new Point(const_data.remove_btn_point.X, const_data.remove_btn_point.Y + (count * 100));
+            remove_btn.FlatStyle = FlatStyle.Flat;
+            remove_btn.Text = "X";
+            remove_btn.Cursor = Cursors.Hand;
+            remove_btn.BackColor = Color.Red;
+            remove_btn.MouseClick += Give_remove_event;
+            remove_btn.SuspendLayout();
+            remove_btn.BringToFront();
+            remove_btn.Show();
+
             colum_count++;
         }
+
+        private void Give_remove_event(object? sender,EventArgs e)
+        {
+            if (sender== null) return;
+            Control[] work=this.Controls.Find("title"+(((Button)sender).Name.Replace("remove","")),true);
+            string p_title=work[0].Text;
+            bool p_flag=false;
+            if (Cur_page_name=="収入") p_flag=true;
+            methods1.Delete_goal_colum(ref p_title,p_flag);
+            Init_object();
+            if (Read_goal_tbl()==false)return;
+        }
+
         private Int64 Ret_cur_tbl_money(ref string Title)
         {
             Int64 sum = 0;
@@ -190,7 +233,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         {
             Kakeibo_form_methods methods = new Kakeibo_form_methods();
             //設定フォーム生成
-            kakeibo_goal_const.cur_setting_mode = Cur_page_name;
+            kakeibo_static_info.cur_setting_mode = Cur_page_name;
             if (methods.Read_database_count(ref Cur_page_name) == 1) return;
             Form setting_form = new Goal_setting();
             setting_form.TopLevel = false;
@@ -206,7 +249,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         private void setting_formClosed(object? sender, EventArgs e)
         {
             //再描画処理
-           Init_object();
+            Init_object();
             colum_count = 0;
 
             Read_goal_tbl();
@@ -220,7 +263,8 @@ namespace study_scheduler.Kakeibo_forms.child_forms
                 "goal",
                 "money",
                 "diff",
-                "underline"
+                "underline",
+                "remove"
             };
 
             for (int i = 0; i < colum_count; i++)
@@ -247,38 +291,23 @@ namespace study_scheduler.Kakeibo_forms.child_forms
 
         private void change_btn_MouseClick(object sender, MouseEventArgs e)
         {
-            if(Cur_page_name == "支出")
+            if (Cur_page_name == "支出")
             {
                 Cur_page_name = "収入";
-                if (methods1.Read_database_count(ref Cur_page_name)==1)
-                {
-                    Cur_page_name = "支出";
-                    return;
-                }
-                change_cur_info.Text ="Income";
+                change_cur_info.Text = "収入";
                 Init_object();
-               
+
             }
             else
             {
                 Cur_page_name = "支出";
-                if (methods1.Read_database_count(ref Cur_page_name) == 1)
-                {
-                    Cur_page_name = "収入";
-                    return;
-                }
-                Cur_page_name = "支出";
-                change_cur_info.Text = "Expenditure";
+                change_cur_info.Text = "支出";
                 Init_object();
-               
+
             }
-            
-            if (Read_goal_tbl() == false)
-            {
-                
-                return;
-            }
-            
+
+            if (Read_goal_tbl() == false)return;
+
         }
     }
 }

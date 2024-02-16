@@ -332,7 +332,7 @@ namespace study_scheduler.childforms
         }
 
 
-    
+
 
 
 
@@ -468,6 +468,7 @@ namespace study_scheduler.childforms
         {
 
             Label st_end_label = new Label();
+            st_end_label.AutoSize = true;
             if (end == new TimeOnly(23, 59))
             {
                 st_end_label.Text = st.ToString() + "〜24:00";
@@ -535,6 +536,7 @@ namespace study_scheduler.childforms
         private void give_title_label(ref Panel work, string title)
         {
             Label title_label = new Label();
+            title_label.AutoSize = true;
             if (work.Name.Contains("PM_PANEL"))
             {
                 title_label.Name = work.Name.Replace("PM_PANEL", "") + "PM_TITLE";
@@ -727,7 +729,7 @@ namespace study_scheduler.childforms
         //全て削除処理
         private void all_remove_btn_MouseClick(object sender, MouseEventArgs e)
         {
-            Remove_code.remove_code = "day";
+            kakeibo_static_info.remove_code = "day";
             init_panel();
             open_form(new childforms.remove_form());
         }
@@ -747,7 +749,7 @@ namespace study_scheduler.childforms
                 // 接続を確立
                 connection.Open();
 
-                var sql = " UPDATE Main_Table SET メモ = NULL WHERE 年月日 ='"+cur_form_information.cur_date_button.ToString("yyyy/MM/dd")+"'";
+                var sql = " UPDATE Main_Table SET メモ = NULL WHERE 年月日 ='" + cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'";
 
                 using (var command = new SqlCommand(sql, connection))
                 {
@@ -858,11 +860,12 @@ namespace study_scheduler.childforms
 
         private void memo_title_save_jud_method()
         {
-            if (title_box.Text.Length==0&&methods.Exists_days_tbl()==false
-                &&memotextbox.Text.Length==0)
+            if (title_box.Text.Length == 0 && methods.Exists_days_tbl() == false
+                && memotextbox.Text.Length == 0)
             {
                 methods.Delete_main_tbl_colum();
-            }else if (methods.Exists_main_table() == false)//テーブルが存在するか?
+            }
+            else if (methods.Exists_main_table() == false)//テーブルが存在するか?
             {//しない
                 methods.InsertMaintbl();
             }
@@ -876,7 +879,7 @@ namespace study_scheduler.childforms
         private void Save_memo_data(ref string p_memo)
         {
 
-            if (memotextbox.Text.Length==0) 
+            if (memotextbox.Text.Length == 0)
             {
                 var connectionString = edittime_information.sql_code;
                 using (var connection = new SqlConnection(connectionString))
@@ -891,7 +894,7 @@ namespace study_scheduler.childforms
 
                 }
             }
-            else 
+            else
             {
                 var connectionString = edittime_information.sql_code;
                 using (var connection = new SqlConnection(connectionString))
@@ -906,7 +909,7 @@ namespace study_scheduler.childforms
 
                 }
             }
-            
+
             return;
         }
 

@@ -156,9 +156,9 @@
             end_label.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             end_label.Location = new Point(347, 534);
             end_label.Name = "end_label";
-            end_label.Size = new Size(95, 27);
+            end_label.Size = new Size(94, 27);
             end_label.TabIndex = 22;
-            end_label.Text = "End time";
+            end_label.Text = "終了時間";
             end_label.MouseClick += change_time;
             // 
             // label4
@@ -192,9 +192,9 @@
             start_label.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             start_label.Location = new Point(347, 144);
             start_label.Name = "start_label";
-            start_label.Size = new Size(112, 27);
+            start_label.Size = new Size(113, 27);
             start_label.TabIndex = 19;
-            start_label.Text = "Start time";
+            start_label.Text = "スタート時間";
             start_label.MouseClick += change_time;
             // 
             // back_btn
@@ -444,9 +444,9 @@
             color_label.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             color_label.Location = new Point(32, 250);
             color_label.Name = "color_label";
-            color_label.Size = new Size(115, 25);
+            color_label.Size = new Size(87, 25);
             color_label.TabIndex = 4;
-            color_label.Text = "Select color";
+            color_label.Text = "色を選択";
             // 
             // textBox1
             // 
@@ -467,9 +467,9 @@
             text_box_label.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             text_box_label.Location = new Point(32, 75);
             text_box_label.Name = "text_box_label";
-            text_box_label.Size = new Size(182, 50);
+            text_box_label.Size = new Size(143, 50);
             text_box_label.TabIndex = 2;
-            text_box_label.Text = "Title\r\n(※maxlength is 8)";
+            text_box_label.Text = "タイトル\r\n(※8文字以内)";
             // 
             // study_checkbox
             // 
@@ -479,9 +479,9 @@
             study_checkbox.Font = new Font("MV Boli", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             study_checkbox.Location = new Point(25, 534);
             study_checkbox.Name = "study_checkbox";
-            study_checkbox.Size = new Size(248, 35);
+            study_checkbox.Size = new Size(290, 35);
             study_checkbox.TabIndex = 1;
-            study_checkbox.Text = "Is this plan study?";
+            study_checkbox.Text = "このプランは勉強ですか?";
             study_checkbox.UseVisualStyleBackColor = true;
             study_checkbox.MouseClick += _MouseClick;
             // 
@@ -604,9 +604,9 @@
             distincted_highlight_label.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             distincted_highlight_label.Location = new Point(3, 0);
             distincted_highlight_label.Name = "distincted_highlight_label";
-            distincted_highlight_label.Size = new Size(126, 25);
+            distincted_highlight_label.Size = new Size(153, 25);
             distincted_highlight_label.TabIndex = 25;
-            distincted_highlight_label.Text = "Duplicated !!";
+            distincted_highlight_label.Text = "重複しています !!";
             // 
             // distinct_timer
             // 

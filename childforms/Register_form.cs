@@ -67,7 +67,7 @@ namespace study_scheduler.childforms
                         radio_panel.Visible = true;
                         radio_panel.Location = new Point(radio_panel.Location.X - 300, radio_panel.Location.Y);
                         register_panel.Location = new Point(register_panel.Location.X - 300, register_panel.Location.Y);
-                        which.Text = "Start Time";
+                        which.Text = "スタート時間";
                     }
 
                     name = "which";
@@ -406,7 +406,7 @@ namespace study_scheduler.childforms
 
                 st_or_end_flag = true;
 
-                which.Text = "Start Time";
+                which.Text = "スタート時間";
             }
             else if (((Label)sender).Name == "end_label" || ((Label)sender).Name == "end_time_label")
             {
@@ -414,7 +414,7 @@ namespace study_scheduler.childforms
 
                 st_or_end_flag = false;
 
-                which.Text = "End Time";
+                which.Text = "終了時間";
             }
             init_radio_information();
 
@@ -541,7 +541,7 @@ namespace study_scheduler.childforms
         {
             if (textBox1.Text.Contains("\n"))
             {
-                textBox1.Text = textBox1.Text.Replace("\n", "");
+                textBox1.Text = textBox1.Text.Replace("\r", "").Replace("\n", "");
             }
         }
 

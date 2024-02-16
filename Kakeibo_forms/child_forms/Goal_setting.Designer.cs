@@ -50,9 +50,9 @@
             amount_label.ForeColor = Color.LimeGreen;
             amount_label.Location = new Point(182, 71);
             amount_label.Name = "amount_label";
-            amount_label.Size = new Size(210, 41);
+            amount_label.Size = new Size(162, 41);
             amount_label.TabIndex = 15;
-            amount_label.Text = "Goal amount";
+            amount_label.Text = "目標金額";
             // 
             // title_label
             // 
@@ -61,9 +61,9 @@
             title_label.ForeColor = Color.LimeGreen;
             title_label.Location = new Point(824, 71);
             title_label.Name = "title_label";
-            title_label.Size = new Size(88, 41);
+            title_label.Size = new Size(123, 41);
             title_label.TabIndex = 16;
-            title_label.Text = "Title";
+            title_label.Text = "タイトル";
             // 
             // amountbox
             // 
@@ -134,11 +134,11 @@
             label3.AutoSize = true;
             label3.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.LimeGreen;
-            label3.Location = new Point(398, 82);
+            label3.Location = new Point(350, 82);
             label3.Name = "label3";
-            label3.Size = new Size(182, 28);
+            label3.Size = new Size(138, 28);
             label3.TabIndex = 20;
-            label3.Text = "※maxlength is 17";
+            label3.Text = "(※17桁以内)";
             // 
             // ok_btn
             // 
@@ -155,6 +155,8 @@
             ok_btn.Text = "OK";
             ok_btn.UseVisualStyleBackColor = false;
             ok_btn.MouseClick += ok_btn_MouseClick;
+            ok_btn.MouseEnter += ok_btn_MouseEnter;
+            ok_btn.MouseLeave += ok_btn_MouseLeave;
             // 
             // cancel_btn
             // 
@@ -171,6 +173,8 @@
             cancel_btn.Text = "Cancel";
             cancel_btn.UseVisualStyleBackColor = false;
             cancel_btn.MouseClick += cancel_btn_MouseClick;
+            cancel_btn.MouseEnter += ok_btn_MouseEnter;
+            cancel_btn.MouseLeave += ok_btn_MouseLeave;
             // 
             // high_timer
             // 

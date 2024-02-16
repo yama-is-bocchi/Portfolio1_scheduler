@@ -71,7 +71,7 @@
             exit_btn.BackColor = Color.Red;
             exit_btn.Cursor = Cursors.Hand;
             exit_btn.FlatStyle = FlatStyle.Flat;
-            exit_btn.Location = new Point(1890, 0);
+            exit_btn.Location = new Point(1889, -1);
             exit_btn.Name = "exit_btn";
             exit_btn.Size = new Size(30, 25);
             exit_btn.TabIndex = 17;
@@ -140,7 +140,7 @@
             back_to_top_btn.Name = "back_to_top_btn";
             back_to_top_btn.Size = new Size(650, 139);
             back_to_top_btn.TabIndex = 4;
-            back_to_top_btn.Text = "Back to scheduler";
+            back_to_top_btn.Text = "スケジューラーに戻る";
             back_to_top_btn.UseVisualStyleBackColor = false;
             back_to_top_btn.MouseClick += Back_scheduler_MouseClick;
             back_to_top_btn.MouseEnter += Enter_mouse_btn;
@@ -157,7 +157,7 @@
             goal_top_btn.Name = "goal_top_btn";
             goal_top_btn.Size = new Size(650, 140);
             goal_top_btn.TabIndex = 3;
-            goal_top_btn.Text = "Goal registration, reference";
+            goal_top_btn.Text = "目標登録.参照";
             goal_top_btn.UseVisualStyleBackColor = false;
             goal_top_btn.MouseClick += Button_click;
             goal_top_btn.MouseEnter += Enter_mouse_btn;
@@ -174,7 +174,7 @@
             income_expen_remain_top_btn.Name = "income_expen_remain_top_btn";
             income_expen_remain_top_btn.Size = new Size(650, 139);
             income_expen_remain_top_btn.TabIndex = 2;
-            income_expen_remain_top_btn.Text = "Income ,expenditure\r\n,remaining amount\r\nreference";
+            income_expen_remain_top_btn.Text = "収入,支出,残高参照";
             income_expen_remain_top_btn.UseVisualStyleBackColor = false;
             income_expen_remain_top_btn.MouseClick += Button_click;
             income_expen_remain_top_btn.MouseEnter += Enter_mouse_btn;
@@ -191,7 +191,7 @@
             expendi_top_btn.Name = "expendi_top_btn";
             expendi_top_btn.Size = new Size(650, 140);
             expendi_top_btn.TabIndex = 1;
-            expendi_top_btn.Text = "Expenditure registration";
+            expendi_top_btn.Text = "支出登録";
             expendi_top_btn.UseVisualStyleBackColor = false;
             expendi_top_btn.MouseClick += Button_click;
             expendi_top_btn.MouseEnter += Enter_mouse_btn;
@@ -208,7 +208,7 @@
             income_top_btn.Name = "income_top_btn";
             income_top_btn.Size = new Size(650, 140);
             income_top_btn.TabIndex = 0;
-            income_top_btn.Text = "Income registration";
+            income_top_btn.Text = "収入登録";
             income_top_btn.UseVisualStyleBackColor = false;
             income_top_btn.MouseClick += Button_click;
             income_top_btn.MouseEnter += Enter_mouse_btn;
@@ -239,7 +239,7 @@
             Back_scheduler.Name = "Back_scheduler";
             Back_scheduler.Size = new Size(244, 135);
             Back_scheduler.TabIndex = 4;
-            Back_scheduler.Text = "Back to scheduler\r\n(スケジューラーに戻る)";
+            Back_scheduler.Text = "スケジューラに戻る";
             Back_scheduler.UseVisualStyleBackColor = true;
             Back_scheduler.MouseClick += Back_scheduler_MouseClick;
             Back_scheduler.MouseEnter += Enter_mouse_btn;
@@ -256,7 +256,7 @@
             Income_expendi_remain_ref_btn.Name = "Income_expendi_remain_ref_btn";
             Income_expendi_remain_ref_btn.Size = new Size(244, 135);
             Income_expendi_remain_ref_btn.TabIndex = 3;
-            Income_expendi_remain_ref_btn.Text = "Income ,expenditure\r\n,remaining amount\r\nreference\r\n(収入,支出,残高参照)";
+            Income_expendi_remain_ref_btn.Text = "収入,支出,残高参照";
             Income_expendi_remain_ref_btn.UseVisualStyleBackColor = true;
             Income_expendi_remain_ref_btn.MouseClick += Button_click;
             Income_expendi_remain_ref_btn.MouseEnter += Enter_mouse_btn;
@@ -273,7 +273,7 @@
             goal_regi_btn.Name = "goal_regi_btn";
             goal_regi_btn.Size = new Size(244, 135);
             goal_regi_btn.TabIndex = 2;
-            goal_regi_btn.Text = "Goal registration, reference\r\n(目標登録,参照)";
+            goal_regi_btn.Text = "目標登録,参照";
             goal_regi_btn.UseVisualStyleBackColor = true;
             goal_regi_btn.MouseClick += Button_click;
             goal_regi_btn.MouseEnter += Enter_mouse_btn;
@@ -290,7 +290,7 @@
             Expenditure_regi_btn.Name = "Expenditure_regi_btn";
             Expenditure_regi_btn.Size = new Size(244, 135);
             Expenditure_regi_btn.TabIndex = 1;
-            Expenditure_regi_btn.Text = "Expenditure registration\r\n(支出登録)";
+            Expenditure_regi_btn.Text = "支出登録";
             Expenditure_regi_btn.UseVisualStyleBackColor = true;
             Expenditure_regi_btn.MouseClick += Button_click;
             Expenditure_regi_btn.MouseEnter += Enter_mouse_btn;
@@ -307,7 +307,7 @@
             Income_regi_btn.Name = "Income_regi_btn";
             Income_regi_btn.Size = new Size(244, 135);
             Income_regi_btn.TabIndex = 0;
-            Income_regi_btn.Text = "Income registration\r\n(収入登録)";
+            Income_regi_btn.Text = "収入登録";
             Income_regi_btn.UseVisualStyleBackColor = true;
             Income_regi_btn.MouseClick += Button_click;
             Income_regi_btn.MouseEnter += Enter_mouse_btn;

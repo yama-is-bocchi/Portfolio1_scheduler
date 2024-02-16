@@ -39,7 +39,6 @@
             title_box = new TextBox();
             select_remove = new Button();
             panel23 = new Panel();
-            label3 = new Label();
             all_remove_btn = new Button();
             memo_remove_btn = new Button();
             back_btn = new Button();
@@ -116,7 +115,6 @@
             schedule_panel.Controls.Add(title_box);
             schedule_panel.Controls.Add(select_remove);
             schedule_panel.Controls.Add(panel23);
-            schedule_panel.Controls.Add(label3);
             schedule_panel.Controls.Add(all_remove_btn);
             schedule_panel.Controls.Add(memo_remove_btn);
             schedule_panel.Controls.Add(back_btn);
@@ -230,9 +228,9 @@
             label4.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.Location = new Point(19, 311);
             label4.Name = "label4";
-            label4.Size = new Size(211, 21);
+            label4.Size = new Size(181, 21);
             label4.TabIndex = 61;
-            label4.Text = "Day's Title (max 5length)";
+            label4.Text = "タイトル (※5文字以内)";
             // 
             // title_box
             // 
@@ -257,7 +255,7 @@
             select_remove.Name = "select_remove";
             select_remove.Size = new Size(142, 47);
             select_remove.TabIndex = 59;
-            select_remove.Text = "Select_remove";
+            select_remove.Text = "選択削除";
             select_remove.TextAlign = ContentAlignment.MiddleLeft;
             select_remove.UseVisualStyleBackColor = true;
             select_remove.Visible = false;
@@ -271,16 +269,6 @@
             panel23.Size = new Size(3, 40);
             panel23.TabIndex = 17;
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("MV Boli", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(3, 256);
-            label3.Name = "label3";
-            label3.Size = new Size(257, 34);
-            label3.TabIndex = 58;
-            label3.Text = "If you want register for the plan,\r\nyou should  double click  the label below.";
-            // 
             // all_remove_btn
             // 
             all_remove_btn.BackgroundImageLayout = ImageLayout.Stretch;
@@ -293,7 +281,7 @@
             all_remove_btn.Name = "all_remove_btn";
             all_remove_btn.Size = new Size(142, 47);
             all_remove_btn.TabIndex = 57;
-            all_remove_btn.Text = "All_remove";
+            all_remove_btn.Text = "全て削除";
             all_remove_btn.TextAlign = ContentAlignment.MiddleLeft;
             all_remove_btn.UseVisualStyleBackColor = true;
             all_remove_btn.Visible = false;
@@ -329,9 +317,9 @@
             label2.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.Location = new Point(262, 9);
             label2.Name = "label2";
-            label2.Size = new Size(55, 21);
+            label2.Size = new Size(35, 21);
             label2.TabIndex = 54;
-            label2.Text = "Memo";
+            label2.Text = "メモ";
             // 
             // memotextbox
             // 
@@ -1015,7 +1003,6 @@
         private Button back_btn;
         private Button memo_remove_btn;
         private Button all_remove_btn;
-        private Label label3;
         private Button select_remove;
         private Label label4;
         private TextBox title_box;

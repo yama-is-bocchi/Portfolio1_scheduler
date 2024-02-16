@@ -24,11 +24,11 @@ namespace study_scheduler.childforms
         }
         private void init_form()
         {
-            if (Remove_code.remove_code == "day")
+            if (kakeibo_static_info.remove_code == "day")
             {
                 remove_kind_label.Text = cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'s data";
             }
-            else if (Remove_code.remove_code == "all")
+            else if (kakeibo_static_info.remove_code == "all")
             {
                 remove_kind_label.Text = "all data";
             }
@@ -37,11 +37,11 @@ namespace study_scheduler.childforms
         private void ok_btn_MouseClick(object sender, MouseEventArgs e)
         {
             //データベース削除処理
-            if (Remove_code.remove_code == "day")
+            if (kakeibo_static_info.remove_code == "day")
             {
                 remove_table(ref cur_form_information.cur_date_button);
             }
-            else if (Remove_code.remove_code == "all")
+            else if (kakeibo_static_info.remove_code == "all")
             {
                 all_remove();
             }
