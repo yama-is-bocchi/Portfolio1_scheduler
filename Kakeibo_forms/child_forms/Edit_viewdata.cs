@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace study_scheduler.Kakeibo_forms.child_forms
 {
@@ -20,8 +21,9 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             Init_form();
         }
 
-        private int colum_count ;
+        private int colum_count;
         Kakeibo_form_methods methods = new Kakeibo_form_methods();
+        private string p_mode = "";
 
         private void Init_form()
         {
@@ -34,13 +36,18 @@ namespace study_scheduler.Kakeibo_forms.child_forms
                 which_label.Text = "支出";
             }
 
+            p_mode = "SELECT * FROM " + kakeibo_static_info.cur_page_name + "テーブル";
             //データベース読み取り
-            if (Read_tbl() == false) return;
+            if (Read_tbl(ref p_mode) == false)
+            {
+                total_money.Text = "0円";
+                return;
+            }
 
 
         }
 
-        private bool Read_tbl()
+        private bool Read_tbl(ref string mode)
         {
 
             var connectionString = edittime_information.sql_code;
@@ -55,16 +62,30 @@ namespace study_scheduler.Kakeibo_forms.child_forms
                 {
                     while (reader.Read())
                     {
-                        if ((int)reader[""] == 0) 
+                        if ((int)reader[""] == 0)
                         {
-                            colum_count=0;
+                            colum_count = 0;
                             return false;
                         }
                     }
                 }
 
-
-                sql = "SELECT * FROM " + kakeibo_static_info.cur_page_name + "テーブル";
+                Int64 sum = 0;
+                sql = mode;
+                if (p_mode != "SELECT タイトル, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY タイトル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC")
+                {
+                    select_remove_btn.Visible = true;
+                    select_remove_btn.BackColor = Color.FromArgb(50, 50, 50);
+                    select_remove_btn.ForeColor = Color.LimeGreen;
+                    select_remove_btn.MouseEnter += edit_panel_MouseEnter;
+                    select_remove_btn.MouseLeave += edit_panel_MouseLeave;
+                }
+                else
+                {
+                    select_remove_btn.Visible = false;
+                    select_remove_btn.MouseEnter -= edit_panel_MouseEnter;
+                    select_remove_btn.MouseLeave -= edit_panel_MouseLeave;
+                }
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
                 {
@@ -72,16 +93,74 @@ namespace study_scheduler.Kakeibo_forms.child_forms
                     while (reader.Read())
                     {
                         //ラベル生成
-                        string p_date =((DateTime)reader["日付"]).ToString("yyyy/MM/dd");
+                        string? p_date = "";
+                        int p_id = 0;
+
+                        if (p_mode != "SELECT タイトル, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY タイトル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC")
+                        {
+                            p_date = ((DateTime)reader["日付"]).ToString("yyyy/MM/dd");
+                            p_id = (int)reader["ID_NUM"];
+                        }
                         string p_title = (string)reader["タイトル"];
                         Int64 p_amount = (Int64)reader[kakeibo_static_info.cur_page_name];
-                        int p_id = (int)reader["ID_NUM"];
-                        Generate_goal_label(ref p_date, p_title, p_amount, p_id);
+                        sum += p_amount;
+                        if (p_mode != "SELECT タイトル, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY タイトル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC")
+                        {
+                            Generate_goal_label(ref p_date, p_title, p_amount, p_id);
+
+                        }
+                        else
+                        {
+                            Generate_label_only(ref p_title, p_amount);
+
+                        }
+                        colum_count++;
+
                     }
+
                 }
+                total_money.Text = sum.ToString() + "円";
             }
             return true;
 
+        }
+        private void Generate_label_only(ref string p_Title, Int64 p_amount)
+        {
+            Kakeibo_zandaka_const const_data = new Kakeibo_zandaka_const();
+            //タイトル
+            Label title_label = new Label();
+            edit_panel.Controls.Add(title_label);
+            title_label.Name = "title" + colum_count.ToString();
+            title_label.Text = p_Title.ToString();
+            title_label.Font = new Font("MV Boli", 14);
+            title_label.Location = new Point(const_data.title_point.X, const_data.title_point.Y + (colum_count * 70));
+            title_label.ForeColor = Color.LimeGreen;
+            title_label.BringToFront();
+            title_label.Show();
+            title_label.AutoSize = true;
+
+            //金額
+            Label money_label = new Label();
+            edit_panel.Controls.Add(money_label);
+            money_label.Name = "money" + colum_count.ToString();
+            money_label.Text = p_amount.ToString();
+            money_label.Font = new Font("MV Boli", 14);
+            money_label.Location = new Point(const_data.money_point.X, const_data.money_point.Y + (colum_count * 70));
+            money_label.ForeColor = Color.LimeGreen;
+            money_label.BringToFront();
+            money_label.Show();
+            money_label.AutoSize = true;
+
+            //アンダーライン生成
+            Panel under_line = new Panel();
+            edit_panel.Controls.Add(under_line);
+            under_line.Name = "underline" + colum_count.ToString();
+            under_line.Size = new Size(const_data.under_line_size.Width - 600, const_data.under_line_size.Height);
+            under_line.Location = new Point(const_data.under_line_point.X + 270, const_data.under_line_point.Y + (colum_count * 70));
+            under_line.BackColor = Color.Black;
+            under_line.SuspendLayout();
+            under_line.BringToFront();
+            under_line.Show();
         }
 
         private void Generate_goal_label(ref string p_date, string p_Title, Int64 p_amount, int p_id)
@@ -99,9 +178,9 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             Date_label.Show();
             Date_label.Text = p_date;
             Date_label.Font = new Font("MV Boli", 14);
-            Date_label.AutoSize=true;
+            Date_label.AutoSize = true;
 
-            //目標金額
+            //タイトル
             Label title_label = new Label();
             edit_panel.Controls.Add(title_label);
             title_label.Name = "title" + colum_count.ToString();
@@ -113,7 +192,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             title_label.Show();
             title_label.AutoSize = true;
 
-            //実際の金額
+            //金額
             Label money_label = new Label();
             edit_panel.Controls.Add(money_label);
             money_label.Name = "money" + colum_count.ToString();
@@ -168,12 +247,13 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             remove_btn.Cursor = Cursors.Hand;
             remove_btn.BackColor = Color.Red;
             //削除イベント付与
-            remove_btn.MouseClick+=Delete_mouse_click ;
+            remove_btn.MouseClick += Delete_mouse_click;
             remove_btn.SuspendLayout();
             remove_btn.BringToFront();
             remove_btn.Show();
-            colum_count++;
+
             remove_btn.Visible = false;
+
         }
 
         private void back_btn_MouseClick(object sender, MouseEventArgs e)
@@ -181,22 +261,22 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             Close();
         }
 
-        private void Delete_mouse_click(object? sender,MouseEventArgs e)
+        private void Delete_mouse_click(object? sender, MouseEventArgs e)
         {
-            if (sender == null|| kakeibo_static_info.cur_page_name == null) return;
-            int p_id =Convert.ToInt16((((Button)sender).Text).Replace("X   ",""));
+            if (sender == null || kakeibo_static_info.cur_page_name == null) return;
+            int p_id = Convert.ToInt16((((Button)sender).Text).Replace("X   ", ""));
             methods.Delete_select_tbl_colum(ref kakeibo_static_info.cur_page_name, p_id);
             Control[] work = this.Controls.Find("money" + ((Button)sender).Name.Replace("remove", ""), true);
-            bool p_flag=false;
+            bool p_flag = false;
             if (kakeibo_static_info.cur_page_name == "収入") p_flag = true;
-            Int64 p_pre= Convert.ToInt64(work[0].Text);
+            Int64 p_pre = Convert.ToInt64(work[0].Text);
             Int64 p_a = 0;
-            methods.Update_zandaka_tbl(ref p_a,p_pre,p_flag);
+            methods.Update_zandaka_tbl(ref p_a, p_pre, p_flag);
             Init_object();
-            if (Read_tbl() == false) return;
+            if (Read_tbl(ref p_mode) == false) return;
         }
 
-        private void Edit_btn_mouse_click(object? sender , MouseEventArgs e)
+        private void Edit_btn_mouse_click(object? sender, MouseEventArgs e)
         {
             if (sender == null) return;
             kakeibo_static_info.cur_setting_mode = "残高";
@@ -212,25 +292,42 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             Income_regi.Show();
         }
 
-        private void edit_closed(object? sender,EventArgs e)
+        private void edit_closed(object? sender, EventArgs e)
         {
             kakeibo_static_info.p_id = "";
             kakeibo_static_info.cur_setting_mode = "";
             Init_object();
-            if (Read_tbl() == false) return;
+            if (Read_tbl(ref p_mode) == false) return;
         }
 
         private void Init_object()
         {
-            List<string> temp_name = new List<string>()
+            date_btn.BackColor = Color.FromArgb(70, 70, 70);
+            title_btn.BackColor = Color.FromArgb(70, 70, 70);
+            money_btn.BackColor = Color.FromArgb(70, 70, 70);
+            date_btn.ForeColor = Color.LimeGreen;
+            title_btn.ForeColor = Color.LimeGreen;
+            money_btn.ForeColor = Color.LimeGreen; ;
+            List<string> temp_name;
+            if (p_mode != "SELECT タイトル, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY タイトル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC")
             {
+                temp_name = new List<string>() {
                 "date",
                 "title",
                 "money",
                 "underline",
                 "edit",
                 "remove"
-            };
+              };
+            }
+            else
+            {
+                temp_name = new List<string>() {
+                "title",
+                "money",
+                "underline"
+              };
+            }
 
             for (int i = 0; i < colum_count; i++)
             {
@@ -241,6 +338,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
                 }
 
             }
+            total_money.Text = "0円";
             colum_count = 0;
         }
 
@@ -257,7 +355,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
                 return;
             }
 
-            select_remove_btn.MouseClick -= select_remove_btn_MouseClick ;
+            select_remove_btn.MouseClick -= select_remove_btn_MouseClick;
 
             if (select_remove_btn.BackColor == Color.LimeGreen)
             {
@@ -299,6 +397,50 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         private void edit_panel_MouseLeave(object? sender, EventArgs e)
         {
             methods.Leave_mouse_btn(sender, e);
+        }
+
+        private void date_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            Init_object();
+            p_mode = "SELECT * FROM " + kakeibo_static_info.cur_page_name + "テーブル ORDER BY 日付 DESC";
+            if (Read_tbl(ref p_mode) == false) return;
+            Init_label(sender);
+        }
+
+        private void title_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            Init_object();
+            p_mode = "SELECT タイトル, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY タイトル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC";
+            if (Read_tbl(ref p_mode) == false) return;
+            Init_label(sender);
+        }
+
+        private void Init_label(object sender)
+        {
+            ((Label)sender).BackColor = Color.LimeGreen;
+            ((Label)sender).ForeColor = Color.FromArgb(70, 70, 70);
+        }
+
+        private void money_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+            Init_object();
+            p_mode = "SELECT * FROM " + kakeibo_static_info.cur_page_name + "テーブル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC";
+            if (Read_tbl(ref p_mode) == false) return;
+            Init_label(sender);
+        }
+
+        private void date_btn_MouseEnter(object sender, EventArgs e)
+        {
+            ((Label)sender).BackColor= Color.LimeGreen;
+            ((Label)sender).ForeColor = Color.FromArgb(70,70,70);
+        }
+
+        private void date_btn_MouseLeave(object sender, EventArgs e)
+        {
+            ((Label)sender).BackColor = Color.FromArgb(70, 70, 70);
+            ((Label)sender).ForeColor = Color.LimeGreen;
         }
     }
 }

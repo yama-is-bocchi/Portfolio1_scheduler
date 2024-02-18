@@ -28,48 +28,65 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
+            date_btn = new Label();
+            title_btn = new Label();
+            money_btn = new Label();
             which_label = new Label();
             edit_panel = new Panel();
+            label1 = new Label();
+            total_money = new Label();
             select_remove_btn = new Button();
             back_btn = new Button();
             edit_panel.SuspendLayout();
             SuspendLayout();
             // 
-            // label1
+            // date_btn
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("MV Boli", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.LimeGreen;
-            label1.Location = new Point(360, 10);
-            label1.Name = "label1";
-            label1.Size = new Size(90, 41);
-            label1.TabIndex = 14;
-            label1.Text = "日付";
+            date_btn.AutoSize = true;
+            date_btn.BorderStyle = BorderStyle.Fixed3D;
+            date_btn.Cursor = Cursors.Hand;
+            date_btn.Font = new Font("MV Boli", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            date_btn.ForeColor = Color.LimeGreen;
+            date_btn.Location = new Point(360, 10);
+            date_btn.Name = "date_btn";
+            date_btn.Size = new Size(92, 43);
+            date_btn.TabIndex = 14;
+            date_btn.Text = "日付";
+            date_btn.MouseClick += date_btn_MouseClick;
+            date_btn.MouseEnter += date_btn_MouseEnter;
+            date_btn.MouseLeave += date_btn_MouseLeave;
             // 
-            // label2
+            // title_btn
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("MV Boli", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.LimeGreen;
-            label2.Location = new Point(740, 10);
-            label2.Name = "label2";
-            label2.Size = new Size(123, 41);
-            label2.TabIndex = 15;
-            label2.Text = "タイトル";
+            title_btn.AutoSize = true;
+            title_btn.BorderStyle = BorderStyle.Fixed3D;
+            title_btn.Cursor = Cursors.Hand;
+            title_btn.Font = new Font("MV Boli", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            title_btn.ForeColor = Color.LimeGreen;
+            title_btn.Location = new Point(740, 10);
+            title_btn.Name = "title_btn";
+            title_btn.Size = new Size(125, 43);
+            title_btn.TabIndex = 15;
+            title_btn.Text = "タイトル";
+            title_btn.MouseClick += title_btn_MouseClick;
+            title_btn.MouseEnter += date_btn_MouseEnter;
+            title_btn.MouseLeave += date_btn_MouseLeave;
             // 
-            // label3
+            // money_btn
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("MV Boli", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.LimeGreen;
-            label3.Location = new Point(1140, 9);
-            label3.Name = "label3";
-            label3.Size = new Size(90, 41);
-            label3.TabIndex = 16;
-            label3.Text = "金額";
+            money_btn.AutoSize = true;
+            money_btn.BorderStyle = BorderStyle.Fixed3D;
+            money_btn.Cursor = Cursors.Hand;
+            money_btn.Font = new Font("MV Boli", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            money_btn.ForeColor = Color.LimeGreen;
+            money_btn.Location = new Point(1140, 9);
+            money_btn.Name = "money_btn";
+            money_btn.Size = new Size(92, 43);
+            money_btn.TabIndex = 16;
+            money_btn.Text = "金額";
+            money_btn.MouseClick += money_btn_MouseClick;
+            money_btn.MouseEnter += date_btn_MouseEnter;
+            money_btn.MouseLeave += date_btn_MouseLeave;
             // 
             // which_label
             // 
@@ -85,17 +102,41 @@
             // edit_panel
             // 
             edit_panel.AutoScroll = true;
+            edit_panel.Controls.Add(label1);
+            edit_panel.Controls.Add(total_money);
             edit_panel.Controls.Add(select_remove_btn);
             edit_panel.Controls.Add(back_btn);
             edit_panel.Controls.Add(which_label);
-            edit_panel.Controls.Add(label1);
-            edit_panel.Controls.Add(label3);
-            edit_panel.Controls.Add(label2);
+            edit_panel.Controls.Add(date_btn);
+            edit_panel.Controls.Add(money_btn);
+            edit_panel.Controls.Add(title_btn);
             edit_panel.Dock = DockStyle.Fill;
             edit_panel.Location = new Point(0, 0);
             edit_panel.Name = "edit_panel";
             edit_panel.Size = new Size(1660, 879);
             edit_panel.TabIndex = 18;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("MV Boli", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.LimeGreen;
+            label1.Location = new Point(13, 130);
+            label1.Name = "label1";
+            label1.Size = new Size(73, 31);
+            label1.TabIndex = 26;
+            label1.Text = "Total";
+            // 
+            // total_money
+            // 
+            total_money.AutoSize = true;
+            total_money.Font = new Font("MV Boli", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            total_money.ForeColor = Color.LimeGreen;
+            total_money.Location = new Point(13, 161);
+            total_money.Name = "total_money";
+            total_money.Size = new Size(83, 34);
+            total_money.TabIndex = 25;
+            total_money.Text = "which";
             // 
             // select_remove_btn
             // 
@@ -150,12 +191,14 @@
 
         #endregion
 
-        private Label label1;
-        private Label label2;
-        private Label label3;
+        private Label date_btn;
+        private Label title_btn;
+        private Label money_btn;
         private Label which_label;
         private Panel edit_panel;
         private Button back_btn;
         private Button select_remove_btn;
+        private Label total_money;
+        private Label label1;
     }
 }
