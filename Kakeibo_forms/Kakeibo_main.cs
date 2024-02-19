@@ -18,7 +18,7 @@ namespace study_scheduler.Kakeibo_forms
         {
             InitializeComponent();
             Init_form_data();
-            
+
         }
         private Form? Cur_form;
         private Button? Cur_active_btn;
@@ -32,7 +32,7 @@ namespace study_scheduler.Kakeibo_forms
             cur_page_label.Text = "トップページ";
         }
 
-        
+
         private void kakeibo_bar_panel_Paint(object sender, PaintEventArgs e)
         {
             using (
@@ -56,7 +56,7 @@ namespace study_scheduler.Kakeibo_forms
 
         private void Enter_mouse_btn(object? sender, EventArgs e)
         {
-            methods.Enter_mouse_btn(sender,e);
+            methods.Enter_mouse_btn(sender, e);
 
         }
 
@@ -89,7 +89,7 @@ namespace study_scheduler.Kakeibo_forms
                     Cur_active_btn.MouseLeave += Leave_mouse_btn;
                 }
                 Jud_menu_control(sender);
-                if (Cur_active_btn == null || Cur_form==null) return;
+                if (Cur_active_btn == null || Cur_form == null) return;
                 Cur_active_btn.MouseLeave -= Leave_mouse_btn;
                 Cur_active_btn.BackColor = Color.LimeGreen;
                 Cur_active_btn.ForeColor = Color.FromArgb(50, 50, 50);
@@ -136,7 +136,12 @@ namespace study_scheduler.Kakeibo_forms
                 kakeibo_static_info.cur_page_name = "サブトップ";
                 Cur_form = new child_forms.Zandaka_form();
             }
-           
+
+        }
+
+        private void Top_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+            Cur_form?.Close();
         }
     }
 }

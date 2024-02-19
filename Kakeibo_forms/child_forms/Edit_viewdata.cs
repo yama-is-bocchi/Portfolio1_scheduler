@@ -36,7 +36,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
                 which_label.Text = "支出";
             }
 
-            p_mode = "SELECT * FROM " + kakeibo_static_info.cur_page_name + "テーブル";
+            p_mode = "SELECT * FROM " + kakeibo_static_info.cur_page_name + "テーブル ORDER BY 日付 DESC";
             //データベース読み取り
             if (Read_tbl(ref p_mode) == false)
             {
@@ -72,7 +72,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
 
                 Int64 sum = 0;
                 sql = mode;
-                if (p_mode != "SELECT タイトル, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY タイトル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC")
+                if (mode == "SELECT * FROM " + kakeibo_static_info.cur_page_name + "テーブル ORDER BY 日付 DESC" || mode == "SELECT * FROM " + kakeibo_static_info.cur_page_name + "テーブル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC")
                 {
                     select_remove_btn.Visible = true;
                     select_remove_btn.BackColor = Color.FromArgb(50, 50, 50);
@@ -90,30 +90,34 @@ namespace study_scheduler.Kakeibo_forms.child_forms
                 using (var reader = command.ExecuteReader())
                 {
                     colum_count = 0;
+                    string? p_date = "";
+                    int p_id = 0;
+                    string p_title ;
+                    Int64 p_amount;
+
                     while (reader.Read())
                     {
-                        //ラベル生成
-                        string? p_date = "";
-                        int p_id = 0;
-
-                        if (p_mode != "SELECT タイトル, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY タイトル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC")
+                        if (mode == "SELECT * FROM " + kakeibo_static_info.cur_page_name + "テーブル ORDER BY 日付 DESC" || mode == "SELECT * FROM " + kakeibo_static_info.cur_page_name + "テーブル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC")
                         {
                             p_date = ((DateTime)reader["日付"]).ToString("yyyy/MM/dd");
                             p_id = (int)reader["ID_NUM"];
+                            p_title = (string)reader["タイトル"];
+                            p_amount = (Int64)reader[kakeibo_static_info.cur_page_name];
+                            Generate_all_label(ref p_date, p_title, p_amount, p_id);
                         }
-                        string p_title = (string)reader["タイトル"];
-                        Int64 p_amount = (Int64)reader[kakeibo_static_info.cur_page_name];
-                        sum += p_amount;
-                        if (p_mode != "SELECT タイトル, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY タイトル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC")
+                        else if (mode== "SELECT タイトル, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY タイトル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC")
                         {
-                            Generate_goal_label(ref p_date, p_title, p_amount, p_id);
-
+                            p_title = (string)reader["タイトル"];
+                            p_amount = (Int64)reader[kakeibo_static_info.cur_page_name];
+                            Generate_title_only(ref p_title, p_amount);
                         }
                         else
                         {
-                            Generate_label_only(ref p_title, p_amount);
-
+                            p_date = ((DateTime)reader["日付"]).ToString("yyyy/MM/dd");
+                            p_amount = (Int64)reader[kakeibo_static_info.cur_page_name];
+                            Generate_date_only(ref p_date, p_amount);
                         }
+                        sum += p_amount;
                         colum_count++;
 
                     }
@@ -124,7 +128,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             return true;
 
         }
-        private void Generate_label_only(ref string p_Title, Int64 p_amount)
+        private void Generate_title_only(ref string p_Title, Int64 p_amount)
         {
             Kakeibo_zandaka_const const_data = new Kakeibo_zandaka_const();
             //タイトル
@@ -163,7 +167,46 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             under_line.Show();
         }
 
-        private void Generate_goal_label(ref string p_date, string p_Title, Int64 p_amount, int p_id)
+        private void Generate_date_only(ref string p_date ,Int64 p_amount)
+        {
+            Kakeibo_zandaka_const const_data = new Kakeibo_zandaka_const();
+            //日付
+            Label Date_label = new Label();
+            edit_panel.Controls.Add(Date_label);
+            Date_label.Name = "date" + colum_count.ToString();
+            Date_label.Location = new Point(const_data.date_point.X, const_data.date_point.Y + (colum_count * 70));
+            Date_label.ForeColor = Color.LimeGreen;
+            Date_label.BringToFront();
+            Date_label.Show();
+            Date_label.Text = p_date;
+            Date_label.Font = new Font("MV Boli", 14);
+            Date_label.AutoSize = true;
+
+            //金額
+            Label money_label = new Label();
+            edit_panel.Controls.Add(money_label);
+            money_label.Name = "money" + colum_count.ToString();
+            money_label.Text = p_amount.ToString();
+            money_label.Font = new Font("MV Boli", 14);
+            money_label.Location = new Point(const_data.money_point.X, const_data.money_point.Y + (colum_count * 70));
+            money_label.ForeColor = Color.LimeGreen;
+            money_label.BringToFront();
+            money_label.Show();
+            money_label.AutoSize = true;
+
+            //アンダーライン生成
+            Panel under_line = new Panel();
+            edit_panel.Controls.Add(under_line);
+            under_line.Name = "underline" + colum_count.ToString();
+            under_line.Size = new Size(const_data.under_line_size.Width-330, const_data.under_line_size.Height);
+            under_line.Location = new Point(const_data.under_line_point.X, const_data.under_line_point.Y + (colum_count * 70));
+            under_line.BackColor = Color.Black;
+            under_line.SuspendLayout();
+            under_line.BringToFront();
+            under_line.Show();
+        }
+
+        private void Generate_all_label(ref string p_date, string p_Title, Int64 p_amount, int p_id)
         {
             Kakeibo_zandaka_const const_data = new Kakeibo_zandaka_const();
             //支出,収入テーブル読み取り
@@ -309,7 +352,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             title_btn.ForeColor = Color.LimeGreen;
             money_btn.ForeColor = Color.LimeGreen; ;
             List<string> temp_name;
-            if (p_mode != "SELECT タイトル, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY タイトル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC")
+            if (p_mode == "SELECT * FROM " + kakeibo_static_info.cur_page_name + "テーブル ORDER BY 日付 DESC" || p_mode =="SELECT * FROM " + kakeibo_static_info.cur_page_name + "テーブル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC")
             {
                 temp_name = new List<string>() {
                 "date",
@@ -320,10 +363,18 @@ namespace study_scheduler.Kakeibo_forms.child_forms
                 "remove"
               };
             }
-            else
+            else if (p_mode == "SELECT タイトル, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY タイトル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC")
             {
                 temp_name = new List<string>() {
                 "title",
+                "money",
+                "underline"
+              };
+            }
+            else
+            {
+                temp_name = new List<string>() {
+                "date",
                 "money",
                 "underline"
               };
@@ -403,7 +454,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         {
 
             Init_object();
-            p_mode = "SELECT * FROM " + kakeibo_static_info.cur_page_name + "テーブル ORDER BY 日付 DESC";
+            p_mode = "SELECT 日付, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY 日付 ORDER BY 日付 DESC";
             if (Read_tbl(ref p_mode) == false) return;
             Init_label(sender);
         }

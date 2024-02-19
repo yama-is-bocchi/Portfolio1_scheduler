@@ -45,6 +45,7 @@
             goal_regi_btn = new Button();
             Expenditure_regi_btn = new Button();
             Income_regi_btn = new Button();
+            Top_btn = new Button();
             kakeibo_bar_panel.SuspendLayout();
             kakeibo_main_panel.SuspendLayout();
             panel1.SuspendLayout();
@@ -54,6 +55,7 @@
             // 
             kakeibo_bar_panel.BackColor = Color.DarkOrchid;
             kakeibo_bar_panel.BorderStyle = BorderStyle.FixedSingle;
+            kakeibo_bar_panel.Controls.Add(Top_btn);
             kakeibo_bar_panel.Controls.Add(exit_btn);
             kakeibo_bar_panel.Controls.Add(cur_month_str_label);
             kakeibo_bar_panel.Controls.Add(cur_date_label);
@@ -313,6 +315,21 @@
             Income_regi_btn.MouseEnter += Enter_mouse_btn;
             Income_regi_btn.MouseLeave += Leave_mouse_btn;
             // 
+            // Top_btn
+            // 
+            Top_btn.BackColor = Color.Fuchsia;
+            Top_btn.Cursor = Cursors.Hand;
+            Top_btn.FlatStyle = FlatStyle.Flat;
+            Top_btn.Font = new Font("MV Boli", 26.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Top_btn.ForeColor = Color.Black;
+            Top_btn.Location = new Point(3, 100);
+            Top_btn.Name = "Top_btn";
+            Top_btn.Size = new Size(231, 57);
+            Top_btn.TabIndex = 5;
+            Top_btn.Text = "トップページ";
+            Top_btn.UseVisualStyleBackColor = false;
+            Top_btn.MouseClick += Top_btn_MouseClick;
+            // 
             // Kakeibo_main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -350,5 +367,6 @@
         private Button goal_top_btn;
         private Button income_expen_remain_top_btn;
         private Button expendi_top_btn;
+        private Button Top_btn;
     }
 }
