@@ -15,7 +15,7 @@ namespace study_scheduler.Methods
 {
     public class Connection_methods
     {
-        //フォルダーが存在するか?
+        //データフォルダーが存在するか
         public bool Check_folder()
         {
             if (Directory.Exists("data_folder"))
@@ -29,6 +29,7 @@ namespace study_scheduler.Methods
             }
         }
 
+        //データフォルダーを作成する
         public void Create_folder_file()
         {
             Directory.CreateDirectory("data_folder");
@@ -40,6 +41,7 @@ namespace study_scheduler.Methods
             }
         }
 
+        //データフォルダーのファイルに保存されているタイトル名を読み取る
         public string Read_connection_str()
         {
             string? work = "";
@@ -66,6 +68,7 @@ namespace study_scheduler.Methods
             return work;
         }
 
+        //データベースに接続するためのタイトル名をconnect.txtに保存する
         public void Write_connetion_str(ref string connnetion_str)
         {
             StreamWriter sw = new StreamWriter(@"data_folder\connect.txt");
@@ -75,11 +78,13 @@ namespace study_scheduler.Methods
             }
         }
 
+        //入力データが数値,英数字か判定する
         public bool Check_password_pattern(ref string passcode)
         {
             return (Regex.IsMatch(passcode, @"^[0-9a-zA-Z]+$"));
         }
 
+        //引数のタイトル名のデータベースが存在するか判定する
         public bool Search_title_data_base(ref string p_title)
         {
             var connectionString = edittime_information.Title_Data_base_connect_code;
@@ -110,6 +115,8 @@ namespace study_scheduler.Methods
             }
             return judement;
         }
+
+        //タイトル名に対してパスワードが正しいか判定する
         public bool Check_passward(ref string p_title, string p_pass)
         {
             var connectionString = edittime_information.Title_Data_base_connect_code;
@@ -142,6 +149,8 @@ namespace study_scheduler.Methods
             return judement;
         }
 
+
+        //タイトル名のデータベースに接続する
         public bool Connect_data_base(ref string p_title)
         {
             var connectionString = edittime_information.Title_Data_base_connect_code.Replace("Title_data_base", p_title);
@@ -167,6 +176,7 @@ namespace study_scheduler.Methods
             return false;
         }
 
+        //サインアップの時タイトルとパスワード保管のデータベースに挿入,データベースを作成する
         public bool Insert_title_db_and_Create_database(ref string p_title,string p_password)
         {
             var connectionString = edittime_information.Title_Data_base_connect_code;
@@ -196,6 +206,7 @@ namespace study_scheduler.Methods
                 }
             }
 
+            //必要なテーブルを作成
             using (var connection = new SqlConnection(connectionString.Replace("Title_data_base", p_title)))
             {
                 connection.Open();
@@ -237,8 +248,10 @@ namespace study_scheduler.Methods
         }
     }
 
+    //スケジューラータスクのSQLメソッドクラス
     public class Scheduler_Tabele_methods
     {
+        //メインテーブルにデータを挿入
         public void InsertMaintbl()
         {
             var connectionString = edittime_information.sql_code;
@@ -258,6 +271,7 @@ namespace study_scheduler.Methods
             }
         }
 
+        //日ごとのテーブルを作成
         public void Create_days_tbl()
         {
             var connectionString = edittime_information.sql_code;
@@ -277,6 +291,7 @@ namespace study_scheduler.Methods
             }
         }
 
+        //メインテーブルに該当する日付の行が存在するか判定
         public bool Exists_main_table()
         {
             var connectionString = edittime_information.sql_code;
@@ -306,6 +321,7 @@ namespace study_scheduler.Methods
             return judement;
         }
 
+        //日ごとのテーブルが存在するか判定
         public bool Exists_days_tbl()
         {
             var connectionString = edittime_information.sql_code;
@@ -335,6 +351,7 @@ namespace study_scheduler.Methods
             return judement;
         }
 
+        //メインテーブルに該当日付のタイトルが設定されてるか判定する
         public bool Exists_title()
         {
             var connectionString = edittime_information.sql_code;
@@ -356,14 +373,13 @@ namespace study_scheduler.Methods
                         {
                             judement = true;
                         }
-
                     }
-
                 }
             }
             return judement;
         }
 
+        //メインテーブルに該当日付のメモが設定されてるか判定する
         public bool Exists_memo()
         {
             var connectionString = edittime_information.sql_code;
@@ -393,6 +409,7 @@ namespace study_scheduler.Methods
             return judement;
         }
 
+        //メインテーブルから該当日付の行を削除する
         public void Delete_main_tbl_colum()
         {
             var connectionString = edittime_information.sql_code;

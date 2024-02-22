@@ -20,18 +20,19 @@ namespace study_scheduler.childforms
         {
             InitializeComponent();
         }
-
+        //フィールド
         Connection_methods connection_class = new Connection_methods();
         private int need_count;
         private string fault_kind = "";
 
-
+        //終了ボタンマウスクリックイベント
         private void exit_btn_MouseClick(object sender, MouseEventArgs e)
         {
             cur_form_information.exit_btn_flag = true;
             Close();
         }
 
+        //タイトルテキストボックスでエンターキーが押されたか判定
         private void Title_textbox_TextChanged(object sender, EventArgs e)
         {
             if (Title_textbox.Text.Contains("\n"))
@@ -41,6 +42,7 @@ namespace study_scheduler.childforms
             }
         }
 
+        //パスワードテキストボックスでエンターキーが押されたか、隠す必要があるか判定
         private void Passward_textbox_TextChanged(object sender, EventArgs e)
         {
             if (show_pass_check.Checked == false)
@@ -52,7 +54,6 @@ namespace study_scheduler.childforms
                 Password_textbox.PasswordChar = '\0';
             }
 
-
             if (Password_textbox.Text.Contains("\n"))
             {
                 Password_textbox.Text = Password_textbox.Text.Replace("\r", "").Replace("\n", "");
@@ -60,6 +61,7 @@ namespace study_scheduler.childforms
             }
         }
 
+        //パスワードを隠すか判定
         private void show_pass_check_CheckedChanged(object sender, EventArgs e)
         {
             if (show_pass_check.Checked == true)
@@ -72,6 +74,7 @@ namespace study_scheduler.childforms
             }
         }
 
+        //ログインするかサインアップするかマウスクリックイベント
         private void up_or_in_btn_MouseClick(object sender, MouseEventArgs e)
         {
             Title_textbox.Text = "";
@@ -90,6 +93,8 @@ namespace study_scheduler.childforms
             }
         }
 
+
+        //入力データに間違いがないか判定、問題がなければログインまたはサインアップする
         private void ok_method()
         {
             if (Title_textbox.Text.Length == 0)//タイトルが入ってるか?
@@ -200,12 +205,14 @@ namespace study_scheduler.childforms
             }
         }
 
+        //OKボタンマウスクリックイベント
         private void ok_btn_MouseClick(object sender, MouseEventArgs e)
         {
 
             ok_method();
         }
 
+        //入力間違い点滅タイマー
         private void fault_timer_Tick(object sender, EventArgs e)
         {
             Control[] work;
@@ -241,24 +248,20 @@ namespace study_scheduler.childforms
             }
         }
 
+        //ログインするための待機時間
         private void login_timer_Tick(object sender, EventArgs e)
         {
             this.Close();
         }
 
-
+        //エンターキー判定する
         private void Loginform_KeyDown(object sender, KeyEventArgs e)
         {
+           
             if (e.KeyData == Keys.Enter && Title_textbox.Text.Length > 0 && Password_textbox.Text.Length > 0)
             {
-                enter_timer.Start();
+                ok_method();
             }
-        }
-
-        private void enter_timer_Tick(object sender, EventArgs e)
-        {
-            ok_method();
-            enter_timer.Stop();
         }
     }
 }

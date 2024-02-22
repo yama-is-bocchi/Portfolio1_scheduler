@@ -737,6 +737,7 @@
             button25.Cursor = Cursors.Hand;
             button25.FlatStyle = FlatStyle.Flat;
             button25.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            button25.ForeColor = SystemColors.ControlText;
             button25.Location = new Point(840, 607);
             button25.Name = "button25";
             button25.Size = new Size(220, 118);

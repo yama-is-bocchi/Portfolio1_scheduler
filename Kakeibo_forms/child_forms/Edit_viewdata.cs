@@ -20,11 +20,12 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             InitializeComponent();
             Init_form();
         }
-
-        private int colum_count;
+        //フィールド
+        private int colum_count;//表示した行数
         Kakeibo_form_methods methods = new Kakeibo_form_methods();
-        private string p_mode = "";
+        private string p_mode = "";//引数とするページ名前を加えたSQL
 
+        //画面の初期設定
         private void Init_form()
         {
             if (kakeibo_static_info.cur_page_name == "収入")
@@ -47,6 +48,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
 
         }
 
+        //データベースを読み取り、データが無ければfalseが返ってくる
         private bool Read_tbl(ref string mode)
         {
 
@@ -128,6 +130,8 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             return true;
 
         }
+
+        //データのタイトルをまとめて表示する
         private void Generate_title_only(ref string p_Title, Int64 p_amount)
         {
             Kakeibo_zandaka_const const_data = new Kakeibo_zandaka_const();
@@ -167,6 +171,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             under_line.Show();
         }
 
+        //データの日付をまとめて表示する
         private void Generate_date_only(ref string p_date ,Int64 p_amount)
         {
             Kakeibo_zandaka_const const_data = new Kakeibo_zandaka_const();
@@ -205,7 +210,8 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             under_line.BringToFront();
             under_line.Show();
         }
-
+        
+        //全ての要素を表示する
         private void Generate_all_label(ref string p_date, string p_Title, Int64 p_amount, int p_id)
         {
             Kakeibo_zandaka_const const_data = new Kakeibo_zandaka_const();
@@ -299,11 +305,13 @@ namespace study_scheduler.Kakeibo_forms.child_forms
 
         }
 
+        //終了ボタン
         private void back_btn_MouseClick(object sender, MouseEventArgs e)
         {
             Close();
         }
 
+        //データを削除するマウスクリックイベント
         private void Delete_mouse_click(object? sender, MouseEventArgs e)
         {
             if (sender == null || kakeibo_static_info.cur_page_name == null) return;
@@ -318,7 +326,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             Init_object();
             if (Read_tbl(ref p_mode) == false) return;
         }
-
+        //データを編集するマウスクリックイベント
         private void Edit_btn_mouse_click(object? sender, MouseEventArgs e)
         {
             if (sender == null) return;
@@ -335,6 +343,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             Income_regi.Show();
         }
 
+        //編集イベント終了後のイベント
         private void edit_closed(object? sender, EventArgs e)
         {
             kakeibo_static_info.p_id = "";
@@ -343,6 +352,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             if (Read_tbl(ref p_mode) == false) return;
         }
 
+        //生成されたオブジェクトをすべて削除する
         private void Init_object()
         {
             date_btn.BackColor = Color.FromArgb(70, 70, 70);
@@ -393,7 +403,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             colum_count = 0;
         }
 
-
+        //選択削除マウスクリックイベント
         private void select_remove_btn_MouseClick(object? sender, MouseEventArgs e)
         {
             if (colum_count == 0)
@@ -440,40 +450,43 @@ namespace study_scheduler.Kakeibo_forms.child_forms
 
         }
 
+        //マウスカーソルがオブジェクト内に入る
         private void edit_panel_MouseEnter(object? sender, EventArgs e)
         {
             methods.Enter_mouse_btn(sender, e);
         }
 
+        //マウスカーソルがオブジェクト内から出る
         private void edit_panel_MouseLeave(object? sender, EventArgs e)
         {
             methods.Leave_mouse_btn(sender, e);
         }
 
+        //日付をまとめて表示するためのボタン
         private void date_btn_MouseClick(object sender, MouseEventArgs e)
         {
-
             Init_object();
             p_mode = "SELECT 日付, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY 日付 ORDER BY 日付 DESC";
             if (Read_tbl(ref p_mode) == false) return;
             Init_label(sender);
         }
-
+        //タイトルをまとめて表示するためのボタン
         private void title_btn_MouseClick(object sender, MouseEventArgs e)
         {
-
             Init_object();
             p_mode = "SELECT タイトル, SUM(" + kakeibo_static_info.cur_page_name + ") AS " + kakeibo_static_info.cur_page_name + " FROM " + kakeibo_static_info.cur_page_name + "テーブル GROUP BY タイトル ORDER BY " + kakeibo_static_info.cur_page_name + " DESC";
             if (Read_tbl(ref p_mode) == false) return;
             Init_label(sender);
         }
 
+        //ラベルの背景色を初期化する
         private void Init_label(object sender)
         {
             ((Label)sender).BackColor = Color.LimeGreen;
             ((Label)sender).ForeColor = Color.FromArgb(70, 70, 70);
         }
 
+        //金額を降順で表示するためのボタン
         private void money_btn_MouseClick(object sender, MouseEventArgs e)
         {
             Init_object();
@@ -482,12 +495,14 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             Init_label(sender);
         }
 
+        //ラベルのオブジェクト内にマウスカーソルが入る
         private void date_btn_MouseEnter(object sender, EventArgs e)
         {
             ((Label)sender).BackColor= Color.LimeGreen;
             ((Label)sender).ForeColor = Color.FromArgb(70,70,70);
         }
 
+        //ラベルのオブジェクト内にマウスカーソルが出る
         private void date_btn_MouseLeave(object sender, EventArgs e)
         {
             ((Label)sender).BackColor = Color.FromArgb(70, 70, 70);

@@ -19,13 +19,14 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             InitializeComponent();
             Init_form();
         }
-
+        //フィールド
         private Int64 temp_edit_amount;
         private int need_count = 6;
         private Control[]? work;
         Form? Calender_form;
         Kakeibo_form_methods kakei_methods = new Kakeibo_form_methods();
 
+        //設定画面の初期設定
         private void Init_form()
         {
             if (kakeibo_static_info.cur_setting_mode == "残高")
@@ -38,12 +39,10 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             {
                 Kakeibo_const.Temp_date_pick = DateTime.Now;
                 datebox.Text = Kakeibo_const.kakeibo_date.ToString("yyyy/MM/dd");
-
-
-
             }
         }
 
+        //カレンダーの表示
         private void show_calender_btn_MouseClick(object sender, MouseEventArgs e)
         {
             ActiveControl = datebox;
@@ -59,6 +58,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             Calender_form.Show();
         }
 
+        //カレンダーの日付選択後のイベント
         private void Calender_enabled(object? sender, EventArgs e)
         {
             ActiveControl = datebox;
@@ -66,6 +66,8 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             if (Calender_form == null) return;
             Calender_form.Enabled = true;
         }
+
+        //カレンダーが閉じたときのイベント
         private void Calender_closed(object? sender, EventArgs e)
         {
             calender_panel.BorderStyle = BorderStyle.None;
@@ -73,24 +75,28 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             show_calender_btn.Visible = true;
         }
 
+        //オブジェクト内にマウスカーソルが入る
         private void Enter_mouse_btn(object? sender, EventArgs e)
         {
             kakei_methods.Enter_mouse_btn(sender, e);
 
         }
 
+        //オブジェクト内からマウスカーソルが出る
         private void Leave_mouse_btn(object? sender, EventArgs e)
         {
             kakei_methods.Leave_mouse_btn(sender, e);
 
         }
 
+        //OKボタンマウスクリックイベント
         private void ok_btn_MouseClick(object sender, MouseEventArgs e)
         {//insertする
             Ok_method();
 
         }
 
+        //入力データの間違いを確認、問題がなければデータを保存する
         private void Ok_method()
         {
             Calender_form?.Close();
@@ -141,6 +147,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             if(kakeibo_static_info.cur_setting_mode=="残高")Close();
         }
 
+        //入力が埋まっていてエンターキーが押されたらOKMETHODを呼び出す
         private void Income_regi_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter && titlebox.Text.Length > 0 && amountbox.Text.Length > 0)
@@ -149,6 +156,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             }
         }
 
+        //タイトルテキストボックスでエンターキーが押されたか判定
         private void titlebox_TextChanged(object sender, EventArgs e)
         {
             Calender_form?.Close();
@@ -167,6 +175,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             }
         }
 
+        //修正の場合一時的にデータを保存しておく
         private void Read_id_colum(ref string p_id, string tbl_name)
         {
             var connectionString = edittime_information.sql_code;
@@ -193,6 +202,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             return;
         }
 
+        //金額テキストボックスでエンターキーが押されたか判定
         private void amountbox_TextChanged(object sender, EventArgs e)
         {
             Calender_form?.Close();
@@ -211,13 +221,13 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             }
         }
 
+        //エンターキーが押されてから遅延を入れる
         private void enter_timer_Tick(object sender, EventArgs e)
         {
             Ok_method();
         }
 
-
-
+        //点滅タイマー
         private void high_timer_Tick(object sender, EventArgs e)
         {
             if (work == null) return;
@@ -245,12 +255,14 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             }
         }
 
+        //登録したデータの表示時間満了
         private void insert_timer_Tick(object sender, EventArgs e)
         {
             Inserted_label.Visible = false;
             insert_timer.Stop();
         }
 
+        //別のコントロールにフォーカスが行ったらカレンダーを閉じる
         private void titlebox_Enter(object sender, EventArgs e)
         {
             Calender_form?.Close();
@@ -269,6 +281,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             show_calender_btn.Visible = true;
         }
 
+        //終了ボタン
         private void back_btn_MouseClick(object sender, MouseEventArgs e)
         {
             Close();

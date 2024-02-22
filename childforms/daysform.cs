@@ -24,9 +24,11 @@ namespace study_scheduler.childforms
             init_form();
 
         }
-        Scheduler_Tabele_methods methods = new Scheduler_Tabele_methods();
-        private int generate_object_count = 0;
+        //フィールド
+        Scheduler_Tabele_methods methods = new Scheduler_Tabele_methods();//SQL処理
+        private int generate_object_count = 0;//生成したオブジェクトの数
 
+        //選択削除用のパネルの生成情報を読み取る
         private void change_gene_panel()
         {
             init_panel();
@@ -57,6 +59,7 @@ namespace study_scheduler.childforms
             return;
         }
 
+        //選択削除用のパネルを生成する
         private void Generate_remove_panel(ref TimeOnly st, TimeOnly end, string title)
         {
             Panel work = new Panel();
@@ -112,7 +115,7 @@ namespace study_scheduler.childforms
                 work_pm.Name = st.ToString() + "PM_PANEL";
 
                 work_pm.BackColor = Color.DarkRed;
-                if (end == new TimeOnly(23, 59))
+                if (end == new TimeOnly(23, 59))//終了時間が24時の場合
                 {
                     work_pm.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hour) * 60) + Convert.ToInt16(end.Minute)) - (12 * 60)) / 5) + Daysform_infromation.x_size, Daysform_infromation.y_size);
                 }
@@ -133,15 +136,15 @@ namespace study_scheduler.childforms
                 work_pm.MouseClick += give_remove_event;
                 generate_object_count++;
             }
-            give_title_label(ref work, title);
+            give_title_label(ref work, title);//選択削除用タイトルラベルを生成する
 
-            give_st_end_label(ref work, st, end);
+            give_st_end_label(ref work, st, end);//選択削除用開始～終了ラベルを生成する
 
             work.MouseClick += give_remove_event;
 
-
         }
 
+        //マウスクリック時該当のデータをデータベースから削除する処理
         private void give_remove_event(object? sender, MouseEventArgs e)
         {
 
@@ -218,7 +221,7 @@ namespace study_scheduler.childforms
             memo_title_save_jud_method();
         }
 
-
+        //削除された後のトータル勉強時間を読み取り変更する
         private void change_main_total_time()
         {
             var connectionString = edittime_information.sql_code;
@@ -263,6 +266,7 @@ namespace study_scheduler.childforms
             return;
         }
 
+        //この日のデータをすべて削除する
         private void remove_table(ref DateTime p_date)
         {
             var connectionString = edittime_information.sql_code;
@@ -305,6 +309,7 @@ namespace study_scheduler.childforms
             if (DateTime.Today == cur_form_information.cur_date_button) Generate_now_pos();
         }
 
+        //もし閲覧してる日が今日なら現在の時間の指針を表示する
         private void Generate_now_pos()
         {
 
@@ -331,11 +336,7 @@ namespace study_scheduler.childforms
 
         }
 
-
-
-
-
-
+        //この日のデータを読み取る
         private void read_data_base()
         {
             var connectionString = edittime_information.sql_code;
@@ -376,6 +377,7 @@ namespace study_scheduler.childforms
             return;
         }
 
+        //データに該当するパネルを生成する
         private void Generate_plan_panel(ref TimeOnly st, TimeOnly end, Color back_color, string title)
         {
             Panel work = new Panel();
@@ -464,6 +466,8 @@ namespace study_scheduler.childforms
 
 
         }
+
+        //データに該当する開始～終了ラベルを生成する
         private void give_st_end_label(ref Panel work, TimeOnly st, TimeOnly end)
         {
 
@@ -532,7 +536,7 @@ namespace study_scheduler.childforms
             }
         }
 
-
+        //データに該当するタイトルラベルを生成する
         private void give_title_label(ref Panel work, string title)
         {
             Label title_label = new Label();
@@ -597,6 +601,8 @@ namespace study_scheduler.childforms
                 title_label.MouseClick += give_remove_event;
             }
         }
+
+        //該当するデータのパネル,ラベルの修正処理マウスクリックイベント
         private void give_plan_corr(object? sender, MouseEventArgs e)
         {
             edittime_information.select_correction_flag = true;
@@ -643,6 +649,7 @@ namespace study_scheduler.childforms
 
         }
 
+        //修正処理のために終了する時刻を探す
         private void search_end_time(ref string p_st)
         {
             var connectionString = edittime_information.sql_code;
@@ -689,6 +696,7 @@ namespace study_scheduler.childforms
             RegiForm.Show();
         }
 
+        //登録画面終了後もう一度データベースを読みとる
         private void regiFormClosed(object? sender, EventArgs e)
         {
             if (cur_form_information.exit_btn_flag == true)
@@ -711,6 +719,7 @@ namespace study_scheduler.childforms
             }
         }
 
+        //生成したオブジェクトをすべて削除する
         private void init_panel()
         {
             for (int i = 0; i < generate_object_count; i++)
@@ -741,6 +750,8 @@ namespace study_scheduler.childforms
             Memo_colum_remove();
             memotextbox.Text = "";
         }
+
+        //メモの列を空にする
         private void Memo_colum_remove()
         {
             var connectionString = edittime_information.sql_code;
@@ -763,7 +774,8 @@ namespace study_scheduler.childforms
                 methods.Delete_main_tbl_colum();
             }
         }
-        //登録クリック
+
+        //新規登録するときのマウスダブルクリックイベント
         private void register_schedule_label_click(object sender, MouseEventArgs e)
         {
             edittime_information.select_correction_flag = false;
@@ -810,6 +822,7 @@ namespace study_scheduler.childforms
 
         }
 
+        //選択削除マウスクリックイベント
         private void select_remove_MouseClick(object sender, MouseEventArgs e)
         {
 
@@ -828,7 +841,7 @@ namespace study_scheduler.childforms
         }
 
 
-
+        //当日の場合指針を5分刻みで移動させるためのタイマーイベント
         private void now_pos_timer_Tick(object sender, EventArgs e)
         {
             now_pos_timer.Stop();
@@ -851,6 +864,7 @@ namespace study_scheduler.childforms
             }
         }
 
+        //終了ボタン
         private void exit_btn_MouseClick(object sender, MouseEventArgs e)
         {
             memo_title_save_jud_method();
@@ -858,6 +872,7 @@ namespace study_scheduler.childforms
             Close();
         }
 
+        //メモテキストボックスに文字列が存在するか判定してデータベースから削除するか判断する
         private void memo_title_save_jud_method()
         {
             if (title_box.Text.Length == 0 && methods.Exists_days_tbl() == false
@@ -876,6 +891,7 @@ namespace study_scheduler.childforms
             Save_title_data(ref work);
         }
 
+        //メモテキストボックスの内容をデータベースに保存する
         private void Save_memo_data(ref string p_memo)
         {
 
@@ -913,6 +929,7 @@ namespace study_scheduler.childforms
             return;
         }
 
+        //タイトルテキストボックスの内容を保存する
         private void Save_title_data(ref string p_title)
         {
             var connectionString = edittime_information.sql_code;
@@ -939,6 +956,7 @@ namespace study_scheduler.childforms
             return;
         }
 
+        //データベースのメモタイトルを読み取る
         private void Read_memo_title()
         {
             var connectionString = edittime_information.sql_code;
@@ -984,7 +1002,7 @@ namespace study_scheduler.childforms
             return;
         }
 
-
+        //読み取ったメモのデータをテキストボックスに書き込む
         private void Write_memo_box()
         {
             var connectionString = edittime_information.sql_code;
@@ -1008,7 +1026,7 @@ namespace study_scheduler.childforms
             return;
         }
 
-
+        //読み取ったタイトルのデータをテキストボックスに書き込む
         private void Write_title_box()
         {
             var connectionString = edittime_information.sql_code;

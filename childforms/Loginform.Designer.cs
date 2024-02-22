@@ -42,12 +42,12 @@
             fault_timer = new System.Windows.Forms.Timer(components);
             login_timer = new System.Windows.Forms.Timer(components);
             panel1 = new Panel();
-            enter_timer = new System.Windows.Forms.Timer(components);
             panel1.SuspendLayout();
             SuspendLayout();
             // 
             // ok_btn
             // 
+            ok_btn.Cursor = Cursors.Hand;
             ok_btn.FlatStyle = FlatStyle.Flat;
             ok_btn.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ok_btn.Location = new Point(769, 826);
@@ -60,6 +60,7 @@
             // 
             // up_or_in_btn
             // 
+            up_or_in_btn.Cursor = Cursors.Hand;
             up_or_in_btn.FlatStyle = FlatStyle.Flat;
             up_or_in_btn.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             up_or_in_btn.Location = new Point(1567, 940);
@@ -83,6 +84,7 @@
             // Password_textbox
             // 
             Password_textbox.BorderStyle = BorderStyle.FixedSingle;
+            Password_textbox.Cursor = Cursors.Hand;
             Password_textbox.Font = new Font("Yu Gothic UI", 36F, FontStyle.Regular, GraphicsUnit.Point, 128);
             Password_textbox.Location = new Point(603, 603);
             Password_textbox.MaxLength = 20;
@@ -115,6 +117,7 @@
             // Title_textbox
             // 
             Title_textbox.BorderStyle = BorderStyle.FixedSingle;
+            Title_textbox.Cursor = Cursors.Hand;
             Title_textbox.Font = new Font("Yu Gothic UI", 36F, FontStyle.Regular, GraphicsUnit.Point, 128);
             Title_textbox.Location = new Point(603, 300);
             Title_textbox.MaxLength = 20;
@@ -140,6 +143,7 @@
             // show_pass_check
             // 
             show_pass_check.AutoSize = true;
+            show_pass_check.Cursor = Cursors.Hand;
             show_pass_check.Font = new Font("MV Boli", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             show_pass_check.Location = new Point(794, 579);
             show_pass_check.Name = "show_pass_check";
@@ -185,10 +189,6 @@
             panel1.Size = new Size(1920, 1080);
             panel1.TabIndex = 31;
             // 
-            // enter_timer
-            // 
-            enter_timer.Tick += enter_timer_Tick;
-            // 
             // Loginform
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -223,6 +223,5 @@
         private System.Windows.Forms.Timer fault_timer;
         private System.Windows.Forms.Timer login_timer;
         private Panel panel1;
-        private System.Windows.Forms.Timer enter_timer;
     }
 }

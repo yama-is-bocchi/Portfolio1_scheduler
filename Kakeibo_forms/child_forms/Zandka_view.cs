@@ -19,12 +19,11 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             InitializeComponent();
             if (Read_tbl() == false) return;
         }
-
-
+        //フィールド
         private int colum_count = 0;
         Kakeibo_form_methods methods = new Kakeibo_form_methods();
 
-
+        //データベースを読み取り,データが無ければFalseを返す
         private bool Read_tbl()
         {
 
@@ -62,6 +61,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
 
         }
 
+        //残高のラベルを生成する
         private void Generate_goal_label(ref DateTime p_date, Int64 p_amount)
         {
             View_only__const const_data = new View_only__const();
@@ -105,16 +105,19 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             colum_count++;
         }
 
+        //残高メニューに戻る
         private void back_btn_MouseClick(object sender, MouseEventArgs e)
         {
             Close();
         }
 
+        //オブジェクト内にマウスカーソルが入る
         private void back_btn_MouseEnter(object sender, EventArgs e)
         {
             methods.Enter_mouse_btn(sender, e);
         }
 
+        //オブジェクト内からマウスカーソルが出る
         private void back_btn_MouseLeave(object sender, EventArgs e)
         {
             methods.Leave_mouse_btn(sender,e);

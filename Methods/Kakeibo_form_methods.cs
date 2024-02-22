@@ -11,8 +11,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace study_scheduler.Methods
 {
+    //家計簿タスクのメソッド
     public class Kakeibo_form_methods
     {
+        //オブジェクトにマウスカーソルが入る
         public void Enter_mouse_btn(object? sender, EventArgs e)
         {
             if (sender == null) return;
@@ -20,7 +22,7 @@ namespace study_scheduler.Methods
             ((Button)sender).ForeColor = Color.FromArgb(50, 50, 50);
 
         }
-
+        //オブジェクトからマウスカーソルが出る
         public void Leave_mouse_btn(object? sender, EventArgs e)
         {
             if (sender == null) return;
@@ -29,12 +31,13 @@ namespace study_scheduler.Methods
 
         }
 
+        //入力データのニューメリックチェック
         public bool amount_check(ref string amount)
         {
             return (Regex.IsMatch(amount, @"^[0-9]+$"));
         }
 
-        
+        //削除されて空きが出たID_NUMがあるか判定しその数値を返す、なければ0を返す
         public int Check_miss_colum(ref string kind)
         {
             int count = 0;
@@ -69,7 +72,7 @@ namespace study_scheduler.Methods
             return 0;
         }
 
-
+        //登録するためのID_NUMを返す
         public int Read_database_count(ref string kind)
         {
             int count = 0;
@@ -103,6 +106,7 @@ namespace study_scheduler.Methods
             return count+1;
         }
 
+        //支出,収入を登録する
         public void Insert_regi_form(ref DateTime Date, string Title, Int64 money)
         {
 
@@ -126,6 +130,7 @@ namespace study_scheduler.Methods
 
         }
 
+        //変更する前の残高を返す
         public Int64 Read_znadaka_pre_money(ref int id_num)
         {
             Int64 premoney = 0;
@@ -152,6 +157,7 @@ namespace study_scheduler.Methods
 
         }
 
+        //残高テーブルに支出か収入か判定して行を挿入
         public void Insert_zandaka_tbl(ref Int64 money)
         {
             string p_temp = "残高";
@@ -190,7 +196,7 @@ namespace study_scheduler.Methods
             }
         }
 
-
+        //目標テーブルに目標金額とタイトルを挿入する
         public void Insert_goal_tbl(ref string title, bool income, Int64 amount)
         {
             var connectionString = edittime_information.sql_code;
@@ -208,6 +214,7 @@ namespace study_scheduler.Methods
             }
         }
 
+        //既に目標が設定されているか判定する
         public bool Exists_goal_tbl(ref string title, bool income)
         {
             var connectionString = edittime_information.sql_code;
@@ -237,6 +244,7 @@ namespace study_scheduler.Methods
             return false;
         }
 
+        //目標テーブルアップデート
         public void Update_goal_tbl(ref string title, bool income, Int64 amount)
         {
             var connectionString = edittime_information.sql_code;
@@ -254,6 +262,7 @@ namespace study_scheduler.Methods
             }
         }
 
+        //目標テーブルの行を削除
         public void Delete_goal_colum(ref string p_title, bool income)
         {
             var connectionString = edittime_information.sql_code;
@@ -272,6 +281,7 @@ namespace study_scheduler.Methods
             }
         }
 
+        //目標設定タスクで既に収入,支出が設定されているか判定する
         public bool Exists_income_expen_colum(ref string tbl_name,string title)
         {
             var connectionString = edittime_information.sql_code;
@@ -301,6 +311,7 @@ namespace study_scheduler.Methods
             return false;
         }
 
+        //選択したテーブルのID_NUMの行を削除する
         public void Delete_select_tbl_colum(ref string p_tbl, int id)
         {
             var connectionString = edittime_information.sql_code;
@@ -319,6 +330,7 @@ namespace study_scheduler.Methods
             }
         }
 
+        //収入,支出テーブルをアップデートする
         public void Update_income_expen_tbl(ref string p_id,string tbl_name,DateTime p_date,string p_title,Int64 p_amount)
         {
             var connectionString = edittime_information.sql_code;
@@ -335,6 +347,8 @@ namespace study_scheduler.Methods
                 }
             }
         }
+
+        //収入,支出修正時残高テーブルの残高もアップデートする
         public void Update_zandaka_tbl(ref Int64 p_amount,Int64 pre_tbl_money,bool income)
         {
             string p_temp = "残高";

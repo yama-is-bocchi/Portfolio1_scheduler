@@ -20,15 +20,14 @@ namespace study_scheduler.childforms
         {
             InitializeComponent();
             init_time_label();
-
-            //重複チェック 後で
         }
-        private bool st_or_end_flag;
-        private string high_light_label_name = "";
-        private int need_count;
-        private TimeOnly corr_st;
-        private TimeOnly corr_end;
-        private bool corr_study_check;
+        //フィールド
+        private bool st_or_end_flag;//トラックバーが開始時刻か終了時刻か判定する
+        private string high_light_label_name = "";//入力が間違ってた時点滅させるオブジェクト名
+        private int need_count;//点滅させる回数
+        private TimeOnly corr_st;//修正の場合修正前の開始時刻データと比較するため
+        private TimeOnly corr_end;//修正の場合修正前の終了時刻データと比較するため
+        private bool corr_study_check;//修正の場合修正前の勉強フラグデータと比較するため
 
         //データ保存メイン処理
         private void ok_btn_MouseClick(object? sender, MouseEventArgs e)
@@ -36,7 +35,7 @@ namespace study_scheduler.childforms
             Ok_method();
         }
 
-
+        //保存するためデータ確認、問題が無ければ保存する
         private void Ok_method()
         {
             string name;
@@ -138,13 +137,9 @@ namespace study_scheduler.childforms
             this.Close();
         }
 
-
-
-
+        //修正の場合メインテーブルのトータル勉強時間を変更する
         private void corr_main_totaltime()
         {
-
-
             var connectionString = edittime_information.sql_code;
 
             using (var connection = new SqlConnection(connectionString))
@@ -190,6 +185,7 @@ namespace study_scheduler.childforms
 
         }
 
+        //修正したデータをアップデートする
         private void update_corr_data()
         {
             var connectionString = edittime_information.sql_code;
@@ -211,6 +207,7 @@ namespace study_scheduler.childforms
 
             }
         }
+
         //データ重複チェック
         private bool distinct_plane_date()
         {
@@ -254,21 +251,15 @@ namespace study_scheduler.childforms
 
             }
             return ret_judement;
-
-
-
         }
 
 
-
+        //登録の場合該当テーブルにデータを挿入する
         private void insert_cur_day_table()
         {
             var connectionString = edittime_information.sql_code;
             using (var connection = new SqlConnection(connectionString))
             {
-
-
-
                 // 接続を確立
                 connection.Open();
 
@@ -283,6 +274,7 @@ namespace study_scheduler.childforms
             }
         }
 
+        //登録時データが勉強ならメインテーブルのトータル勉強時間をアップデートするする
         private void update_main_table()
         {
             var connectionString = edittime_information.sql_code;
@@ -302,9 +294,9 @@ namespace study_scheduler.childforms
             }
         }
 
+        //入力間違いの時該当データを点滅させる
         private void highlight_method(ref string label_name)
         {
-
             text_box_label.Visible = true;
             color_label.Visible = true;
             which.Visible = true;
@@ -315,7 +307,7 @@ namespace study_scheduler.childforms
         }
 
 
-
+        //点滅させるタイマーイベント
         private void highlight_timer_Tick(object sender, EventArgs e)
         {
             if (need_count % 2 == 0)
@@ -358,7 +350,7 @@ namespace study_scheduler.childforms
 
         }
 
-
+        //該当する時間にラベルを初期値にセットする
         private void init_time_label()
         {
 
@@ -504,22 +496,26 @@ namespace study_scheduler.childforms
             hide_radio_panel();
 
         }
-
+        
+        //どこかの項目をクリックしたときトラックバーのパネルを非表示にする
         private void _MouseClick(object sender, MouseEventArgs e)
         {
             if (radio_panel.Visible == true) hide_radio_panel();
         }
 
+        //重複表示パネルの表示時間タイマーイベント
         private void distinct_timer_Tick(object sender, EventArgs e)
         {
             distinct_panel.Visible = false;
         }
 
+        //エンターキー入力するためのオーバーライド
         protected override bool ProcessDialogKey(Keys keyData)
         {
             return false;
         }
 
+        //エンターキ-か判定
         private void Register_form_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
@@ -529,6 +525,7 @@ namespace study_scheduler.childforms
             }
         }
 
+        //エンターキ-か判定
         private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
@@ -537,6 +534,7 @@ namespace study_scheduler.childforms
             }
         }
 
+        //エンターキ-か判定
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             if (textBox1.Text.Contains("\n"))
@@ -545,6 +543,7 @@ namespace study_scheduler.childforms
             }
         }
 
+        //終了ボタンマウスクリックイベント
         private void exit_btn_MouseClick(object sender, MouseEventArgs e)
         {
             cur_form_information.exit_btn_flag = true;

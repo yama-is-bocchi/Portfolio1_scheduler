@@ -19,13 +19,15 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             InitializeComponent();
             Init_form();
         }
-        private Control[]? work;
-        private int size_count = 0;
-        private int need_count = 6;
-        private bool exist_open = false;
-        private bool max_flag = false;
+        //フィールド
+        private Control[]? work;//入力間違い時点滅するオブジェクトのコントロール
+        private int size_count = 0;//リストのサイズ
+        private int need_count = 6;//入力間違いの点滅カウント
+        private bool exist_open = false;//リストを設定したか
+        private bool max_flag = false;//リストをこれ以上大きくできない
         Kakeibo_form_methods Methods = new Kakeibo_form_methods();
 
+        //画面初期設定
         private void Init_form()
         {
             if (kakeibo_static_info.cur_setting_mode == "収入")
@@ -39,6 +41,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
 
         }
 
+        //登録されてるデータをもとにリスト生成する
         private void List_mouse_click(object? sender, MouseEventArgs e)
         {
 
@@ -69,7 +72,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         }
 
 
-
+        //データベースに登録されているタイトルを返す
         private void Read_db_tbl()
         {
 
@@ -98,6 +101,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             return;
         }
 
+        //タイトルのラベルを生成する
         private void Generate_title_label(ref string p_title)
         {
             kakeibo_goal_const point = new kakeibo_goal_const();
@@ -122,6 +126,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             //クリックイベント
         }
 
+        //タイトルのラベルのマウスクリックイベント
         private void Label_mouse_click(object? sender, MouseEventArgs e)
         {
             if (max_flag == true)
@@ -141,6 +146,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             Title_list_view.Cursor = Cursors.Hand;
         }
 
+        //金額入力テキストボックスのエンターキー判定
         private void amountbox_TextChanged(object sender, EventArgs e)
         {
             if (amountbox.Text.Contains("\n"))
@@ -157,6 +163,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             }
         }
 
+        //登録データの入力間違い判定後、問題がなければデータを保存する
         private void Ok_method()
         {
             Kakeibo_form_methods methods = new Kakeibo_form_methods();
@@ -204,6 +211,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             Close();
         }
 
+        //データが埋まっててエンターキーが押されたか判定
         private void Goal_setting_KeyDown(object sender, KeyEventArgs e)
         {
             if (amountbox.Text.Length != 0 && cur_view_title.Text.Length != 0 && e.KeyData == Keys.Enter)
@@ -213,6 +221,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             }
         }
 
+        //OKボタンマウスクリックイベント
         private void ok_btn_MouseClick(object sender, MouseEventArgs e)
         {
             //okmethod
@@ -220,11 +229,13 @@ namespace study_scheduler.Kakeibo_forms.child_forms
 
         }
 
+        //キャンセルボタンマウスクリックイベント
         private void cancel_btn_MouseClick(object sender, MouseEventArgs e)
         {
             Close();
         }
 
+        //点滅タイマーイベント
         private void high_timer_Tick(object sender, EventArgs e)
         {
             if (work == null) return;
@@ -250,11 +261,13 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             }
         }
 
+        //オブジェクト内にマウスカーソルが入る
         private void ok_btn_MouseEnter(object sender, EventArgs e)
         {
             Methods.Enter_mouse_btn(sender, e);
         }
 
+        //オブジェクト内からマウスカーソルが出る
         private void ok_btn_MouseLeave(object sender, EventArgs e)
         {
             Methods.Leave_mouse_btn(sender, e);

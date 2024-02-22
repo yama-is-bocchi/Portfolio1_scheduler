@@ -20,10 +20,12 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             Cur_page_name = "支出";
             init_form();
         }
-        private string Cur_page_name;
+        //フィールド
+        private string Cur_page_name;//目標が収入なのか支出なのか判定する
         Kakeibo_form_methods methods1 = new Kakeibo_form_methods();
-        private int colum_count = 0;
+        private int colum_count = 0;//表示したデータの行数
 
+        //画面の初期設定
         private void init_form()
         {
             if (Read_goal_tbl() == false)
@@ -32,6 +34,8 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             }
 
         }
+
+        //データベースのデータを読み取る,データが無ければfalseを返す
         private bool Read_goal_tbl()
         {
 
@@ -87,6 +91,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
 
         }
 
+        //目標のタイトル,金額,差額を表示する
         private void Generate_goal_label(ref string p_Title, Int64 goal, int count)
         {
             kakeibo_goal_const const_data = new kakeibo_goal_const();
@@ -185,7 +190,8 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             colum_count++;
         }
 
-        private void Give_remove_event(object? sender,EventArgs e)
+        //目標削除のマウスクリックイベント
+        private void Give_remove_event(object? sender,MouseEventArgs e)
         {
             if (sender== null) return;
             Control[] work=this.Controls.Find("title"+(((Button)sender).Name.Replace("remove","")),true);
@@ -197,6 +203,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             if (Read_goal_tbl()==false)return;
         }
 
+        //目標に対して現在の金額を返す
         private Int64 Ret_cur_tbl_money(ref string Title)
         {
             Int64 sum = 0;
@@ -229,6 +236,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             return sum;
         }
 
+        //目標設定画面を開く
         private void add_btn_MouseClick(object sender, MouseEventArgs e)
         {
             Kakeibo_form_methods methods = new Kakeibo_form_methods();
@@ -245,7 +253,8 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             setting_form.BringToFront();
             setting_form.Show();
         }
-
+        
+        //目標設定画面を閉じたときのイベント
         private void setting_formClosed(object? sender, EventArgs e)
         {
             //再描画処理
@@ -255,6 +264,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             Read_goal_tbl();
         }
 
+        //生成したオブジェクトを削除する
         private void Init_object()
         {
             List<string> temp_name = new List<string>()
@@ -279,16 +289,19 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             colum_count = 0;
         }
 
+        //マウスカーソルがオブジェクト内に入る
         private void add_btn_MouseEnter(object sender, EventArgs e)
         {
             methods1.Enter_mouse_btn(sender, e);
         }
 
+        //マウスカーソルがオブジェクト内から出る
         private void add_btn_MouseLeave(object sender, EventArgs e)
         {
             methods1.Leave_mouse_btn(sender, e);
         }
 
+        //目標を収入、収支に変更する
         private void change_btn_MouseClick(object sender, MouseEventArgs e)
         {
             if (Cur_page_name == "支出")

@@ -22,6 +22,8 @@ namespace study_scheduler.childforms
             InitializeComponent();
             init_form();
         }
+
+        //全削除か日ごとの削除かでラベルを変更
         private void init_form()
         {
             if (kakeibo_static_info.remove_code == "day")
@@ -34,6 +36,7 @@ namespace study_scheduler.childforms
             }
         }
 
+        //okボタンのマウスクリックイベント
         private void ok_btn_MouseClick(object sender, MouseEventArgs e)
         {
             //データベース削除処理
@@ -86,6 +89,7 @@ namespace study_scheduler.childforms
 
         }
 
+        //該当する日のテーブルと行を削除する
         private void remove_table(ref DateTime p_date)
         {
             Scheduler_Tabele_methods methods = new Scheduler_Tabele_methods();
@@ -118,12 +122,13 @@ namespace study_scheduler.childforms
         }
 
 
-
+        //キャンセルボタンマウスクリックイベント
         private void cancel_btn_MouseClick(object sender, MouseEventArgs e)
         {
             this.Close();
         }
 
+        //終了ボタンマウスクリックイベント
         private void exit_btn_MouseClick(object sender, MouseEventArgs e)
         {
             cur_form_information.exit_btn_flag = true;

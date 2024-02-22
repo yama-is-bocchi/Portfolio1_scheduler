@@ -20,10 +20,12 @@ namespace study_scheduler.Kakeibo_forms
             Init_form_data();
 
         }
+        //フィールド
         private Form? Cur_form;
         private Button? Cur_active_btn;
         Kakeibo_form_methods methods = new Kakeibo_form_methods();
 
+        //画面の初期設定
         private void Init_form_data()
         {
             Kakeibo_const.kakeibo_date = DateTime.Now;
@@ -32,51 +34,52 @@ namespace study_scheduler.Kakeibo_forms
             cur_page_label.Text = "トップページ";
         }
 
-
+        //上のパネルの背景色の変更
         private void kakeibo_bar_panel_Paint(object sender, PaintEventArgs e)
         {
             using (
-                // グラデーションブラシ作成
                 var gb = new LinearGradientBrush(
                 e.Graphics.VisibleClipBounds,
                 Color.Fuchsia,
                 Color.DarkOrchid,
                 LinearGradientMode.Horizontal))
             {
-                // 四角形の内部を塗りつぶす（表示クリッピング領域）
                 e.Graphics.FillRectangle(gb, e.Graphics.VisibleClipBounds);
             }
         }
-        //cur_panelの背景を変更
         private void kakeibo_bar_panel_Resize(object sender, EventArgs e)
         {
-            // パネルの表面全体を無効化してパネルを再描画する
             kakeibo_bar_panel.Invalidate();
         }
 
+        //オブジェクト内にマウスカーソルが入る
         private void Enter_mouse_btn(object? sender, EventArgs e)
         {
             methods.Enter_mouse_btn(sender, e);
 
         }
 
+        //オブジェクト内からマウスカーソルが出る
         private void Leave_mouse_btn(object? sender, EventArgs e)
         {
             methods.Leave_mouse_btn(sender, e);
 
         }
 
+        //終了ボタン
         private void exit_btn_MouseClick(object sender, MouseEventArgs e)
         {
             cur_form_information.exit_btn_flag = true;
             Close();
         }
 
+        //スケジューラタスクに戻る
         private void Back_scheduler_MouseClick(object sender, MouseEventArgs e)
         {
             Close();
         }
 
+        //トップ画面で開くタスクを選択するマウスクリックイベント
         private void Button_click(object sender, MouseEventArgs e)
         {
 
@@ -103,6 +106,7 @@ namespace study_scheduler.Kakeibo_forms
             }
         }
 
+        //トップ画面選択されたページに対応するボタンの背景色を変える
         private void Jud_menu_control(object sender)
         {
             Cur_form?.Close();
@@ -139,6 +143,7 @@ namespace study_scheduler.Kakeibo_forms
 
         }
 
+        //トップ画面に移動する
         private void Top_btn_MouseClick(object sender, MouseEventArgs e)
         {
             Cur_form?.Close();
