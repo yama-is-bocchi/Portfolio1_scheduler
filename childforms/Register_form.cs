@@ -233,13 +233,32 @@ namespace study_scheduler.childforms
                             || (TimeOnly.Parse((string)reader["st"]) < edittime_information.select_st_time && edittime_information.select_st_time >= TimeOnly.Parse((string)reader["end_time"])
                             && TimeOnly.Parse((string)reader["st"]) <= edittime_information.select_end_time && edittime_information.select_end_time > TimeOnly.Parse((string)reader["end_time"]))))
                         {
-                            if (TimeOnly.Parse((string)reader["st"]) != corr_st && corr_end != TimeOnly.Parse((string)reader["end_time"]))
+                            if (edittime_information.select_correction_flag == true)
                             {
-                                //被ってるデータを表示
-                                distinct_panel.Visible = true;
-                                distinct_timer.Start();
-                                distinc_show_label.Text += ((string)reader["内容"]).PadRight(3) + (string)reader["st"] + "〜" + (string)reader["end_time"] + "\n";
-                                distinct_panel.Size = new Size(distinct_panel.Size.Width, distinct_panel.Size.Height + 30);
+                                if (TimeOnly.Parse((string)reader["st"]) != corr_st && corr_end != TimeOnly.Parse((string)reader["end_time"]))
+                                {
+                                    if (distinct_panel.Visible == false)
+                                    {
+                                        //被ってるデータを表示
+                                        distinct_panel.Visible = true;
+                                        distinct_timer.Start();
+                                        distinc_show_label.Text += ((string)reader["内容"]).PadRight(3) + (string)reader["st"] + "〜" + (string)reader["end_time"] + "\n";
+                                        distinct_panel.Size = new Size(distinct_panel.Size.Width, distinct_panel.Size.Height + 30);
+                                    }
+                                    ret_judement = true;
+                                }
+                            }
+                            else
+                            {
+                                if (distinct_panel.Visible == false)
+                                {
+                                    //被ってるデータを表示
+                                    distinct_panel.Visible = true;
+                                    distinct_timer.Start();
+                                    distinc_show_label.Text += ((string)reader["内容"]).PadRight(3) + (string)reader["st"] + "〜" + (string)reader["end_time"] + "\n";
+                                    distinct_panel.Size = new Size(distinct_panel.Size.Width, distinct_panel.Size.Height + 30);
+                                    
+                                }
                                 ret_judement = true;
                             }
                         }
@@ -506,6 +525,8 @@ namespace study_scheduler.childforms
         //重複表示パネルの表示時間タイマーイベント
         private void distinct_timer_Tick(object sender, EventArgs e)
         {
+            distinc_show_label.Text = null;
+            distinct_panel.Size=new Size(324, 28);
             distinct_panel.Visible = false;
         }
 

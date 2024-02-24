@@ -44,7 +44,6 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         //登録されてるデータをもとにリスト生成する
         private void List_mouse_click(object? sender, MouseEventArgs e)
         {
-
             cur_view_title.MouseClick -= List_mouse_click;
             tree_btn.MouseClick -= List_mouse_click;
             Title_list_view.MouseClick -= List_mouse_click;

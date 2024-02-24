@@ -46,7 +46,10 @@
             Inserted_label = new Label();
             insert_timer = new System.Windows.Forms.Timer(components);
             back_btn = new Button();
+            calc_panel = new Panel();
+            show_calc_btn = new Button();
             calender_panel.SuspendLayout();
+            calc_panel.SuspendLayout();
             SuspendLayout();
             // 
             // ok_btn
@@ -245,12 +248,39 @@
             back_btn.Visible = false;
             back_btn.MouseClick += back_btn_MouseClick;
             // 
+            // calc_panel
+            // 
+            calc_panel.Controls.Add(show_calc_btn);
+            calc_panel.Location = new Point(838, 223);
+            calc_panel.Name = "calc_panel";
+            calc_panel.Size = new Size(410, 360);
+            calc_panel.TabIndex = 20;
+            // 
+            // show_calc_btn
+            // 
+            show_calc_btn.BackColor = Color.FromArgb(50, 50, 50);
+            show_calc_btn.Cursor = Cursors.Hand;
+            show_calc_btn.FlatStyle = FlatStyle.Flat;
+            show_calc_btn.Font = new Font("MV Boli", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            show_calc_btn.ForeColor = Color.LimeGreen;
+            show_calc_btn.Location = new Point(0, 0);
+            show_calc_btn.Margin = new Padding(4, 3, 4, 3);
+            show_calc_btn.Name = "show_calc_btn";
+            show_calc_btn.Size = new Size(101, 57);
+            show_calc_btn.TabIndex = 11;
+            show_calc_btn.Text = "show calc";
+            show_calc_btn.UseVisualStyleBackColor = false;
+            show_calc_btn.MouseClick += show_calc_btn_MouseClick;
+            show_calc_btn.MouseEnter += Enter_mouse_btn;
+            show_calc_btn.MouseLeave += Leave_mouse_btn;
+            // 
             // Income_regi
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(70, 70, 70);
             ClientSize = new Size(1660, 879);
+            Controls.Add(calc_panel);
             Controls.Add(back_btn);
             Controls.Add(Inserted_label);
             Controls.Add(datebox);
@@ -273,6 +303,7 @@
             Text = "Income_regi";
             KeyDown += Income_regi_KeyDown;
             calender_panel.ResumeLayout(false);
+            calc_panel.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -296,5 +327,7 @@
         private Label Inserted_label;
         private System.Windows.Forms.Timer insert_timer;
         private Button back_btn;
+        private Panel calc_panel;
+        private Button show_calc_btn;
     }
 }

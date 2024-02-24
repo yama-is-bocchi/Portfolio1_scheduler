@@ -716,6 +716,7 @@ namespace study_scheduler.childforms
             {
                 all_remove_btn.Visible = false;
                 select_remove.Visible = false;
+                total_time_label.Text = "00:00";
             }
         }
 

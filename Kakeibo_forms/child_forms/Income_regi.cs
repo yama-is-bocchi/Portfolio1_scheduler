@@ -24,6 +24,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         private int need_count = 6;
         private Control[]? work;
         Form? Calender_form;
+        Form? calc;
         Kakeibo_form_methods kakei_methods = new Kakeibo_form_methods();
 
         //設定画面の初期設定
@@ -32,7 +33,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             if (kakeibo_static_info.cur_setting_mode == "残高")
             {
                 back_btn.Visible = true;
-                if (kakeibo_static_info.cur_page_name == null|| kakeibo_static_info.p_id ==null) return;
+                if (kakeibo_static_info.cur_page_name == null || kakeibo_static_info.p_id == null) return;
                 Read_id_colum(ref kakeibo_static_info.p_id, kakeibo_static_info.cur_page_name);
             }
             else
@@ -126,9 +127,9 @@ namespace study_scheduler.Kakeibo_forms.child_forms
                 //残高テーブルとそれぞれのテーブルをアップデート
                 if (kakeibo_static_info.cur_page_name == null) return;
                 kakei_methods.Update_income_expen_tbl(ref kakeibo_static_info.p_id, kakeibo_static_info.cur_page_name, p_date, title, p_money);
-                bool p_flag=false;
-                if (kakeibo_static_info.cur_page_name == "収入") p_flag=true;
-                kakei_methods.Update_zandaka_tbl(ref p_money, temp_edit_amount,p_flag);
+                bool p_flag = false;
+                if (kakeibo_static_info.cur_page_name == "収入") p_flag = true;
+                kakei_methods.Update_zandaka_tbl(ref p_money, temp_edit_amount, p_flag);
             }
             else
             {
@@ -144,7 +145,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             titlebox.Text = "";
             amountbox.Text = "";
             this.KeyPreview = true;
-            if(kakeibo_static_info.cur_setting_mode=="残高")Close();
+            if (kakeibo_static_info.cur_setting_mode == "残高") Close();
         }
 
         //入力が埋まっていてエンターキーが押されたらOKMETHODを呼び出す
@@ -285,6 +286,17 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         private void back_btn_MouseClick(object sender, MouseEventArgs e)
         {
             Close();
+        }
+
+        private void show_calc_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+            show_calc_btn.Visible = false;
+            calc = new Calc();
+            calc.TopLevel = false;
+            calc_panel.Controls.Add(calc);
+            calc_panel.Tag = calc;
+            calc.BringToFront();
+            calc.Show();
         }
     }
 }
