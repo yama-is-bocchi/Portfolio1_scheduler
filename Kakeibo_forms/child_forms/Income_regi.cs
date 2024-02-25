@@ -46,6 +46,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         //カレンダーの表示
         private void show_calender_btn_MouseClick(object sender, MouseEventArgs e)
         {
+            calc?.Close();
             ActiveControl = datebox;
             show_calender_btn.Visible = false;
             Calender_form = new Calender_picker();
@@ -161,6 +162,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         private void titlebox_TextChanged(object sender, EventArgs e)
         {
             Calender_form?.Close();
+            calc?.Close();
             show_calender_btn.Visible = true;
             if (titlebox.Text.Contains("\n"))
             {
@@ -295,8 +297,21 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             calc.TopLevel = false;
             calc_panel.Controls.Add(calc);
             calc_panel.Tag = calc;
+            calc.FormClosed += calc_closed;
             calc.BringToFront();
             calc.Show();
+        }
+
+        private void calc_closed(object? sender,EventArgs e)
+        {
+            show_calc_btn.Visible = true;
+            return;
+        }
+
+        private void titlebox_MouseClick(object sender, MouseEventArgs e)
+        {
+            Calender_form?.Close();
+            calc?.Close();
         }
     }
 }

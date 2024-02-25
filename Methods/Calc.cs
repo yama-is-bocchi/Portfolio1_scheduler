@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace study_scheduler.Methods
         }
         //フィールド
         Kakeibo_form_methods methods = new Kakeibo_form_methods();
-
+        private bool answerd;
         //マウスカーソルがオブジェクト内に入る
         private void Mouse_enter(object sender, EventArgs e)
         {
@@ -33,16 +34,22 @@ namespace study_scheduler.Methods
 
         private void Enter_num(object sender, MouseEventArgs e)
         {
-            if (ans_label.Text.Length < 17)
+            
+            if (ans_label.Text.Length < 15)
             {
-                
+                if (answerd == true)
+                {
+                    ans_label.Text =null;
+                    answerd= false;
+                }
                 ans_label.Text += ((Button)sender).Text;
             }
         }
 
         private void operater_MouseClick(object sender, MouseEventArgs e)
         {
-            cur_ope.Text= ((Button)sender).Text;
+            if (ans_label.Text.Length==0) return;
+            cur_ope.Text = ((Button)sender).Text;
             temp_num.Text = ans_label.Text;
             ans_label.Text = null;
             plus.Visible = false;
@@ -53,16 +60,16 @@ namespace study_scheduler.Methods
 
         private void equal_MouseClick(object sender, MouseEventArgs e)
         {
-            if (temp_num.Text.Length==0|| ans_label.Text.Length==0)
+            if (temp_num.Text.Length == 0 || ans_label.Text.Length == 0)
             {
                 return;
             }
 
-            Int128 pre_num= Int128.Parse(temp_num.Text);
-            Int128 next_num=Int128.Parse(ans_label.Text);
-            if (cur_ope.Text=="+")
+            Int128 pre_num = Int128.Parse(temp_num.Text);
+            Int128 next_num = Int128.Parse(ans_label.Text);
+            if (cur_ope.Text == "+")
             {
-                ans_label.Text=(pre_num + next_num).ToString();
+                ans_label.Text = (pre_num + next_num).ToString();
             }
             if (cur_ope.Text == "-")
             {
@@ -70,7 +77,7 @@ namespace study_scheduler.Methods
             }
             if (cur_ope.Text == "x")
             {
-                ans_label.Text= (pre_num * next_num).ToString();
+                ans_label.Text = (pre_num * next_num).ToString();
             }
             if (cur_ope.Text == "÷")
             {
@@ -78,37 +85,54 @@ namespace study_scheduler.Methods
             }
             //FIFO方式判定
             enter_ans_temp();
+            answerd=true;
         }
 
         private void enter_ans_temp()
         {
             if (temp1.Text == null)
             {
-                temp1.Text= ans_label.Text;
+                temp1.Text = ans_label.Text;
             }
-            else if (temp2.Text==null)
+            else if (temp2.Text == null)
             {
                 temp2.Text = temp1.Text;
-                temp1.Text= ans_label.Text;
+                temp1.Text = ans_label.Text;
             }
             else
             {
                 temp3.Text = temp2.Text;
                 temp2.Text = temp1.Text;
-                temp1.Text= ans_label.Text;
+                temp1.Text = ans_label.Text;
             }
-            ans_label.Text=null;
-            cur_ope.Text=null ;
-            temp_num.Text=null;
+            cur_ope.Text = null;
+            temp_num.Text = null;
             plus.Visible = true;
             mines.Visible = true;
             multi.Visible = true;
             divi.Visible = true;
         }
 
-        private void Temp_label_mouse_click(object sender,MouseEventArgs e)
+        private void Temp_label_mouse_click(object sender, MouseEventArgs e)
         {
+            answerd = false;
             ans_label.Text = ((Label)sender).Text;
+        }
+
+        private void ac_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+            ans_label.Text = null;
+            cur_ope.Text = null;
+            temp_num.Text = null;
+            plus.Visible = true;
+            mines.Visible = true;
+            multi.Visible = true;
+            divi.Visible = true;
+        }
+
+        private void clea_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+            ans_label.Text = null;
         }
     }
 }

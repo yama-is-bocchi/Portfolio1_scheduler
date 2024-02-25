@@ -85,6 +85,7 @@
             titlebox.Name = "titlebox";
             titlebox.Size = new Size(430, 57);
             titlebox.TabIndex = 10;
+            titlebox.MouseClick += titlebox_MouseClick;
             titlebox.TextChanged += titlebox_TextChanged;
             titlebox.Enter += titlebox_Enter;
             // 

@@ -54,6 +54,8 @@
             label3 = new Label();
             label2 = new Label();
             cur_ope = new Label();
+            ac_btn = new Button();
+            clea_btn = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -263,7 +265,7 @@
             panel1.Controls.Add(ans_label);
             panel1.Location = new Point(8, 8);
             panel1.Name = "panel1";
-            panel1.Size = new Size(379, 56);
+            panel1.Size = new Size(255, 56);
             panel1.TabIndex = 34;
             // 
             // ans_label
@@ -271,7 +273,7 @@
             ans_label.AutoSize = true;
             ans_label.Font = new Font("MV Boli", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ans_label.ForeColor = Color.LimeGreen;
-            ans_label.Location = new Point(3, 12);
+            ans_label.Location = new Point(0, 12);
             ans_label.Name = "ans_label";
             ans_label.Size = new Size(0, 31);
             ans_label.TabIndex = 0;
@@ -455,12 +457,46 @@
             cur_ope.Size = new Size(0, 17);
             cur_ope.TabIndex = 1;
             // 
+            // ac_btn
+            // 
+            ac_btn.BackColor = Color.FromArgb(50, 50, 50);
+            ac_btn.Cursor = Cursors.Hand;
+            ac_btn.FlatStyle = FlatStyle.Flat;
+            ac_btn.Font = new Font("MV Boli", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ac_btn.ForeColor = Color.LimeGreen;
+            ac_btn.Location = new Point(333, 8);
+            ac_btn.Margin = new Padding(4, 3, 4, 3);
+            ac_btn.Name = "ac_btn";
+            ac_btn.Size = new Size(55, 55);
+            ac_btn.TabIndex = 40;
+            ac_btn.Text = "AC";
+            ac_btn.UseVisualStyleBackColor = false;
+            ac_btn.MouseClick += ac_btn_MouseClick;
+            // 
+            // clea_btn
+            // 
+            clea_btn.BackColor = Color.FromArgb(50, 50, 50);
+            clea_btn.Cursor = Cursors.Hand;
+            clea_btn.FlatStyle = FlatStyle.Flat;
+            clea_btn.Font = new Font("MV Boli", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            clea_btn.ForeColor = Color.LimeGreen;
+            clea_btn.Location = new Point(270, 8);
+            clea_btn.Margin = new Padding(4, 3, 4, 3);
+            clea_btn.Name = "clea_btn";
+            clea_btn.Size = new Size(55, 55);
+            clea_btn.TabIndex = 39;
+            clea_btn.Text = "C";
+            clea_btn.UseVisualStyleBackColor = false;
+            clea_btn.MouseClick += clea_btn_MouseClick;
+            // 
             // Calc
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(50, 50, 50);
             ClientSize = new Size(394, 321);
+            Controls.Add(ac_btn);
+            Controls.Add(clea_btn);
             Controls.Add(panel2);
             Controls.Add(divi);
             Controls.Add(multi);
@@ -516,5 +552,7 @@
         private Label label3;
         private Label label2;
         private Label cur_ope;
+        private Button ac_btn;
+        private Button clea_btn;
     }
 }
