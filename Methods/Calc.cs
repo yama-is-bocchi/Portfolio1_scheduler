@@ -53,7 +53,7 @@ namespace study_scheduler.Methods
 
         private void equal_MouseClick(object sender, MouseEventArgs e)
         {
-            if (temp_num.Text.Length==0)
+            if (temp_num.Text.Length==0|| ans_label.Text.Length==0)
             {
                 return;
             }
