@@ -153,8 +153,6 @@
             select_remove_btn.Text = "選択削除";
             select_remove_btn.UseVisualStyleBackColor = false;
             select_remove_btn.MouseClick += select_remove_btn_MouseClick;
-            select_remove_btn.MouseEnter += edit_panel_MouseEnter;
-            select_remove_btn.MouseLeave += edit_panel_MouseLeave;
             // 
             // back_btn
             // 

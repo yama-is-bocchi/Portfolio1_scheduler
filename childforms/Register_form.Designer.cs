@@ -546,7 +546,7 @@
             // 
             minut_track.BackColor = Color.Silver;
             minut_track.Cursor = Cursors.Hand;
-            minut_track.LargeChange = 1;
+            minut_track.LargeChange = 0;
             minut_track.Location = new Point(458, 31);
             minut_track.Maximum = 11;
             minut_track.Name = "minut_track";
@@ -561,6 +561,7 @@
             // 
             hour_track.BackColor = Color.Silver;
             hour_track.Cursor = Cursors.Hand;
+            hour_track.LargeChange = 0;
             hour_track.Location = new Point(213, 31);
             hour_track.Maximum = 23;
             hour_track.Name = "hour_track";

@@ -79,14 +79,10 @@ namespace study_scheduler.Kakeibo_forms.child_forms
                     select_remove_btn.Visible = true;
                     select_remove_btn.BackColor = Color.FromArgb(50, 50, 50);
                     select_remove_btn.ForeColor = Color.LimeGreen;
-                    select_remove_btn.MouseEnter += edit_panel_MouseEnter;
-                    select_remove_btn.MouseLeave += edit_panel_MouseLeave;
                 }
                 else
                 {
                     select_remove_btn.Visible = false;
-                    select_remove_btn.MouseEnter -= edit_panel_MouseEnter;
-                    select_remove_btn.MouseLeave -= edit_panel_MouseLeave;
                 }
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
@@ -418,10 +414,8 @@ namespace study_scheduler.Kakeibo_forms.child_forms
 
             select_remove_btn.MouseClick -= select_remove_btn_MouseClick;
 
-            if (select_remove_btn.BackColor == Color.LimeGreen)
+            if (select_remove_btn.BackColor == Color.FromArgb(50, 50, 50))
             {
-                select_remove_btn.MouseEnter -= edit_panel_MouseEnter;
-                select_remove_btn.MouseLeave -= edit_panel_MouseLeave;
                 select_remove_btn.BackColor = Color.Red;
                 select_remove_btn.ForeColor = Color.Black;
                 for (int i = 0; i < colum_count; i++)
@@ -434,8 +428,6 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             }
             else
             {
-                select_remove_btn.MouseEnter += edit_panel_MouseEnter;
-                select_remove_btn.MouseLeave += edit_panel_MouseLeave;
                 select_remove_btn.BackColor = Color.FromArgb(50, 50, 50);
                 select_remove_btn.ForeColor = Color.LimeGreen;
                 for (int i = 0; i < colum_count; i++)

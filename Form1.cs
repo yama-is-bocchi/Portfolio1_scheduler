@@ -188,15 +188,13 @@ namespace study_scheduler
 
             edittime_information.sql_code = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog =" + cur_form_information.cur_data_base_name + "; Integrated Security = True; Connect Timeout = 30; Encrypt=False;Trust Server Certificate=False;Application Intent = ReadWrite; Multi Subnet Failover=False";
 
-
-
             DateTime today = DateTime.Today;
 
-            cur_date = new DateTime(today.Year, today.Month, 1); ;
+            cur_date = new DateTime(today.Year, today.Month, 1);
 
             cur_label_change();
 
-            change_per_second_information(ref today);
+            change_per_second_information();
 
             change_second_timer.Start();
 
@@ -301,8 +299,10 @@ namespace study_scheduler
 
 
         //åªç›ÇÃì˙ïtéûä‘çXêV
-        private void change_per_second_information(ref DateTime date)
+        private void change_per_second_information()
         {
+            DateTime date= DateTime.Today;
+
             today_date_label.Text = date.ToString("yyyy/MM/dd");
 
             date = DateTime.Now;
@@ -319,7 +319,7 @@ namespace study_scheduler
 
             DateTime today = DateTime.Today;
 
-            change_per_second_information(ref today);
+            change_per_second_information();
 
             change_second_timer.Start();
 
@@ -420,11 +420,31 @@ namespace study_scheduler
             }
             else
             {
-                change_today_information();
+                if (kakeibo_static_info.remove_code == "all")
+                {
+                    cur_date = new DateTime(DateTime.Now.Year,DateTime.Now.Month,1);
+                }
+                else
+                {
+                    cur_date = new DateTime(cur_form_information.cur_date_button.Year, cur_form_information.cur_date_button.Month, 1);
+                }
+                cur_label_change();
+
+                change_per_second_information();
+
+                change_second_timer.Start();
+
+                scraping_tokyo_temp();
+
+                sort_button();
+
+                read_db();
+
+                Read_memo_title();
+
+                all_remove_btn_visi_jud();
                 cur_panel.Visible = true;
                 cur_panel.Enabled = true;
-                DateTime today = DateTime.Today;
-                change_per_second_information(ref today);
                 change_second_timer.Start();
 
             }

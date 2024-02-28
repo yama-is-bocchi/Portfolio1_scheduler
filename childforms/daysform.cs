@@ -1,5 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using AngleSharp.Dom;
+using Microsoft.Data.SqlClient;
 using Microsoft.Data.SqlClient.Server;
+using Microsoft.IdentityModel.Tokens;
 using study_scheduler.Methods;
 using System;
 using System.Collections.Generic;
@@ -27,6 +29,9 @@ namespace study_scheduler.childforms
         //フィールド
         Scheduler_Tabele_methods methods = new Scheduler_Tabele_methods();//SQL処理
         private int generate_object_count = 0;//生成したオブジェクトの数
+        private bool moving;//パネルの移動中か
+        private Point pre_point;//パネルの移動前のポジション
+        private List<Wall_jud_member> wall_jud_list = new List<Wall_jud_member>();//当たり判定リスト
 
         //選択削除用のパネルの生成情報を読み取る
         private void change_gene_panel()
@@ -47,20 +52,23 @@ namespace study_scheduler.childforms
                 {
                     while (reader.Read())
                     {
-                        TimeOnly st = TimeOnly.Parse((string)reader["st"]);
+                        TimeSpan st =(TimeSpan)reader["st"];
 
-                        Generate_remove_panel(ref st, TimeOnly.Parse((string)reader["end_time"]), (string)reader["内容"]);
+                        Generate_remove_panel(ref st, (TimeSpan)reader["end_time"], (string)reader["内容"]);
 
                     }
 
                 }
 
             }
+
+
+
             return;
         }
 
         //選択削除用のパネルを生成する
-        private void Generate_remove_panel(ref TimeOnly st, TimeOnly end, string title)
+        private void Generate_remove_panel(ref TimeSpan st, TimeSpan end, string title)
         {
             Panel work = new Panel();
 
@@ -78,30 +86,30 @@ namespace study_scheduler.childforms
 
             generate_object_count++;
 
-            if (st < new TimeOnly(12, 0) && end <= new TimeOnly(12, 0))//stがAMでendもAM
+            if (st < new TimeSpan(12, 0, 0) && end <= new TimeSpan(12, 0, 0))//stがAMでendもAM
             {
 
-                work.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hour) * 60) + Convert.ToInt16(end.Minute)) - ((Convert.ToInt16(st.Hour) * 60) + Convert.ToInt16(st.Minute))) / 5), Daysform_infromation.y_size);
-                work.Location = new Point(Daysform_infromation.x_start_pos + ((((Convert.ToInt16(st.Hour) * 60) + Convert.ToInt16(st.Minute)) / 5) * Daysform_infromation.x_size), Daysform_infromation.y_am_start_pos);
+                work.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes)) - ((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes))) / 5), Daysform_infromation.y_size);
+                work.Location = new Point(Daysform_infromation.x_start_pos + ((((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes)) / 5) * Daysform_infromation.x_size), Daysform_infromation.y_am_start_pos);
                 work.Show();
             }
-            else if (st >= new TimeOnly(12, 0))//stがPM
+            else if (st >= new TimeSpan(12, 0, 0))//stがPM
             {
-                if (end == new TimeOnly(23, 59))
+                if (end == new TimeSpan(23, 59, 0))
                 {
-                    work.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hour) * 60) + Convert.ToInt16(end.Minute)) - ((Convert.ToInt16(st.Hour) * 60) + Convert.ToInt16(st.Minute))) / 5) + Daysform_infromation.x_size, Daysform_infromation.y_size);
+                    work.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes)) - ((Convert.ToInt16(st.Hours    ) * 60) + Convert.ToInt16(st.Minutes))) / 5) + Daysform_infromation.x_size, Daysform_infromation.y_size);
                 }
                 else
                 {
-                    work.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hour) * 60) + Convert.ToInt16(end.Minute)) - ((Convert.ToInt16(st.Hour) * 60) + Convert.ToInt16(st.Minute))) / 5), Daysform_infromation.y_size);
+                    work.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes)) - ((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes))) / 5), Daysform_infromation.y_size);
                 }
-                work.Location = new Point(Daysform_infromation.x_start_pos + (((((Convert.ToInt16(st.Hour) - 12) * 60) + Convert.ToInt16(st.Minute)) / 5) * Daysform_infromation.x_size), Daysform_infromation.y_pm_start_pos);
+                work.Location = new Point(Daysform_infromation.x_start_pos + (((((Convert.ToInt16(st.Hours) - 12) * 60) + Convert.ToInt16(st.Minutes)) / 5) * Daysform_infromation.x_size), Daysform_infromation.y_pm_start_pos);
                 work.Show();
             }
-            else if (st < new TimeOnly(12, 0) && end > new TimeOnly(12, 0))//stがAMだがendがPM
+            else if (st < new TimeSpan(12, 0, 0) && end > new TimeSpan(12, 0, 0))//stがAMだがendがPM
             {
-                work.Size = new Size(Daysform_infromation.x_size * (((12 * 60) - ((Convert.ToInt16(st.Hour) * 60) + Convert.ToInt16(st.Minute))) / 5), Daysform_infromation.y_size);
-                work.Location = new Point(Daysform_infromation.x_start_pos + ((((Convert.ToInt16(st.Hour) * 60) + Convert.ToInt16(st.Minute)) / 5) * Daysform_infromation.x_size), Daysform_infromation.y_am_start_pos);
+                work.Size = new Size(Daysform_infromation.x_size * (((12 * 60) - ((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes))) / 5), Daysform_infromation.y_size);
+                work.Location = new Point(Daysform_infromation.x_start_pos + ((((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes)) / 5) * Daysform_infromation.x_size), Daysform_infromation.y_am_start_pos);
                 work.Show();
 
                 Panel work_pm = new Panel();
@@ -115,13 +123,13 @@ namespace study_scheduler.childforms
                 work_pm.Name = st.ToString() + "PM_PANEL";
 
                 work_pm.BackColor = Color.DarkRed;
-                if (end == new TimeOnly(23, 59))//終了時間が24時の場合
+                if (end == new TimeSpan(23, 59, 0))//終了時間が24時の場合
                 {
-                    work_pm.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hour) * 60) + Convert.ToInt16(end.Minute)) - (12 * 60)) / 5) + Daysform_infromation.x_size, Daysform_infromation.y_size);
+                    work_pm.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes)) - (12 * 60)) / 5) + Daysform_infromation.x_size, Daysform_infromation.y_size);
                 }
                 else
                 {
-                    work_pm.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hour) * 60) + Convert.ToInt16(end.Minute)) - (12 * 60)) / 5), Daysform_infromation.y_size);
+                    work_pm.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes)) - (12 * 60)) / 5), Daysform_infromation.y_size);
                 }
                 work_pm.Location = new Point(Daysform_infromation.x_start_pos, Daysform_infromation.y_pm_start_pos);
 
@@ -143,7 +151,6 @@ namespace study_scheduler.childforms
             work.MouseClick += give_remove_event;
 
         }
-
         //マウスクリック時該当のデータをデータベースから削除する処理
         private void give_remove_event(object? sender, MouseEventArgs e)
         {
@@ -238,12 +245,12 @@ namespace study_scheduler.childforms
                 {
                     while (reader.Read())
                     {
-                        TimeOnly st = TimeOnly.Parse((string)reader["st"]);
-                        TimeOnly end = TimeOnly.Parse((string)reader["end_time"]);
+                        TimeSpan st =(TimeSpan)reader["st"];
+                        TimeSpan end = (TimeSpan)reader["end_time"];
 
                         if ((bool)reader["勉強"] == true)
                         {
-                            sum = sum + (((end.Hour - st.Hour) * 60) + (end.Minute - st.Minute));
+                            sum = sum + (((end.Hours - st.Hours) * 60) + (end.Minutes - st.Minutes));
 
                         }
                         else
@@ -307,8 +314,69 @@ namespace study_scheduler.childforms
                 read_data_base();
             }
             if (DateTime.Today == cur_form_information.cur_date_button) Generate_now_pos();
+            //ソート処理
+            sort_wall_jud();
+            foreach (var x in wall_jud_list)
+            {
+                test.Text += "("+x.location.ToString() + ","+x.am.ToString()+")";
+            }
+
+
         }
 
+        private void sort_wall_jud()
+        {
+            List<Wall_jud_member> am_list = new List<Wall_jud_member>();//当たり判定リスト
+
+            List<Wall_jud_member> pm_list = new List<Wall_jud_member>();//当たり判定リスト
+
+
+            foreach (var x in wall_jud_list)
+            {
+                if (x.am == true)
+                {
+                    am_list.Add(x);
+                }
+                else
+                {
+                    pm_list.Add(x);
+                }
+            }
+
+            var work = new Wall_jud_member();
+            if (am_list.Count != 0)
+            {
+                for (int i = 0; i < am_list.Count; i++)
+                {
+                    for (int j = i + 1; j < am_list.Count; j++)
+                    {
+                        if (am_list[i].location > am_list[j].location)
+                        {
+                            work = am_list[i];
+                            am_list[i] = am_list[j];
+                            am_list[j] = work;
+                        }
+                    }
+                }
+            }
+            if (pm_list.Count != 0)
+            {
+                for (int i = 0; i < pm_list.Count; i++)
+                {
+                    for (int j = i + 1; j < pm_list.Count; j++)
+                    {
+                        if (pm_list[i].location > pm_list[j].location)
+                        {
+                            work = pm_list[i];
+                            pm_list[i] = pm_list[j];
+                            pm_list[j] = work;
+                        }
+                    }
+                }
+            }
+            am_list.AddRange(pm_list);
+            wall_jud_list = am_list;
+        }
         //もし閲覧してる日が今日なら現在の時間の指針を表示する
         private void Generate_now_pos()
         {
@@ -348,7 +416,7 @@ namespace study_scheduler.childforms
                 // 接続を確立
                 connection.Open();
 
-                var sql = "SELECT * FROM Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd");
+                var sql = "SELECT * FROM Table_" + cur_form_information.cur_date_button.ToString("yyyy_MM_dd")+ " ORDER BY st ASC";
                 int sum = 0;
 
                 using (var command = new SqlCommand(sql, connection))
@@ -356,33 +424,36 @@ namespace study_scheduler.childforms
                 {
                     while (reader.Read())
                     {
-                        TimeOnly st = TimeOnly.Parse((string)reader["st"]);
-                        TimeOnly end = TimeOnly.Parse((string)reader["end_time"]);
+
+                        TimeSpan st = (TimeSpan)reader["st"];
+                        TimeSpan end = (TimeSpan)reader["end_time"];
 
 
                         if (select_remove.BackColor != Color.Red) Generate_plan_panel(ref st, end, Color.FromName((string)reader["カラー"]), (string)reader["内容"]);
 
                         if ((bool)reader["勉強"] == true)
                         {
-                            sum = sum + (((end.Hour - st.Hour) * 60) + (end.Minute - st.Minute));
+                            sum = sum + (((end.Hours - st.Hours) * 60) + (end.Minutes - st.Minutes));
 
                         }
 
                     }
 
                 }
-                total_time_label.Text = ((sum / 60)).ToString() + ":" + (sum - ((sum / 60) * 60)).ToString("00");
+                total_time_label.Text = ((sum / 60)).ToString("00") + ":" + (sum - ((sum / 60) * 60)).ToString("00");
 
             }
             return;
         }
 
         //データに該当するパネルを生成する
-        private void Generate_plan_panel(ref TimeOnly st, TimeOnly end, Color back_color, string title)
+        private void Generate_plan_panel(ref TimeSpan st, TimeSpan end, Color back_color, string title)
         {
             Panel work = new Panel();
 
             work.Name = st.ToString();
+
+            work.Tag = (generate_object_count + 1);
 
             work.BackColor = back_color;
 
@@ -394,32 +465,79 @@ namespace study_scheduler.childforms
 
             work.Cursor = Cursors.Hand;
 
-            generate_object_count++;
 
-            if (st < new TimeOnly(12, 0) && end <= new TimeOnly(12, 0))//stがAMでendもAM
+            generate_object_count++;
+            var member = new Wall_jud_member();
+            if (st < new TimeSpan(12, 0,0) && end <= new TimeSpan(12, 0, 0))//stがAMでendもAM
             {
 
-                work.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hour) * 60) + Convert.ToInt16(end.Minute)) - ((Convert.ToInt16(st.Hour) * 60) + Convert.ToInt16(st.Minute))) / 5), Daysform_infromation.y_size);
-                work.Location = new Point(Daysform_infromation.x_start_pos + ((((Convert.ToInt16(st.Hour) * 60) + Convert.ToInt16(st.Minute)) / 5) * Daysform_infromation.x_size), Daysform_infromation.y_am_start_pos);
+                work.Location = new Point(Daysform_infromation.x_start_pos + ((((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes)) / 5) * Daysform_infromation.x_size), Daysform_infromation.y_am_start_pos);
+
+                member.location = (Daysform_infromation.x_start_pos + ((((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes)) / 5) * Daysform_infromation.x_size));
+                member.am = true;
+                wall_jud_list.Add(member);
+
+               
+                work.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes)) - ((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes))) / 5), Daysform_infromation.y_size);
+
+                member = new Wall_jud_member();
+                member.location = ((Daysform_infromation.x_start_pos + ((((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes)) / 5) * Daysform_infromation.x_size)) + (Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes)) - ((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes))) / 5)));
+                member.am = true;
+                wall_jud_list.Add(member);
+
+
+                work.MouseDown += mouse_down;
+
+                work.MouseMove += mouse_move;
+
+                work.MouseUp += mouse_up;
                 work.Show();
             }
-            else if (st >= new TimeOnly(12, 0))//stがPM
+            else if (st >= new TimeSpan(12, 0, 0))//stがPM
             {
-                if (end == new TimeOnly(23, 59))
+                if (end == new TimeSpan(23, 59, 0))
                 {
-                    work.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hour) * 60) + Convert.ToInt16(end.Minute)) - ((Convert.ToInt16(st.Hour) * 60) + Convert.ToInt16(st.Minute))) / 5) + Daysform_infromation.x_size, Daysform_infromation.y_size);
+                    work.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes)) - ((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes))) / 5) + Daysform_infromation.x_size, Daysform_infromation.y_size);
                 }
                 else
                 {
-                    work.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hour) * 60) + Convert.ToInt16(end.Minute)) - ((Convert.ToInt16(st.Hour) * 60) + Convert.ToInt16(st.Minute))) / 5), Daysform_infromation.y_size);
+                    work.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes)) - ((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes))) / 5), Daysform_infromation.y_size);
+
                 }
-                work.Location = new Point(Daysform_infromation.x_start_pos + (((((Convert.ToInt16(st.Hour) - 12) * 60) + Convert.ToInt16(st.Minute)) / 5) * Daysform_infromation.x_size), Daysform_infromation.y_pm_start_pos);
+                work.Location = new Point(Daysform_infromation.x_start_pos + (((((Convert.ToInt16(st.Hours) - 12) * 60) + Convert.ToInt16(st.Minutes)) / 5) * Daysform_infromation.x_size), Daysform_infromation.y_pm_start_pos);
+                member.location = Daysform_infromation.x_start_pos + (((((Convert.ToInt16(st.Hours) - 12) * 60) + Convert.ToInt16(st.Minutes)) / 5) * Daysform_infromation.x_size);
+                member.am = false;
+                wall_jud_list.Add(member);
+                member = new Wall_jud_member();
+                member.location = (Daysform_infromation.x_start_pos + (((((Convert.ToInt16(st.Hours) - 12) * 60) + Convert.ToInt16(st.Minutes)) / 5) * Daysform_infromation.x_size)) + (Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes  )) - ((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes))) / 5) );
+                member.am = false;
+                wall_jud_list.Add(member);
+
+                work.MouseDown += mouse_down;
+
+                work.MouseMove += mouse_move;
+
+                work.MouseUp += mouse_up;
+
+
                 work.Show();
             }
-            else if (st < new TimeOnly(12, 0) && end > new TimeOnly(12, 0))//stがAMだがendがPM
+            else if (st < new TimeSpan(12, 0,0) && end > new TimeSpan(12, 0, 0))//stがAMだがendがPM
             {
-                work.Size = new Size(Daysform_infromation.x_size * (((12 * 60) - ((Convert.ToInt16(st.Hour) * 60) + Convert.ToInt16(st.Minute))) / 5), Daysform_infromation.y_size);
-                work.Location = new Point(Daysform_infromation.x_start_pos + ((((Convert.ToInt16(st.Hour) * 60) + Convert.ToInt16(st.Minute)) / 5) * Daysform_infromation.x_size), Daysform_infromation.y_am_start_pos);
+                work.Size = new Size(Daysform_infromation.x_size * (((12 * 60) - ((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes))) / 5), Daysform_infromation.y_size);
+                work.Location = new Point(Daysform_infromation.x_start_pos + ((((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes)) / 5) * Daysform_infromation.x_size), Daysform_infromation.y_am_start_pos);
+
+                member.location = Daysform_infromation.x_start_pos + ((((Convert.ToInt16(st.Hours) * 60) + Convert.ToInt16(st.Minutes)) / 5) * Daysform_infromation.x_size);
+
+                member.am = true;
+
+                wall_jud_list.Add(member);
+                member = new Wall_jud_member(); 
+
+                member.am = true;
+                member.location = Move_information.x_max;
+                wall_jud_list.Add(member);
+
                 work.Show();
 
                 Panel work_pm = new Panel();
@@ -433,14 +551,27 @@ namespace study_scheduler.childforms
                 work_pm.Name = st.ToString() + "PM_PANEL";
 
                 work_pm.BackColor = back_color;
-                if (end == new TimeOnly(23, 59))
+                member = new Wall_jud_member();
+                member.am = false;
+                member.location = Move_information.x_min;
+                wall_jud_list.Add(member);
+                member = new Wall_jud_member();
+                if (end == new TimeSpan(23, 59,0))
                 {
-                    work_pm.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hour) * 60) + Convert.ToInt16(end.Minute)) - (12 * 60)) / 5) + Daysform_infromation.x_size, Daysform_infromation.y_size);
+                    work_pm.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes)) - (12 * 60)) / 5) + Daysform_infromation.x_size, Daysform_infromation.y_size);
+                    member.location = (Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes)) - (12 * 60)) / 5) + Daysform_infromation.x_size)+Daysform_infromation.x_start_pos;
+                    
                 }
                 else
                 {
-                    work_pm.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hour) * 60) + Convert.ToInt16(end.Minute)) - (12 * 60)) / 5), Daysform_infromation.y_size);
+                    work_pm.Size = new Size(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes)) - (12 * 60)) / 5), Daysform_infromation.y_size);
+                    member.location =(Daysform_infromation.x_size * ((((Convert.ToInt16(end.Hours) * 60) + Convert.ToInt16(end.Minutes)) - (12 * 60)) / 5))+Daysform_infromation.x_start_pos;
                 }
+
+                    member.am = false;
+
+                wall_jud_list.Add(member);
+
                 work_pm.Location = new Point(Daysform_infromation.x_start_pos, Daysform_infromation.y_pm_start_pos);
 
                 work_pm.Cursor = Cursors.Hand;
@@ -451,14 +582,19 @@ namespace study_scheduler.childforms
 
                 give_st_end_label(ref work_pm, st, end);
 
-                work_pm.MouseClick += give_plan_corr;
+
+                work_pm.MouseDoubleClick += give_plan_corr;
+
                 generate_object_count++;
             }
             give_title_label(ref work, title);
 
             give_st_end_label(ref work, st, end);
 
-            work.MouseClick += give_plan_corr;
+            work.MouseDoubleClick += give_plan_corr;
+
+            //マウスダウンでパネル移動イベント
+
 
             select_remove.Visible = true;
 
@@ -466,28 +602,149 @@ namespace study_scheduler.childforms
 
 
         }
+        //パネルマウスダウン
+        private void mouse_down(object? sneder, MouseEventArgs e)
+        {
+            if (moving == true) return;
+            moving = true;
+            pre_point = e.Location;
+        }
 
+        private void am_to_pm_move(object? sneder, MouseEventArgs e)
+        {
+
+        }
+
+
+        //パネル移動処理
+        /*******************************************************************************************************************/
+        /*******************************************************************************************************************/
+        /*******************************************************************************************************************/
+        /*******************************************************************************************************************/
+        private void mouse_move(object? sender, MouseEventArgs e)
+        {
+
+            if (sender == null) return;
+            label4.Text = generate_object_count.ToString();
+            label1.Text = e.Location.ToString();
+
+            if (moving == true )
+            {
+
+                //当たり判定
+                //*****************************************************
+                int x = Convert.ToInt16(((Panel)sender).Tag);
+
+
+                
+                if (TimeOnly.Parse(((Panel)sender).Name)<new TimeOnly(12,0,0))//午前 
+                {
+                    if (x != generate_object_count)
+                    {
+                        if ((((Panel)sender).Location.X + ((Panel)sender).Width >= wall_jud_list[2 * x].location) &&
+                        ((((Panel)sender).Location.X + e.X - pre_point.X) + ((Panel)sender).Width) >= wall_jud_list[2 * x].location &&
+                         wall_jud_list[2 * x].am==true)//右端にあたっている
+                        {
+                            
+                            ((Panel)sender).Location = new Point(wall_jud_list[2 * x].location - ((Panel)sender).Width, ((Panel)sender).Location.Y);
+                            return;
+                        }
+
+                    }
+
+                    if (x != 1)
+                    {
+                        if ((((Panel)sender).Location.X <= wall_jud_list[x + (x - 3)].location) &&
+                        ((((Panel)sender).Location.X + e.X - pre_point.X)) <= wall_jud_list[x + (x - 3)].location &&
+                         wall_jud_list[x + (x - 3)].am==true)//左端にあたっている
+                        {
+                            test.Text = x.ToString(@"hh\:mm");
+                            ((Panel)sender).Location = new Point(wall_jud_list[x + (x - 3)].location, ((Panel)sender).Location.Y);
+                            return;
+                        }
+
+                    }
+                }
+                else if (TimeOnly.Parse(((Panel)sender).Name) >= new TimeOnly(12, 0))//午後
+                {
+                    if (x != generate_object_count)
+                    {
+                        if ((((Panel)sender).Location.X + ((Panel)sender).Width >= wall_jud_list[2 * x].location) &&
+                        ((((Panel)sender).Location.X + e.X - pre_point.X) + ((Panel)sender).Width) >= wall_jud_list[2 * x].location &&
+                        wall_jud_list[2 * x].am==false)//右端にあたっている
+                        {
+                            ((Panel)sender).Location = new Point(wall_jud_list[2 * x].location - ((Panel)sender).Width, ((Panel)sender).Location.Y);
+                            return;
+                        }
+
+                    }
+
+                    if (x != 1)
+                    {
+                        if ((((Panel)sender).Location.X <= wall_jud_list[x + (x - 3)].location) &&
+                        ((((Panel)sender).Location.X + e.X - pre_point.X)) <= wall_jud_list[x + (x - 3)].location &&
+                        wall_jud_list[x + (x - 3)].am==false)//左端にあたっている
+                        {
+                            
+                            ((Panel)sender).Location = new Point(wall_jud_list[x + (x - 3)].location, ((Panel)sender).Location.Y);
+                            return;
+                        }
+
+                    }
+                }
+                //**************************************************
+            }
+
+
+
+            if ((((Panel)sender).Location.X + ((Panel)sender).Width >= Move_information.x_max) &&
+                ((((Panel)sender).Location.X + e.X - pre_point.X) + ((Panel)sender).Width) >= Move_information.x_max)//右端にあたっている
+            {
+                ((Panel)sender).Location = new Point(Move_information.x_max - ((Panel)sender).Width + 2 * Move_information.miss, ((Panel)sender).Location.Y);
+                return;
+            }
+            else if ((((Panel)sender).Location.X <= Move_information.x_min) &&
+                ((((Panel)sender).Location.X + e.X - pre_point.X)) <= Move_information.x_min)//左端にあたっている
+            {
+
+                ((Panel)sender).Location = new Point(Move_information.x_min, ((Panel)sender).Location.Y);
+                return;
+            }
+
+
+            if (moving == true && (((Panel)sender).Location.X + e.X - pre_point.X) % 12 == 0)
+            {
+                ((Panel)sender).Location = new Point(((Panel)sender).Location.X + e.X - pre_point.X - Move_information.miss, ((Panel)sender).Location.Y);
+            }
+
+        }
+        //パネルマウスアップ
+        private void mouse_up(object? sender, MouseEventArgs e)
+        {
+            moving = false;
+            pre_point = new Point();
+        }
         //データに該当する開始～終了ラベルを生成する
-        private void give_st_end_label(ref Panel work, TimeOnly st, TimeOnly end)
+        private void give_st_end_label(ref Panel work, TimeSpan st, TimeSpan end)
         {
 
             Label st_end_label = new Label();
             st_end_label.AutoSize = true;
-            if (end == new TimeOnly(23, 59))
+            if (end == new TimeSpan(23, 59, 0))
             {
-                st_end_label.Text = st.ToString() + "〜24:00";
+                st_end_label.Text = st.ToString(@"hh\:mm") + "〜24:00";
             }
             else
             {
-                st_end_label.Text = st.ToString() + "〜" + end.ToString();
+                st_end_label.Text = st.ToString(@"hh\:mm") + "〜" + end.ToString(@"hh\:mm");
             }
             if (work.Name.Contains("PM_PANEL"))
             {
-                st_end_label.Name = st.ToString() + "PM_LB";
+                st_end_label.Name = st.ToString(@"hh\:mm") + "PM_LB";
             }
             else
             {
-                st_end_label.Name = st.ToString() + "LB";
+                st_end_label.Name = st.ToString(@"hh\:mm") + "LB";
             }
             if (work.Size.Width <= 84)
             {
@@ -526,13 +783,13 @@ namespace study_scheduler.childforms
             if (select_remove.BackColor == Color.White)
             {
 
-                st_end_label.MouseClick += give_plan_corr;
+                st_end_label.MouseDoubleClick += give_plan_corr;
 
             }
             else if (select_remove.BackColor == Color.Red)
             {
-                st_end_label.MouseClick -= give_plan_corr;
-                st_end_label.MouseClick += give_remove_event;
+                st_end_label.MouseDoubleClick -= give_plan_corr;
+                st_end_label.MouseDoubleClick += give_remove_event;
             }
         }
 
@@ -592,13 +849,13 @@ namespace study_scheduler.childforms
             if (select_remove.BackColor == Color.White)
             {
 
-                title_label.MouseClick += give_plan_corr;
+                title_label.MouseDoubleClick += give_plan_corr;
 
             }
             else if (select_remove.BackColor == Color.Red)
             {
-                title_label.MouseClick -= give_plan_corr;
-                title_label.MouseClick += give_remove_event;
+                title_label.MouseDoubleClick -= give_plan_corr;
+                title_label.MouseDoubleClick += give_remove_event;
             }
         }
 
@@ -641,7 +898,7 @@ namespace study_scheduler.childforms
                     p_st = ((Label)sender).Name.Replace("LB", "");
                 }
             }
-            edittime_information.select_st_time = TimeOnly.Parse(p_st);
+            edittime_information.select_st_time = TimeSpan.Parse(p_st);
             search_end_time(ref p_st);
             memo_title_save_jud_method();
             open_form(new childforms.Register_form());
@@ -667,7 +924,7 @@ namespace study_scheduler.childforms
                 {
                     while (reader.Read())
                     {
-                        edittime_information.select_end_time = TimeOnly.Parse((string)reader["end_time"]);
+                        edittime_information.select_end_time = (TimeSpan)reader["end_time"];
                         edittime_information.corr_color = Color.FromName((string)reader["カラー"]);
                         edittime_information.corr_title = (string)reader["内容"];
                         edittime_information.corr_study_flag = (bool)reader["勉強"];
@@ -727,6 +984,7 @@ namespace study_scheduler.childforms
             {
                 schedule_panel.Controls.RemoveAt(schedule_panel.Controls.Count - 1);
             }
+            wall_jud_list = new List<Wall_jud_member>();
             generate_object_count = 0;
         }
 
@@ -782,13 +1040,13 @@ namespace study_scheduler.childforms
             edittime_information.select_correction_flag = false;
             if (Convert.ToInt16(((Label)sender).Text) > 23)
             {
-                edittime_information.select_st_time = new TimeOnly(23, 0);
-                edittime_information.select_end_time = new TimeOnly(23, 0);
+                edittime_information.select_st_time = new TimeSpan(23, 0,0);
+                edittime_information.select_end_time = new TimeSpan(23, 0,0);
             }
             else
             {
-                edittime_information.select_st_time = new TimeOnly(Convert.ToInt16(((Label)sender).Text), 0);
-                edittime_information.select_end_time = new TimeOnly(Convert.ToInt16(((Label)sender).Text), 0);
+                edittime_information.select_st_time = new TimeSpan(Convert.ToInt16(((Label)sender).Text), 0,0);
+                edittime_information.select_end_time = new TimeSpan(Convert.ToInt16(((Label)sender).Text), 0,0);
 
 
             }
@@ -1049,6 +1307,14 @@ namespace study_scheduler.childforms
                 }
             }
             return;
+        }
+
+        private void title_box_TextChanged(object sender, EventArgs e)
+        {
+            if (title_box.Text.Contains("\n"))
+            {
+                title_box.Text = title_box.Text.Replace("\r", "").Replace("\n", "");
+            }
         }
     }
 }

@@ -28,6 +28,7 @@ namespace study_scheduler.Kakeibo_forms
         //画面の初期設定
         private void Init_form_data()
         {
+            cur_form_information.cur_date_button=DateTime.Today;
             Kakeibo_const.kakeibo_date = DateTime.Now;
             cur_date_label.Text = Kakeibo_const.kakeibo_date.ToString("yyyy/MM/dd");
             cur_month_str_label.Text = Kakeibo_const.kakeibo_date.ToString("MMMM", System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));

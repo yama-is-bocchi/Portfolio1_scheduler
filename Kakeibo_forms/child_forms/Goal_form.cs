@@ -105,6 +105,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             title_label.Font = new Font("MV Boli", 16);
             title_label.Location = new Point(const_data.title_point.X, const_data.title_point.Y + (count * 100));
             title_label.ForeColor = Color.LimeGreen;
+            title_label.AutoSize = true;
             title_label.BringToFront();
             title_label.Show();
 
@@ -116,6 +117,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             goal_label.Font = new Font("MV Boli", 16);
             goal_label.Location = new Point(const_data.goal_point.X, const_data.goal_point.Y + (count * 100));
             goal_label.ForeColor = Color.LimeGreen;
+            goal_label.AutoSize = true;
             goal_label.BringToFront();
             goal_label.Show();
 
@@ -138,9 +140,10 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             money_label.Font = new Font("MV Boli", 16);
             money_label.Location = new Point(const_data.money_point.X, const_data.money_point.Y + (count * 100));
             money_label.ForeColor = Color.LimeGreen;
+            money_label.AutoSize = true;
             money_label.BringToFront();
             money_label.Show();
-            money_label.AutoSize = true;
+            
 
             //差額
             Label diff_label = new Label();
@@ -157,9 +160,10 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             diff_label.Font = new Font("MV Boli", 16);
             diff_label.Location = new Point(const_data.diff_point.X, const_data.diff_point.Y + (count * 100));
             diff_label.ForeColor = Color.LimeGreen;
+            diff_label.AutoSize = true;
             diff_label.BringToFront();
             diff_label.Show();
-            diff_label.AutoSize= true;
+            
 
             //アンダーライン生成
             Panel under_line = new Panel();

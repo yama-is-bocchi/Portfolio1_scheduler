@@ -11,7 +11,11 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace study_scheduler
 {
 
-   
+    public class Wall_jud_member
+    {
+        public int location { get; set; }
+        public bool am {  get; set; }
+    }
 
     public static class cur_form_information
     {
@@ -26,8 +30,8 @@ namespace study_scheduler
     {
         public static string Title_Data_base_connect_code= @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = Title_data_base; Integrated Security = True; Connect Timeout = 30; Encrypt=False;Trust Server Certificate=False;Application Intent = ReadWrite; Multi Subnet Failover=False";
         public static string? sql_code;
-        public static TimeOnly select_st_time;
-        public static TimeOnly select_end_time;
+        public static TimeSpan select_st_time;
+        public static TimeSpan select_end_time;
         public static Color corr_color;
         public static string? corr_title;
         public static bool corr_study_flag;
@@ -41,6 +45,13 @@ namespace study_scheduler
         public const int y_pm_start_pos = 849;
         public const int x_size =12;//5分で12
         public const int y_size =55;
+    }
+
+    public class Move_information 
+    {
+        public const int x_max = 1773;
+        public const int x_min=47;
+        public const int miss= 1;
     }
 
 

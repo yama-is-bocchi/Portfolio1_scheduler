@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Daysform));
             schedule_panel = new Panel();
+            test = new Label();
             exit_btn = new Button();
             now_panel = new Panel();
             label5 = new Label();
@@ -101,7 +102,6 @@
             panel2 = new Panel();
             panel1 = new Panel();
             now_pos_timer = new System.Windows.Forms.Timer(components);
-            pageSetupDialog1 = new PageSetupDialog();
             schedule_panel.SuspendLayout();
             now_panel.SuspendLayout();
             SuspendLayout();
@@ -109,6 +109,7 @@
             // schedule_panel
             // 
             schedule_panel.BackColor = Color.White;
+            schedule_panel.Controls.Add(test);
             schedule_panel.Controls.Add(exit_btn);
             schedule_panel.Controls.Add(now_panel);
             schedule_panel.Controls.Add(label4);
@@ -182,6 +183,15 @@
             schedule_panel.Size = new Size(1904, 1041);
             schedule_panel.TabIndex = 0;
             // 
+            // test
+            // 
+            test.AutoSize = true;
+            test.Location = new Point(286, 411);
+            test.Name = "test";
+            test.Size = new Size(38, 15);
+            test.TabIndex = 63;
+            test.Text = "label3";
+            // 
             // exit_btn
             // 
             exit_btn.BackColor = Color.Red;
@@ -242,6 +252,7 @@
             title_box.Name = "title_box";
             title_box.Size = new Size(203, 54);
             title_box.TabIndex = 60;
+            title_box.TextChanged += title_box_TextChanged;
             // 
             // select_remove
             // 
@@ -346,11 +357,11 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("MV Boli", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(12, 124);
+            label1.Location = new Point(33, 124);
             label1.Name = "label1";
-            label1.Size = new Size(153, 21);
+            label1.Size = new Size(126, 21);
             label1.TabIndex = 51;
-            label1.Text = "Total study time :";
+            label1.Text = "総合勉強時間 :";
             // 
             // date_label
             // 
@@ -1010,7 +1021,7 @@
         private Panel now_panel;
         private Label label5;
         private System.Windows.Forms.Timer now_pos_timer;
-        private PageSetupDialog pageSetupDialog1;
         private Button exit_btn;
+        private Label test;
     }
 }

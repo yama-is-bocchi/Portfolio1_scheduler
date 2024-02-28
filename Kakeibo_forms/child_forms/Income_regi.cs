@@ -162,7 +162,6 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         private void titlebox_TextChanged(object sender, EventArgs e)
         {
             Calender_form?.Close();
-            calc?.Close();
             show_calender_btn.Visible = true;
             if (titlebox.Text.Contains("\n"))
             {
@@ -308,10 +307,5 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             return;
         }
 
-        private void titlebox_MouseClick(object sender, MouseEventArgs e)
-        {
-            Calender_form?.Close();
-            calc?.Close();
-        }
     }
 }

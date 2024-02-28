@@ -280,7 +280,7 @@ namespace study_scheduler.Methods
                 // 接続を確立
                 connection.Open();
 
-                var sql = "CREATE TABLE[dbo].[Table_"+cur_form_information.cur_date_button.ToString("yyyy_MM_dd")+"]([st] NVARCHAR(50) NOT NULL,[end_time] NVARCHAR(50) NOT NULL,[内容] NVARCHAR(50) NOT NULL,[カラー]   NVARCHAR(50) NOT NULL,[勉強]   BIT   NULL,PRIMARY KEY CLUSTERED([st] ASC))"; 
+                var sql = "CREATE TABLE[dbo].[Table_"+cur_form_information.cur_date_button.ToString("yyyy_MM_dd")+ "]([st] TIME (7)  NOT NULL,[end_time]  TIME (7) NOT NULL,[内容] NVARCHAR(50) NOT NULL,[カラー]   NVARCHAR(50) NOT NULL,[勉強]   BIT   NULL,PRIMARY KEY CLUSTERED([st] ASC))"; 
 
                 using (var command = new SqlCommand(sql, connection))
                 {

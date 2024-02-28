@@ -418,7 +418,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("MV Boli", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.LimeGreen;
+            label4.ForeColor = Color.White;
             label4.Location = new Point(-1, 182);
             label4.Name = "label4";
             label4.Size = new Size(16, 17);
@@ -429,7 +429,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("MV Boli", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.LimeGreen;
+            label3.ForeColor = Color.White;
             label3.Location = new Point(-1, 121);
             label3.Name = "label3";
             label3.Size = new Size(16, 17);
@@ -440,7 +440,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("MV Boli", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.LimeGreen;
+            label2.ForeColor = Color.White;
             label2.Location = new Point(-1, 60);
             label2.Name = "label2";
             label2.Size = new Size(13, 17);
