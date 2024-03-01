@@ -160,7 +160,7 @@
             Change_db_btn.Name = "Change_db_btn";
             Change_db_btn.Size = new Size(70, 44);
             Change_db_btn.TabIndex = 61;
-            Change_db_btn.Text = "LogOut";
+            Change_db_btn.Text = "ログアウト";
             Change_db_btn.TextAlign = ContentAlignment.TopLeft;
             Change_db_btn.UseVisualStyleBackColor = false;
             Change_db_btn.MouseClick += Change_db_btn_MouseClick;
@@ -203,9 +203,9 @@
             label14.ForeColor = SystemColors.ActiveCaptionText;
             label14.Location = new Point(84, 81);
             label14.Name = "label14";
-            label14.Size = new Size(138, 28);
+            label14.Size = new Size(200, 28);
             label14.TabIndex = 16;
-            label14.Text = "Total study=";
+            label14.Text = "月別総合勉強時間=";
             // 
             // total_time_label
             // 
@@ -213,7 +213,7 @@
             total_time_label.BackColor = Color.SpringGreen;
             total_time_label.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             total_time_label.ForeColor = SystemColors.ActiveCaptionText;
-            total_time_label.Location = new Point(217, 81);
+            total_time_label.Location = new Point(290, 81);
             total_time_label.Name = "total_time_label";
             total_time_label.Size = new Size(80, 28);
             total_time_label.TabIndex = 15;
@@ -347,9 +347,9 @@
             label3.ForeColor = SystemColors.ActiveCaptionText;
             label3.Location = new Point(1362, 114);
             label3.Name = "label3";
-            label3.Size = new Size(112, 39);
+            label3.Size = new Size(119, 39);
             label3.TabIndex = 4;
-            label3.Text = "Nagoya";
+            label3.Text = "名古屋";
             // 
             // label2
             // 
@@ -737,6 +737,7 @@
             button25.Cursor = Cursors.Hand;
             button25.FlatStyle = FlatStyle.Flat;
             button25.Font = new Font("Yu Gothic UI Light", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            button25.ForeColor = SystemColors.ControlText;
             button25.Location = new Point(840, 607);
             button25.Name = "button25";
             button25.Size = new Size(220, 118);

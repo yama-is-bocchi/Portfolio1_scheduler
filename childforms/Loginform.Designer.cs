@@ -42,12 +42,12 @@
             fault_timer = new System.Windows.Forms.Timer(components);
             login_timer = new System.Windows.Forms.Timer(components);
             panel1 = new Panel();
-            enter_timer = new System.Windows.Forms.Timer(components);
             panel1.SuspendLayout();
             SuspendLayout();
             // 
             // ok_btn
             // 
+            ok_btn.Cursor = Cursors.Hand;
             ok_btn.FlatStyle = FlatStyle.Flat;
             ok_btn.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ok_btn.Location = new Point(769, 826);
@@ -60,13 +60,14 @@
             // 
             // up_or_in_btn
             // 
+            up_or_in_btn.Cursor = Cursors.Hand;
             up_or_in_btn.FlatStyle = FlatStyle.Flat;
             up_or_in_btn.Font = new Font("MV Boli", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             up_or_in_btn.Location = new Point(1567, 940);
             up_or_in_btn.Name = "up_or_in_btn";
             up_or_in_btn.Size = new Size(323, 89);
             up_or_in_btn.TabIndex = 1;
-            up_or_in_btn.Text = "Sign up";
+            up_or_in_btn.Text = "サインアップ";
             up_or_in_btn.UseVisualStyleBackColor = true;
             up_or_in_btn.MouseClick += up_or_in_btn_MouseClick;
             // 
@@ -76,13 +77,14 @@
             which_label.Font = new Font("MV Boli", 48F, FontStyle.Regular, GraphicsUnit.Point, 0);
             which_label.Location = new Point(12, 9);
             which_label.Name = "which_label";
-            which_label.Size = new Size(191, 85);
+            which_label.Size = new Size(255, 85);
             which_label.TabIndex = 2;
-            which_label.Text = "Login";
+            which_label.Text = "ログイン";
             // 
             // Password_textbox
             // 
             Password_textbox.BorderStyle = BorderStyle.FixedSingle;
+            Password_textbox.Cursor = Cursors.Hand;
             Password_textbox.Font = new Font("Yu Gothic UI", 36F, FontStyle.Regular, GraphicsUnit.Point, 128);
             Password_textbox.Location = new Point(603, 603);
             Password_textbox.MaxLength = 20;
@@ -98,9 +100,9 @@
             label2.Font = new Font("MV Boli", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.Location = new Point(603, 551);
             label2.Name = "label2";
-            label2.Size = new Size(177, 49);
+            label2.Size = new Size(185, 49);
             label2.TabIndex = 4;
-            label2.Text = "Password";
+            label2.Text = "パスワード";
             // 
             // label3
             // 
@@ -108,13 +110,14 @@
             label3.Font = new Font("MV Boli", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.Location = new Point(603, 238);
             label3.Name = "label3";
-            label3.Size = new Size(102, 49);
+            label3.Size = new Size(145, 49);
             label3.TabIndex = 6;
-            label3.Text = "Title";
+            label3.Text = "タイトル";
             // 
             // Title_textbox
             // 
             Title_textbox.BorderStyle = BorderStyle.FixedSingle;
+            Title_textbox.Cursor = Cursors.Hand;
             Title_textbox.Font = new Font("Yu Gothic UI", 36F, FontStyle.Regular, GraphicsUnit.Point, 128);
             Title_textbox.Location = new Point(603, 300);
             Title_textbox.MaxLength = 20;
@@ -140,13 +143,14 @@
             // show_pass_check
             // 
             show_pass_check.AutoSize = true;
+            show_pass_check.Cursor = Cursors.Hand;
             show_pass_check.Font = new Font("MV Boli", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            show_pass_check.Location = new Point(769, 579);
+            show_pass_check.Location = new Point(794, 579);
             show_pass_check.Name = "show_pass_check";
             show_pass_check.RightToLeft = RightToLeft.Yes;
-            show_pass_check.Size = new Size(85, 21);
+            show_pass_check.Size = new Size(130, 21);
             show_pass_check.TabIndex = 29;
-            show_pass_check.Text = "Show pass";
+            show_pass_check.Text = "パスワードを見せる";
             show_pass_check.UseVisualStyleBackColor = true;
             show_pass_check.CheckedChanged += show_pass_check_CheckedChanged;
             // 
@@ -185,10 +189,6 @@
             panel1.Size = new Size(1920, 1080);
             panel1.TabIndex = 31;
             // 
-            // enter_timer
-            // 
-            enter_timer.Tick += enter_timer_Tick;
-            // 
             // Loginform
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -223,6 +223,5 @@
         private System.Windows.Forms.Timer fault_timer;
         private System.Windows.Forms.Timer login_timer;
         private Panel panel1;
-        private System.Windows.Forms.Timer enter_timer;
     }
 }

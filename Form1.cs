@@ -33,11 +33,13 @@ namespace study_scheduler
         {
             InitializeComponent();
             change_today_information();
-            
+
         }
+        //フィールド
+        private DateTime cur_date;//ページごとの月
 
-        private DateTime cur_date;
 
+        //全削除ボタンを表示するか判定
         private void all_remove_btn_visi_jud()
         {
             var connectionString = edittime_information.sql_code;
@@ -81,7 +83,7 @@ namespace study_scheduler
             {
                 // 接続を確立
                 connection.Open();
-                var sql = "SELECT 年月日,タイトル FROM Main_Table WHERE 年月日 BETWEEN '" + cur_date.ToString("yyyy/MM/01") + "' AND '"+cur_date.ToString("yyyy/MM/") + DateTime.DaysInMonth(cur_date.Year, cur_date.Month).ToString() + "' AND タイトル IS NOT NULL";
+                var sql = "SELECT 年月日,タイトル FROM Main_Table WHERE 年月日 BETWEEN '" + cur_date.ToString("yyyy/MM/01") + "' AND '" + cur_date.ToString("yyyy/MM/") + DateTime.DaysInMonth(cur_date.Year, cur_date.Month).ToString() + "' AND タイトル IS NOT NULL";
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
                 {
@@ -92,7 +94,7 @@ namespace study_scheduler
                         Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + temp_time.Day).ToString(), true);
                         if (button.Length > 0)
                         {
-                            ((Button)button[0]).Text += "\n"+(string)reader["タイトル"];
+                            ((Button)button[0]).Text += "\n" + (string)reader["タイトル"];
                         }
 
                     }
@@ -104,7 +106,7 @@ namespace study_scheduler
             return;
         }
 
-    
+
 
         //データベースを読み取りボタンの配色を変更させる
         private void read_db()
@@ -131,7 +133,7 @@ namespace study_scheduler
                         Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + temp_time.Day).ToString(), true);
                         if (button.Length > 0)
                         {
-                            ((Button)button[0]).BackColor = Color.Orange;
+                            ((Button)button[0]).BackColor = Color.OliveDrab;
                         }
 
                     }
@@ -143,6 +145,7 @@ namespace study_scheduler
 
         }
 
+        //トータル勉強時間が分単位なので時単位に変換して表示
         private string trans_minut_hour(ref int p_sum)
         {
             string? ret_hour = "00";
@@ -180,20 +183,18 @@ namespace study_scheduler
             }
             else
             {
-                cur_form_information.cur_data_base_name=connect.Read_connection_str();
+                cur_form_information.cur_data_base_name = connect.Read_connection_str();
             }
 
-            edittime_information.sql_code= @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog =" +cur_form_information.cur_data_base_name +"; Integrated Security = True; Connect Timeout = 30; Encrypt=False;Trust Server Certificate=False;Application Intent = ReadWrite; Multi Subnet Failover=False";
-
-
+            edittime_information.sql_code = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog =" + cur_form_information.cur_data_base_name + "; Integrated Security = True; Connect Timeout = 30; Encrypt=False;Trust Server Certificate=False;Application Intent = ReadWrite; Multi Subnet Failover=False";
 
             DateTime today = DateTime.Today;
 
-            cur_date = new DateTime(today.Year, today.Month, 1); ;
+            cur_date = new DateTime(today.Year, today.Month, 1);
 
             cur_label_change();
 
-            change_per_second_information(ref today);
+            change_per_second_information();
 
             change_second_timer.Start();
 
@@ -208,23 +209,23 @@ namespace study_scheduler
             all_remove_btn_visi_jud();
         }
 
+        //change_today_information()から呼び出される,情報を得るためにスクレイピングする
         private void scraping_tokyo_temp()
         {
-            // 取得対象の設定
+
             var htmlUrl = $"https://weather.yahoo.co.jp/weather/jp/23/5110.html";
             var querySelector = $"#main > div.forecastCity > table > tbody > tr > td:nth-child(1) > div > p.pict";
-            // HTMLドキュメントの取得
+
             var document = BrowsingContext.New(Configuration.Default.WithDefaultLoader()).OpenAsync(htmlUrl).Result;
-            // クエリセレクタでデータの取得
+
             var element = document.QuerySelector(querySelector);
-            /// 天気の文字列を種痘
-            /// 
+
             if (element == null)
             {
                 weather_pic_box.Visible = false;
                 temp_max_label.Visible = false;
                 temp_min_label.Visible = false;
-                label5.Visible= false;
+                label5.Visible = false;
                 return;
             }
 
@@ -262,12 +263,11 @@ namespace study_scheduler
             }
 
             querySelector = $"#main > div.forecastCity > table > tbody > tr > td:nth-child(1) > div > ul > li.high > em";
-            // HTMLドキュメントの取得
+
             document = BrowsingContext.New(Configuration.Default.WithDefaultLoader()).OpenAsync(htmlUrl).Result;
-            // クエリセレクタでデータの取得
+
             element = document.QuerySelector(querySelector);
-            /// 天気の文字列を種痘
-            /// 
+
             if (element == null)
             {
                 weather_pic_box.Visible = false;
@@ -280,9 +280,9 @@ namespace study_scheduler
             temp_max_label.Text = element.TextContent + "℃";
 
             querySelector = $"#main > div.forecastCity > table > tbody > tr > td:nth-child(1) > div > ul > li.low > em";
-            // HTMLドキュメントの取得
+
             document = BrowsingContext.New(Configuration.Default.WithDefaultLoader()).OpenAsync(htmlUrl).Result;
-            // クエリセレクタでデータの取得
+
             element = document.QuerySelector(querySelector);
 
             if (element == null)
@@ -299,8 +299,10 @@ namespace study_scheduler
 
 
         //現在の日付時間更新
-        private void change_per_second_information(ref DateTime date)
+        private void change_per_second_information()
         {
+            DateTime date= DateTime.Today;
+
             today_date_label.Text = date.ToString("yyyy/MM/dd");
 
             date = DateTime.Now;
@@ -317,7 +319,7 @@ namespace study_scheduler
 
             DateTime today = DateTime.Today;
 
-            change_per_second_information(ref today);
+            change_per_second_information();
 
             change_second_timer.Start();
 
@@ -365,7 +367,8 @@ namespace study_scheduler
             all_remove_btn_visi_jud();
         }
 
-        private void sort_button()/*** 年月データを配列に代入 ***/
+        //カレンダーの表示順にボタンを整列する
+        private void sort_button()
         {
             for (int i = 1; i < 38; i++)
             {
@@ -379,7 +382,7 @@ namespace study_scheduler
 
             for (int i = 0; i < DateTime.DaysInMonth(cur_date.Year, cur_date.Month); i++)
             {
-                
+
                 Control[] button = this.Controls.Find("button" + ((int)cur_date.DayOfWeek + 1 + i).ToString(), true);
                 if (button.Length > 0)
                 {
@@ -417,13 +420,33 @@ namespace study_scheduler
             }
             else
             {
-                change_today_information();
+                if (kakeibo_static_info.remove_code == "all")
+                {
+                    cur_date = new DateTime(DateTime.Now.Year,DateTime.Now.Month,1);
+                }
+                else
+                {
+                    cur_date = new DateTime(cur_form_information.cur_date_button.Year, cur_form_information.cur_date_button.Month, 1);
+                }
+                cur_label_change();
+
+                change_per_second_information();
+
+                change_second_timer.Start();
+
+                scraping_tokyo_temp();
+
+                sort_button();
+
+                read_db();
+
+                Read_memo_title();
+
+                all_remove_btn_visi_jud();
                 cur_panel.Visible = true;
                 cur_panel.Enabled = true;
-                DateTime today = DateTime.Today;
-                change_per_second_information(ref today);
                 change_second_timer.Start();
-                
+
             }
         }
 
@@ -431,24 +454,22 @@ namespace study_scheduler
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             using (
-                // グラデーションブラシ作成
                 var gb = new LinearGradientBrush(
                 e.Graphics.VisibleClipBounds,
                 Color.MediumSeaGreen,
                 Color.Cyan,
                 LinearGradientMode.Horizontal))
             {
-                // 四角形の内部を塗りつぶす（表示クリッピング領域）
                 e.Graphics.FillRectangle(gb, e.Graphics.VisibleClipBounds);
             }
         }
-        //cur_panelの背景を変更
+
         private void panel1_Resize(object sender, EventArgs e)
         {
-            // パネルの表面全体を無効化してパネルを再描画する
             cur_panel.Invalidate();
         }
 
+        //カレンダーのボタンのマウスクリックイベント
         private void select_day_btn(object sender, MouseEventArgs e)
         {
             if (((Button)sender).Text.Length > 2)
@@ -464,17 +485,20 @@ namespace study_scheduler
             }
         }
 
+        //全削除ボタンのマウスクリックイベント
         private void all_remove_btn_MouseClick(object sender, MouseEventArgs e)
         {
-            Remove_code.remove_code = "all";
+            kakeibo_static_info.remove_code = "all";
             open_childform(new childforms.remove_form());
         }
 
+        //家計簿タスクボタンのマウスクリックイベント
         private void Kakeibo_btn_MouseClick(object sender, MouseEventArgs e)
         {
             open_childform(new Kakeibo_forms.Kakeibo_main());
         }
 
+        //ログアウトボタンのマウスクリックイベント
         private void Change_db_btn_MouseClick(object sender, MouseEventArgs e)
         {
 
@@ -487,6 +511,7 @@ namespace study_scheduler
             open_childform(new Loginform());
         }
 
+        //終了ボタンのマスクリックイベント
         private void exit_btn_MouseClick(object sender, MouseEventArgs e)
         {
             Close();

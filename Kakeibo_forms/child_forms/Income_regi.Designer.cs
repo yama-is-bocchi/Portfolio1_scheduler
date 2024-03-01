@@ -45,7 +45,11 @@
             high_timer = new System.Windows.Forms.Timer(components);
             Inserted_label = new Label();
             insert_timer = new System.Windows.Forms.Timer(components);
+            back_btn = new Button();
+            calc_panel = new Panel();
+            show_calc_btn = new Button();
             calender_panel.SuspendLayout();
+            calc_panel.SuspendLayout();
             SuspendLayout();
             // 
             // ok_btn
@@ -62,6 +66,7 @@
             ok_btn.TabIndex = 5;
             ok_btn.Text = "OK";
             ok_btn.UseVisualStyleBackColor = false;
+            ok_btn.Enter += ok_btn_Enter;
             ok_btn.MouseClick += ok_btn_MouseClick;
             ok_btn.MouseEnter += Enter_mouse_btn;
             ok_btn.MouseLeave += Leave_mouse_btn;
@@ -75,12 +80,13 @@
             titlebox.ForeColor = Color.LimeGreen;
             titlebox.Location = new Point(230, 512);
             titlebox.Margin = new Padding(4, 3, 4, 3);
-            titlebox.MaxLength = 8;
+            titlebox.MaxLength = 13;
             titlebox.Multiline = true;
             titlebox.Name = "titlebox";
             titlebox.Size = new Size(430, 57);
             titlebox.TabIndex = 10;
             titlebox.TextChanged += titlebox_TextChanged;
+            titlebox.Enter += titlebox_Enter;
             // 
             // show_calender_btn
             // 
@@ -107,9 +113,9 @@
             label1.ForeColor = Color.LimeGreen;
             label1.Location = new Point(230, 116);
             label1.Name = "label1";
-            label1.Size = new Size(89, 41);
+            label1.Size = new Size(90, 41);
             label1.TabIndex = 12;
-            label1.Text = "Date";
+            label1.Text = "日付";
             // 
             // title_label
             // 
@@ -118,9 +124,9 @@
             title_label.ForeColor = Color.LimeGreen;
             title_label.Location = new Point(230, 468);
             title_label.Name = "title_label";
-            title_label.Size = new Size(88, 41);
+            title_label.Size = new Size(123, 41);
             title_label.TabIndex = 13;
-            title_label.Text = "Title";
+            title_label.Text = "タイトル";
             // 
             // amount_label
             // 
@@ -129,9 +135,9 @@
             amount_label.ForeColor = Color.LimeGreen;
             amount_label.Location = new Point(838, 116);
             amount_label.Name = "amount_label";
-            amount_label.Size = new Size(137, 41);
+            amount_label.Size = new Size(90, 41);
             amount_label.TabIndex = 15;
-            amount_label.Text = "Amount";
+            amount_label.Text = "金額";
             // 
             // amountbox
             // 
@@ -148,6 +154,7 @@
             amountbox.Size = new Size(499, 57);
             amountbox.TabIndex = 14;
             amountbox.TextChanged += amountbox_TextChanged;
+            amountbox.Enter += amountbox_Enter;
             // 
             // text_box_label
             // 
@@ -163,21 +170,21 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(308, 484);
+            label4.Location = new Point(343, 481);
             label4.Name = "label4";
-            label4.Size = new Size(191, 25);
+            label4.Size = new Size(152, 25);
             label4.TabIndex = 17;
-            label4.Text = "(※maxlength is 13)";
+            label4.Text = "(※13文字以内)";
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("MV Boli", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(981, 135);
+            label5.Location = new Point(934, 129);
             label5.Name = "label5";
-            label5.Size = new Size(189, 25);
+            label5.Size = new Size(130, 25);
             label5.TabIndex = 18;
-            label5.Text = "(※maxlength is 17)";
+            label5.Text = "(※17桁以内)";
             // 
             // calender_panel
             // 
@@ -224,12 +231,57 @@
             insert_timer.Interval = 5000;
             insert_timer.Tick += insert_timer_Tick;
             // 
+            // back_btn
+            // 
+            back_btn.BackColor = Color.FromArgb(50, 50, 50);
+            back_btn.Cursor = Cursors.Hand;
+            back_btn.FlatStyle = FlatStyle.Flat;
+            back_btn.Font = new Font("MV Boli", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            back_btn.ForeColor = Color.LimeGreen;
+            back_btn.Location = new Point(13, 12);
+            back_btn.Margin = new Padding(4, 3, 4, 3);
+            back_btn.Name = "back_btn";
+            back_btn.Size = new Size(110, 59);
+            back_btn.TabIndex = 22;
+            back_btn.Text = "戻る";
+            back_btn.UseVisualStyleBackColor = false;
+            back_btn.Visible = false;
+            back_btn.MouseClick += back_btn_MouseClick;
+            // 
+            // calc_panel
+            // 
+            calc_panel.Controls.Add(show_calc_btn);
+            calc_panel.Location = new Point(838, 223);
+            calc_panel.Name = "calc_panel";
+            calc_panel.Size = new Size(410, 360);
+            calc_panel.TabIndex = 20;
+            // 
+            // show_calc_btn
+            // 
+            show_calc_btn.BackColor = Color.FromArgb(50, 50, 50);
+            show_calc_btn.Cursor = Cursors.Hand;
+            show_calc_btn.FlatStyle = FlatStyle.Flat;
+            show_calc_btn.Font = new Font("MV Boli", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            show_calc_btn.ForeColor = Color.LimeGreen;
+            show_calc_btn.Location = new Point(0, 0);
+            show_calc_btn.Margin = new Padding(4, 3, 4, 3);
+            show_calc_btn.Name = "show_calc_btn";
+            show_calc_btn.Size = new Size(101, 57);
+            show_calc_btn.TabIndex = 11;
+            show_calc_btn.Text = "show calc";
+            show_calc_btn.UseVisualStyleBackColor = false;
+            show_calc_btn.MouseClick += show_calc_btn_MouseClick;
+            show_calc_btn.MouseEnter += Enter_mouse_btn;
+            show_calc_btn.MouseLeave += Leave_mouse_btn;
+            // 
             // Income_regi
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(70, 70, 70);
             ClientSize = new Size(1660, 879);
+            Controls.Add(calc_panel);
+            Controls.Add(back_btn);
             Controls.Add(Inserted_label);
             Controls.Add(datebox);
             Controls.Add(calender_panel);
@@ -251,6 +303,7 @@
             Text = "Income_regi";
             KeyDown += Income_regi_KeyDown;
             calender_panel.ResumeLayout(false);
+            calc_panel.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -273,5 +326,8 @@
         private System.Windows.Forms.Timer high_timer;
         private Label Inserted_label;
         private System.Windows.Forms.Timer insert_timer;
+        private Button back_btn;
+        private Panel calc_panel;
+        private Button show_calc_btn;
     }
 }

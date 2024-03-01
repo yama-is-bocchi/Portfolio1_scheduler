@@ -22,26 +22,29 @@ namespace study_scheduler.childforms
             InitializeComponent();
             init_form();
         }
+
+        //全削除か日ごとの削除かでラベルを変更
         private void init_form()
         {
-            if (Remove_code.remove_code == "day")
+            if (kakeibo_static_info.remove_code == "day")
             {
                 remove_kind_label.Text = cur_form_information.cur_date_button.ToString("yyyy/MM/dd") + "'s data";
             }
-            else if (Remove_code.remove_code == "all")
+            else if (kakeibo_static_info.remove_code == "all")
             {
                 remove_kind_label.Text = "all data";
             }
         }
 
+        //okボタンのマウスクリックイベント
         private void ok_btn_MouseClick(object sender, MouseEventArgs e)
         {
             //データベース削除処理
-            if (Remove_code.remove_code == "day")
+            if (kakeibo_static_info.remove_code == "day")
             {
                 remove_table(ref cur_form_information.cur_date_button);
             }
-            else if (Remove_code.remove_code == "all")
+            else if (kakeibo_static_info.remove_code == "all")
             {
                 all_remove();
             }
@@ -86,6 +89,7 @@ namespace study_scheduler.childforms
 
         }
 
+        //該当する日のテーブルと行を削除する
         private void remove_table(ref DateTime p_date)
         {
             Scheduler_Tabele_methods methods = new Scheduler_Tabele_methods();
@@ -97,18 +101,15 @@ namespace study_scheduler.childforms
                 // 接続を確立
                 connection.Open();
 
-                var sql = "";
+                var sql = "DROP TABLE Table_" + p_date.ToString("yyyy_MM_dd"); ;
                 //テーブルがあるなら
-                if (methods.Exists_days_tbl()==true) {
 
-                    sql = "DROP TABLE Table_" + p_date.ToString("yyyy_MM_dd");
-
-                    using (var command = new SqlCommand(sql, connection))
-                    {
-                        command.ExecuteNonQuery();
-                    }
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.ExecuteNonQuery();
                 }
-                 sql = "DELETE FROM Main_Table WHERE 年月日 = '" + p_date.ToString("yyyy/MM/dd") + "'";
+
+                sql = "DELETE FROM Main_Table WHERE 年月日 = '" + p_date.ToString("yyyy/MM/dd") + "'";
 
                 using (var command = new SqlCommand(sql, connection))
                 {
@@ -118,12 +119,13 @@ namespace study_scheduler.childforms
         }
 
 
-
+        //キャンセルボタンマウスクリックイベント
         private void cancel_btn_MouseClick(object sender, MouseEventArgs e)
         {
             this.Close();
         }
 
+        //終了ボタンマウスクリックイベント
         private void exit_btn_MouseClick(object sender, MouseEventArgs e)
         {
             cur_form_information.exit_btn_flag = true;
