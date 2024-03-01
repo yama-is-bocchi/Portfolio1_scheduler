@@ -320,10 +320,6 @@ namespace study_scheduler.childforms
             if (DateTime.Today == cur_form_information.cur_date_button) Generate_now_pos();
             //ソート処理
             sort_wall_jud();
-            foreach (var x in wall_jud_list)
-            {
-                test.Text += "(" + x.location.ToString() + "," + x.am.ToString() + ")";
-            }
 
 
         }
@@ -755,7 +751,6 @@ namespace study_scheduler.childforms
                         {
                            
                             Control[] work = this.Controls.Find(((Panel)sender).Name.Replace("PM_PANEL", ""), true);
-                            test.Text = work[0].Location.X.ToString();
                             work[0].Size = new Size(pre_width[1] - ((wall_jud_list[2 * x].location - Daysform_infromation.x_start_pos) - pre_width[0]), work[0].Height);
                             work[0].Location = new Point(Move_information.x_max - work[0].Width +Move_information.miss+ Move_information.miss, work[0].Location.Y);
                             ((Panel)sender).Size = new Size((wall_jud_list[2 * x].location - Daysform_infromation.x_start_pos), ((Panel)sender).Height);
@@ -778,7 +773,6 @@ namespace study_scheduler.childforms
                         {
                             return;
                         }
-                        test.Text = work[0].Location.X.ToString();
                         ((Panel)sender).Size = new Size(((Panel)sender).Size.Width + Daysform_infromation.x_size, ((Panel)sender).Size.Height);
                         work[0].Size = new Size(work[0].Width - Daysform_infromation.x_size, work[0].Height);
                         work[0].Location = new Point(work[0].Location.X + Daysform_infromation.x_size, work[0].Location.Y);
@@ -829,8 +823,6 @@ namespace study_scheduler.childforms
         {
 
             if (sender == null) return;
-            label4.Text = generate_object_count.ToString();
-            label1.Text = e.Location.ToString();
 
             if (moving == true)
             {

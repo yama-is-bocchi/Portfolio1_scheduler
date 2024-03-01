@@ -31,7 +31,6 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Daysform));
             schedule_panel = new Panel();
-            test = new Label();
             exit_btn = new Button();
             now_panel = new Panel();
             label5 = new Label();
@@ -110,7 +109,6 @@
             // schedule_panel
             // 
             schedule_panel.BackColor = Color.White;
-            schedule_panel.Controls.Add(test);
             schedule_panel.Controls.Add(exit_btn);
             schedule_panel.Controls.Add(now_panel);
             schedule_panel.Controls.Add(label4);
@@ -183,15 +181,6 @@
             schedule_panel.Name = "schedule_panel";
             schedule_panel.Size = new Size(1904, 1041);
             schedule_panel.TabIndex = 0;
-            // 
-            // test
-            // 
-            test.AutoSize = true;
-            test.Location = new Point(286, 411);
-            test.Name = "test";
-            test.Size = new Size(38, 15);
-            test.TabIndex = 63;
-            test.Text = "label3";
             // 
             // exit_btn
             // 
@@ -1028,7 +1017,6 @@
         private Label label5;
         private System.Windows.Forms.Timer now_pos_timer;
         private Button exit_btn;
-        private Label test;
         private System.Windows.Forms.Timer update;
     }
 }
