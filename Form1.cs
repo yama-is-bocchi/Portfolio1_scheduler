@@ -170,6 +170,9 @@ namespace study_scheduler
         private void change_today_information()
         {
             Connection_methods connect = new Connection_methods();
+            DateTime today = DateTime.Today;
+
+            cur_date = new DateTime(today.Year, today.Month, 1);
 
             if (connect.Check_folder() == false)
             {
@@ -178,6 +181,7 @@ namespace study_scheduler
 
             if (connect.Read_connection_str() == "")
             {
+                cur_form_information.cur_date_button=cur_date;
                 open_childform(new Loginform());
                 return;
             }
@@ -187,10 +191,6 @@ namespace study_scheduler
             }
 
             edittime_information.sql_code = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog =" + cur_form_information.cur_data_base_name + "; Integrated Security = True; Connect Timeout = 30; Encrypt=False;Trust Server Certificate=False;Application Intent = ReadWrite; Multi Subnet Failover=False";
-
-            DateTime today = DateTime.Today;
-
-            cur_date = new DateTime(today.Year, today.Month, 1);
 
             cur_label_change();
 
