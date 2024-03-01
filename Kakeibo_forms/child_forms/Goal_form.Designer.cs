@@ -35,6 +35,7 @@
             add_btn = new Button();
             change_btn = new Button();
             goal_panel = new Panel();
+            cur_month_btn = new Button();
             goal_panel.SuspendLayout();
             SuspendLayout();
             // 
@@ -121,6 +122,7 @@
             // goal_panel
             // 
             goal_panel.AutoScroll = true;
+            goal_panel.Controls.Add(cur_month_btn);
             goal_panel.Controls.Add(add_btn);
             goal_panel.Controls.Add(change_btn);
             goal_panel.Controls.Add(label1);
@@ -132,6 +134,22 @@
             goal_panel.Name = "goal_panel";
             goal_panel.Size = new Size(1660, 879);
             goal_panel.TabIndex = 23;
+            // 
+            // cur_month_btn
+            // 
+            cur_month_btn.BackColor = Color.FromArgb(50, 50, 50);
+            cur_month_btn.Cursor = Cursors.Hand;
+            cur_month_btn.FlatStyle = FlatStyle.Flat;
+            cur_month_btn.Font = new Font("MV Boli", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cur_month_btn.ForeColor = Color.LimeGreen;
+            cur_month_btn.Location = new Point(13, 4);
+            cur_month_btn.Margin = new Padding(4, 3, 4, 3);
+            cur_month_btn.Name = "cur_month_btn";
+            cur_month_btn.Size = new Size(98, 53);
+            cur_month_btn.TabIndex = 23;
+            cur_month_btn.Text = "今月";
+            cur_month_btn.UseVisualStyleBackColor = false;
+            cur_month_btn.MouseClick += cur_month_btn_MouseClick;
             // 
             // Goal_form
             // 
@@ -157,5 +175,6 @@
         private Button add_btn;
         private Button change_btn;
         private Panel goal_panel;
+        private Button cur_month_btn;
     }
 }

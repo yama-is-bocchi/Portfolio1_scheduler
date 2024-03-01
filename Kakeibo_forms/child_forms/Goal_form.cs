@@ -24,6 +24,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         private string Cur_page_name;//目標が収入なのか支出なのか判定する
         Kakeibo_form_methods methods1 = new Kakeibo_form_methods();
         private int colum_count = 0;//表示したデータの行数
+        private bool cur_month;
 
         //画面の初期設定
         private void init_form()
@@ -62,12 +63,12 @@ namespace study_scheduler.Kakeibo_forms.child_forms
                 {
                     while (reader.Read())
                     {
-                        if ((int)reader[""] == 0) 
+                        if ((int)reader[""] == 0)
                         {
                             colum_count = 0;
                             return false;
                         }
-                        
+
                     }
                 }
 
@@ -90,6 +91,9 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             return true;
 
         }
+
+
+
 
         //目標のタイトル,金額,差額を表示する
         private void Generate_goal_label(ref string p_Title, Int64 goal, int count)
@@ -125,13 +129,29 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             //実際の金額
             //存在しなかったら0にする
             Int64 temp_money;
-            if (methods1.Exists_income_expen_colum(ref Cur_page_name,p_Title)) 
+            if (cur_month==false)
             {
-                temp_money = Ret_cur_tbl_money(ref p_Title);
+
+
+                if (methods1.Exists_income_expen_colum(ref Cur_page_name, p_Title))
+                {
+                    temp_money = Ret_cur_tbl_money(ref p_Title);
+                }
+                else
+                {
+                    temp_money = 0;
+                }
             }
             else
             {
-                temp_money = 0;
+                if (methods1.Exists_income_expen_colum_cur_m(ref Cur_page_name, p_Title))
+                {
+                    temp_money = Ret_cur_tbl_money(ref p_Title);
+                }
+                else
+                {
+                    temp_money = 0;
+                }
             }
             Label money_label = new Label();
             goal_panel.Controls.Add(money_label);
@@ -143,7 +163,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             money_label.AutoSize = true;
             money_label.BringToFront();
             money_label.Show();
-            
+
 
             //差額
             Label diff_label = new Label();
@@ -152,10 +172,18 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             if (Cur_page_name == "支出")
             {
                 diff_label.Text = (goal - temp_money).ToString("+#;-#;");
+                if((goal - temp_money) == 0)
+                {
+                    diff_label.Text = "±0";
+                }
             }
             else
             {
                 diff_label.Text = (temp_money - goal).ToString("+#;-#;");
+                if ((goal - temp_money) == 0)
+                {
+                    diff_label.Text = "±0";
+                }
             }
             diff_label.Font = new Font("MV Boli", 16);
             diff_label.Location = new Point(const_data.diff_point.X, const_data.diff_point.Y + (count * 100));
@@ -163,7 +191,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             diff_label.AutoSize = true;
             diff_label.BringToFront();
             diff_label.Show();
-            
+
 
             //アンダーライン生成
             Panel under_line = new Panel();
@@ -195,16 +223,16 @@ namespace study_scheduler.Kakeibo_forms.child_forms
         }
 
         //目標削除のマウスクリックイベント
-        private void Give_remove_event(object? sender,MouseEventArgs e)
+        private void Give_remove_event(object? sender, MouseEventArgs e)
         {
-            if (sender== null) return;
-            Control[] work=this.Controls.Find("title"+(((Button)sender).Name.Replace("remove","")),true);
-            string p_title=work[0].Text;
-            bool p_flag=false;
-            if (Cur_page_name=="収入") p_flag=true;
-            methods1.Delete_goal_colum(ref p_title,p_flag);
+            if (sender == null) return;
+            Control[] work = this.Controls.Find("title" + (((Button)sender).Name.Replace("remove", "")), true);
+            string p_title = work[0].Text;
+            bool p_flag = false;
+            if (Cur_page_name == "収入") p_flag = true;
+            methods1.Delete_goal_colum(ref p_title, p_flag);
             Init_object();
-            if (Read_goal_tbl()==false)return;
+            if (Read_goal_tbl() == false) return;
         }
 
         //目標に対して現在の金額を返す
@@ -217,9 +245,19 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             using (var connection = new SqlConnection(connectionString))
             {
                 // 接続を確立
+                var sql = "";
                 connection.Open();
+                DateTime cur_m = DateTime.Now;
 
-                var sql = "SELECT SUM(" + Cur_page_name + ") FROM " + Cur_page_name + "テーブル WHERE タイトル =N'" + Title + "'";
+                if (cur_month==false)
+                {
+                   sql = "SELECT SUM(" + Cur_page_name + ") FROM " + Cur_page_name + "テーブル WHERE タイトル =N'" + Title + "'";
+                }
+                else
+                {
+                    sql = "SELECT SUM(" + Cur_page_name + ") FROM " + Cur_page_name + "テーブル WHERE タイトル =N'" + Title + "' AND 日付 BETWEEN '"+cur_m.ToString("yyyy/MM/01")+"' AND '"
+                        +cur_m.ToString("yyyy/MM/")+ DateTime.DaysInMonth(cur_m.Year, cur_m.Month).ToString() + "'";
+                }
 
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
@@ -257,7 +295,7 @@ namespace study_scheduler.Kakeibo_forms.child_forms
             setting_form.BringToFront();
             setting_form.Show();
         }
-        
+
         //目標設定画面を閉じたときのイベント
         private void setting_formClosed(object? sender, EventArgs e)
         {
@@ -323,8 +361,32 @@ namespace study_scheduler.Kakeibo_forms.child_forms
 
             }
 
-            if (Read_goal_tbl() == false)return;
+            if (Read_goal_tbl() == false) return;
 
+        }
+
+        private void cur_month_btn_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (cur_month==false)
+            {
+                cur_month = true;
+                Init_object();
+                if (Read_goal_tbl() == false)
+                {
+                    return;
+                }
+                cur_month_btn.Text = "全体";
+            }
+            else
+            {
+                cur_month = false;
+                Init_object();
+                if (Read_goal_tbl() == false)
+                {
+                    return;
+                }
+                cur_month_btn.Text = "今月";
+            }
         }
     }
 }

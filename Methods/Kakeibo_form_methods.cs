@@ -311,6 +311,38 @@ namespace study_scheduler.Methods
             return false;
         }
 
+        public bool Exists_income_expen_colum_cur_m(ref string tbl_name, string title)
+        {
+            var connectionString = edittime_information.sql_code;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                DateTime cur_m = DateTime.Now;
+
+                var sql = "SELECT COUNT(*) FROM " + tbl_name + "テーブル WHERE タイトル =N'" + title + "'AND 日付 BETWEEN '"+cur_m.ToString("yyyy/MM/01")+"' AND '"
+                        + cur_m.ToString("yyyy/MM/") + DateTime.DaysInMonth(cur_m.Year, cur_m.Month).ToString() + "'"; ;
+
+                using (var command = new SqlCommand(sql, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if ((int)reader[""] > 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+
         //選択したテーブルのID_NUMの行を削除する
         public void Delete_select_tbl_colum(ref string p_tbl, int id)
         {

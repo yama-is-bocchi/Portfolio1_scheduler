@@ -102,6 +102,7 @@
             panel2 = new Panel();
             panel1 = new Panel();
             now_pos_timer = new System.Windows.Forms.Timer(components);
+            update = new System.Windows.Forms.Timer(components);
             schedule_panel.SuspendLayout();
             now_panel.SuspendLayout();
             SuspendLayout();
@@ -933,6 +934,11 @@
             now_pos_timer.Interval = 1000;
             now_pos_timer.Tick += now_pos_timer_Tick;
             // 
+            // update
+            // 
+            update.Interval = 200;
+            update.Tick += update_Tick;
+            // 
             // Daysform
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1023,5 +1029,6 @@
         private System.Windows.Forms.Timer now_pos_timer;
         private Button exit_btn;
         private Label test;
+        private System.Windows.Forms.Timer update;
     }
 }
